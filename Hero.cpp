@@ -4,6 +4,7 @@
 
 #include "Hero.h"
 
+
 Hero::Hero(int Hp, int speed) : GameCharacter(Hp, speed) {}
 Hero::~Hero() {}
 
@@ -54,7 +55,5 @@ bool Hero::isArmor() const {
 void Hero::setArmor(bool Armor) {
     Hero::Armor = Armor;
 }
-
-
 
 

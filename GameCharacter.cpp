@@ -3,6 +3,7 @@
 //
 
 #include "GameCharacter.h"
+<<<<<<< HEAD
 
 GameCharacter::GameCharacter() : GameCharacter (10,10) {}
 
@@ -39,3 +40,5 @@ GameCharacter::~GameCharacter() {
 
 
 
+=======
+>>>>>>> origin/master

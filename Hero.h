@@ -4,6 +4,7 @@
 
 #ifndef PROJECT_HERO_H
 #define PROJECT_HERO_H
+
 #include "GameCharacter.h"
 
 class Hero : public GameCharacter{
@@ -47,6 +48,8 @@ private:
     bool Armor;
     int HeroType; //non è detto
     int id;       // non e detto
+
+
 };
 
 

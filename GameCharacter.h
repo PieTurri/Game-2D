@@ -7,11 +7,12 @@
 
 
 class GameCharacter {
+
 public:
 
     GameCharacter();
 
-    explicit GameCharacter(int Hp , int speed);
+    explicit GameCharacter(int Hp, int speed);
 
     virtual ~GameCharacter();
 
