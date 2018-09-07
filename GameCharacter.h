@@ -6,6 +6,8 @@
 #define PROJECT_GAMECHARACTER_H
 
 
+#include "Weapon.h"
+
 class GameCharacter {
 
 public:
@@ -28,14 +30,25 @@ public:
 
     int getPosY() const;
 
-    int speedCharacter();
+    virtual int speedCharacter();
+
+    virtual int fight();
+
+    Weapon* getWeapon();
+
+    void setWeapon(Weapon *Weapon);
+
+    virtual void GameCharacter::move(int x, int y){};
 
 
-private:
+
+
+protected:
     int Hp;
     int PosX;
     int PosY;
     int Speed;
+    Weapon* weapon;
 };
 
 

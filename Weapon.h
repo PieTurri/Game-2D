@@ -20,6 +20,8 @@ public:
 
     void setDemage(int Demage);
 
+
+
 protected:
     int Demage;
     bool Compatibility;

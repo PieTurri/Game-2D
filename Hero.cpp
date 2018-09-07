@@ -3,9 +3,12 @@
 //
 
 #include "Hero.h"
+#include "Weapon.h"
 
 
-Hero::Hero(int Hp, int speed) : GameCharacter(Hp, speed) {}
+Hero::Hero(int Hp, int speed, bool armor) : GameCharacter(Hp, speed) {
+    armor= false;
+}
 Hero::~Hero() {}
 
 bool Hero::isLocked() const {
@@ -41,12 +44,10 @@ void Hero::setFinalAttack(bool FinalAttack) {
 }
 
 bool Hero::isWeapon() const {
-    return Weapon;
+    return weapon;
 }
 
-void Hero::setWeapon(bool Weapon) {
-    Hero::Weapon = Weapon;
-}
+
 
 bool Hero::isArmor() const {
     return Armor;

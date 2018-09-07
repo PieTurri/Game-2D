@@ -6,12 +6,13 @@
 #define PROJECT_HERO_H
 
 #include "GameCharacter.h"
+#include "Weapon.h"
 
 class Hero : public GameCharacter{
 
 public:
 
-    Hero(int Hp, int speed);
+    Hero(int Hp, int speed, bool armor);
 
     virtual ~Hero();
 
@@ -33,24 +34,26 @@ public:
 
     bool isWeapon() const;
 
-    void setWeapon(bool Weapon);
+
 
     bool isArmor() const;
 
     void setArmor(bool Armor);
 
-private:
+protected:
     bool Locked;
     bool Mp;
     bool SpecialPower;
     bool FinalAttack;
-    bool Weapon;
     bool Armor;
     int HeroType; //non è detto
     int id;       // non e detto
 
 
 };
+
+
+
 
 
 #endif //PROJECT_HERO_H

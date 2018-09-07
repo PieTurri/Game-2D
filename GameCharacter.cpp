@@ -3,7 +3,8 @@
 //
 
 #include "GameCharacter.h"
-<<<<<<< HEAD
+#include "Weapon.h"
+
 
 GameCharacter::GameCharacter() : GameCharacter (10,10) {}
 
@@ -37,8 +38,12 @@ GameCharacter::~GameCharacter() {
 
 }
 
+Weapon *GameCharacter::getWeapon() {
+    return weapon;
+}
+
+void GameCharacter::setWeapon(Weapon* Weapon) {
+    this-> weapon = Weapon;
+}
 
 
-
-=======
->>>>>>> origin/master
