@@ -30,15 +30,15 @@ public:
 
     int getPosY() const;
 
-    virtual int speedCharacter();
+    //virtual int speedCharacter();
 
-    virtual int fight();
+    //virtual int fight();
 
     Weapon* getWeapon();
 
     void setWeapon(Weapon *Weapon);
 
-    virtual void GameCharacter::move(int x, int y){};
+    //virtual void GameCharacter::move(int x, int y){};
 
 
 

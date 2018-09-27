@@ -7,7 +7,7 @@
 
 #include "GameCharacter.h"
 
-class Enemy : public GameCharacter{
+class Enemy : public GameCharacter {
 public:
     Enemy(int Hp, int speed);
 

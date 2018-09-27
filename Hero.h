@@ -34,11 +34,11 @@ public:
 
     bool isWeapon() const;
 
-
-
     bool isArmor() const;
 
     void setArmor(bool Armor);
+
+    void movement(int PosX, int PosY);
 
 protected:
     bool Locked;
