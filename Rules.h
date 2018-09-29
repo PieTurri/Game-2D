@@ -16,10 +16,10 @@ public:
     ~Rules();
 
     bool isOpen();
-    static void setRulesScreen(Texture &texture);
+    void setRulesScreen();
 
 private:
-
+    sf::Texture texture;
 };
 
 

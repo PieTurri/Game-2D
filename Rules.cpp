@@ -18,7 +18,7 @@ bool Rules::isOpen() {
     return false;
 }
 
-void Rules::setRulesScreen(Texture &texture ) {
+void Rules::setRulesScreen( ) {
 
     Sprite sprite;
 

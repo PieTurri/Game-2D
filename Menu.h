@@ -10,11 +10,14 @@
 #define PROJECT_MENU_H
 
 
-#define MAX_NUMBER_OF_ITEMS 3
-class Menu : public MenuLoop {
+
+class Menu{
 
 public:
     Menu(float width,float height);
+
+    Menu();
+
     virtual ~Menu();
 
 
@@ -23,14 +26,17 @@ public:
     void MoveUp();
     void MoveDown();
     int GetPressedItem() { return selectedItemIndex; }
-    void setMenuScreen();
+
+    void setMenuScreen(sf::Texture &texture,sf::Sprite &sprite,sf::Font &font,sf::RenderWindow &window);
 
 private:
     int selectedItemIndex;
     const float width=700;
     const float height=450;
-    sf::Font font;
-    sf::Text menu[MAX_NUMBER_OF_ITEMS];
+
+    sf::Text text[MAX_NUMBER_OF_ITEMS];
+
+
 
 };
 
