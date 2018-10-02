@@ -18,14 +18,15 @@ Menu::Menu() {}
 Menu::~Menu(){
 }
 
-void Menu::draw(sf::RenderWindow &window)
+
+void Menu::draw(RenderWindow &window,Text *text)
 {
     for (int i = 0; i < MAX_NUMBER_OF_ITEMS; i++)
     {
         window.draw(text[i]);
     }
 }
-
+/*
 void Menu::MoveUp()
 {
     if (selectedItemIndex - 1 >= 0)
@@ -45,10 +46,11 @@ void Menu::MoveDown()
         text[selectedItemIndex].setFillColor(sf::Color::White);
     }
 }
+*/
 
 
 
-void  Menu::setMenuScreen(Texture &texture,Sprite &sprite,sf::Font &font,sf::RenderWindow &window){
+void  Menu::setMenuScreen(Texture &texture,Sprite &sprite,sf::Font &font,sf::Text *text){
 
 
     texture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/SchermataIniziale.png");
@@ -57,27 +59,27 @@ void  Menu::setMenuScreen(Texture &texture,Sprite &sprite,sf::Font &font,sf::Ren
     if(!font.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/DIOGENES.ttf"))
         cout << "errore" << endl;
 
+    //cout << "Arrivo fino a qui" << endl;
+
     text[0].setFont(font);
     text[0].setFillColor(sf::Color::White);
     text[0].setString("Start Game");
-    text[0].setPosition(sf::Vector2f(width / 2,height / (MAX_NUMBER_OF_ITEMS + 1) * 1));
+    text[0].setPosition(sf::Vector2f(width / 2,height / (3 + 1) * 1));
 
     text[1].setFont(font);
     text[1].setFillColor(sf::Color::Red);
     text[1].setString("Rules");
-    text[1].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
+    text[1].setPosition(sf::Vector2f(width / 2, height / (3 + 1) * 2));
 
     text[2].setFont(font);
     text[2].setFillColor(sf::Color::Red);
     text[2].setString("Exit");
-    text[2].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+    text[2].setPosition(sf::Vector2f(width / 2, height / (3 + 1) * 3));
+
+    //cout << text[0].getFont() << endl;
 
     //selectedItemIndex = 0;
 
-    for (int i = 0; i < MAX_NUMBER_OF_ITEMS; i++)
-    {
-        window.draw(text[i]);
-    }
 };
 
 

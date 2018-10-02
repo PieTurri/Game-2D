@@ -18,6 +18,7 @@ int MenuLoop::getIndex() {
 void MenuLoop::generateScreen() {
     window.create(sf::VideoMode(1400, 900), "Leo&Pie Game");
     Menu menu;
+    //Text text;
     while (window.isOpen()) {
         while (window.pollEvent(event)) {
             switch (event.type) {
@@ -36,8 +37,7 @@ void MenuLoop::generateScreen() {
             }
             if(getIndex() == 0){
 
-                menu.setMenuScreen(texture,sprite,font,window);
-                //cout << "Ciao0" << endl;
+                menu.setMenuScreen(texture,sprite,font,text);
 
 
             }else if(getIndex() == 2){
@@ -49,7 +49,11 @@ void MenuLoop::generateScreen() {
             }
         }
         window.clear();
+
         window.draw(sprite);
+
+        menu.draw(window,text);
+
         window.display();
     }
 }

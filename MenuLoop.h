@@ -28,6 +28,7 @@ protected:
     sf::Sprite sprite;
     sf::RenderWindow window;
     sf::Font font;
+    sf::Text text[3];
 
 
 

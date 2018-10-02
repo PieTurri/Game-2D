@@ -22,19 +22,19 @@ public:
 
 
 
-    void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window,sf::Text *text);
     void MoveUp();
     void MoveDown();
     int GetPressedItem() { return selectedItemIndex; }
 
-    void setMenuScreen(sf::Texture &texture,sf::Sprite &sprite,sf::Font &font,sf::RenderWindow &window);
+    void setMenuScreen(sf::Texture &texture,sf::Sprite &sprite,sf::Font &font,sf::Text *text);
 
 private:
     int selectedItemIndex;
     const float width=700;
     const float height=450;
 
-    sf::Text text[MAX_NUMBER_OF_ITEMS];
+
 
 
 
