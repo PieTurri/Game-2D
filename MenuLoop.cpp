@@ -39,12 +39,10 @@ void MenuLoop::generateScreen() {
 
                 menu.setMenuScreen(texture,sprite,font,text);
 
-
             }else if(getIndex() == 2){
+
                 Rules rules;
                 rules.setRulesScreen();
-
-                //cout << "Ciao2" << endl;
 
             }
         }

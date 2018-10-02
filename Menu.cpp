@@ -26,8 +26,8 @@ void Menu::draw(RenderWindow &window,Text *text)
         window.draw(text[i]);
     }
 }
-/*
-void Menu::MoveUp()
+
+void Menu::MoveUp(Text *text)
 {
     if (selectedItemIndex - 1 >= 0)
     {
@@ -37,7 +37,7 @@ void Menu::MoveUp()
     }
 }
 
-void Menu::MoveDown()
+void Menu::MoveDown(Text *text)
 {
     if (selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS)
     {
@@ -46,7 +46,7 @@ void Menu::MoveDown()
         text[selectedItemIndex].setFillColor(sf::Color::White);
     }
 }
-*/
+
 
 
 
@@ -64,17 +64,17 @@ void  Menu::setMenuScreen(Texture &texture,Sprite &sprite,sf::Font &font,sf::Tex
     text[0].setFont(font);
     text[0].setFillColor(sf::Color::White);
     text[0].setString("Start Game");
-    text[0].setPosition(sf::Vector2f(width / 2,height / (3 + 1) * 1));
+    text[0].setPosition(sf::Vector2f((width / 2)+700,height / (3+2) * 1));
 
     text[1].setFont(font);
     text[1].setFillColor(sf::Color::Red);
     text[1].setString("Rules");
-    text[1].setPosition(sf::Vector2f(width / 2, height / (3 + 1) * 2));
+    text[1].setPosition(sf::Vector2f((width / 2)+700, height / (3+2) * 2));
 
     text[2].setFont(font);
     text[2].setFillColor(sf::Color::Red);
     text[2].setString("Exit");
-    text[2].setPosition(sf::Vector2f(width / 2, height / (3 + 1) * 3));
+    text[2].setPosition(sf::Vector2f((width / 2)+700, height / (3+2) * 3));
 
     //cout << text[0].getFont() << endl;
 

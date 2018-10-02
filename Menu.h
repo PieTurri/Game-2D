@@ -23,8 +23,8 @@ public:
 
 
     void draw(sf::RenderWindow &window,sf::Text *text);
-    void MoveUp();
-    void MoveDown();
+    void MoveUp(sf::Text *text);
+    void MoveDown(sf::Text *text);
     int GetPressedItem() { return selectedItemIndex; }
 
     void setMenuScreen(sf::Texture &texture,sf::Sprite &sprite,sf::Font &font,sf::Text *text);
