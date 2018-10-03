@@ -25,21 +25,17 @@ public:
     void draw(sf::RenderWindow &window,sf::Text *text);
     void MoveUp(sf::Text *text);
     void MoveDown(sf::Text *text);
-    int GetPressedItem() { return selectedItemIndex; }
+    void Menuclear(sf::Text *text);
+    int GetPressedItem() { return selectedMenuIndex; }
 
     void setMenuScreen(sf::Texture &texture,sf::Sprite &sprite,sf::Font &font,sf::Text *text);
 
 private:
-    int selectedItemIndex;
+    bool a = true;
+    int selectedMenuIndex=0;
     const float width=700;
     const float height=450;
-
-
-
-
-
 };
 
 
 #endif //PROJECT_MENU_H
-//Menu m(window.getSize().x, window.getSize().y);

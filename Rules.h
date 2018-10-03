@@ -16,10 +16,7 @@ public:
     ~Rules();
 
     bool isOpen();
-    void setRulesScreen();
-
-private:
-    sf::Texture texture;
+    void setRulesScreen(sf::Texture &texture,sf::Sprite &sprite);
 };
 
 

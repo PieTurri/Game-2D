@@ -18,18 +18,10 @@ bool Rules::isOpen() {
     return false;
 }
 
-void Rules::setRulesScreen( ) {
-
-    Sprite sprite;
+void Rules::setRulesScreen(sf::Texture &texture,sf::Sprite &sprite) {
 
     texture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/schermatasole.png");
     sprite.setTexture(texture);
-
-    //static Menu::~Menu();
-
-    //static Texture::update(texture);
-
-
 }
 
 

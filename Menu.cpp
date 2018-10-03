@@ -21,7 +21,7 @@ Menu::~Menu(){
 
 void Menu::draw(RenderWindow &window,Text *text)
 {
-    for (int i = 0; i < MAX_NUMBER_OF_ITEMS; i++)
+    for (int i = 0; i < 4; i++)
     {
         window.draw(text[i]);
     }
@@ -29,21 +29,23 @@ void Menu::draw(RenderWindow &window,Text *text)
 
 void Menu::MoveUp(Text *text)
 {
-    if (selectedItemIndex - 1 >= 0)
+    if (selectedMenuIndex - 1 >= 0)
     {
-        text[selectedItemIndex].setFillColor(sf::Color::Red);
-        selectedItemIndex--;
-        text[selectedItemIndex].setFillColor(sf::Color::White);
+        a=false;
+        text[selectedMenuIndex].setFillColor(sf::Color::Black);
+        selectedMenuIndex--;
+        text[selectedMenuIndex].setFillColor(sf::Color(168,31,000));
     }
 }
 
 void Menu::MoveDown(Text *text)
 {
-    if (selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS)
+    if (selectedMenuIndex + 1 < 3)
     {
-        text[selectedItemIndex].setFillColor(sf::Color::Red);
-        selectedItemIndex++;
-        text[selectedItemIndex].setFillColor(sf::Color::White);
+        a=false;
+        text[selectedMenuIndex].setFillColor(sf::Color::Black);
+        selectedMenuIndex++;
+        text[selectedMenuIndex].setFillColor(sf::Color(168,31,000));
     }
 }
 
@@ -52,34 +54,47 @@ void Menu::MoveDown(Text *text)
 
 void  Menu::setMenuScreen(Texture &texture,Sprite &sprite,sf::Font &font,sf::Text *text){
 
-
     texture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/SchermataIniziale.png");
+
+    if(!texture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/SchermataIniziale.png"))
+        cout << "errore" << endl;
+
     sprite.setTexture(texture);
 
     if(!font.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/DIOGENES.ttf"))
         cout << "errore" << endl;
 
-    //cout << "Arrivo fino a qui" << endl;
-
     text[0].setFont(font);
-    text[0].setFillColor(sf::Color::White);
+    if( a || selectedMenuIndex == 0){ // a serve per far colorare la prima text del menu in modo corretto
+        text[0].setFillColor(sf::Color(168,31,000));
+    }else
+        text[0].setFillColor(sf::Color::Black);
     text[0].setString("Start Game");
     text[0].setPosition(sf::Vector2f((width / 2)+700,height / (3+2) * 1));
 
     text[1].setFont(font);
-    text[1].setFillColor(sf::Color::Red);
+    text[1].setFillColor(sf::Color::Black);
     text[1].setString("Rules");
     text[1].setPosition(sf::Vector2f((width / 2)+700, height / (3+2) * 2));
 
     text[2].setFont(font);
-    text[2].setFillColor(sf::Color::Red);
+    if(selectedMenuIndex != 2)
+        text[2].setFillColor(sf::Color::Black);
     text[2].setString("Exit");
     text[2].setPosition(sf::Vector2f((width / 2)+700, height / (3+2) * 3));
 
-    //cout << text[0].getFont() << endl;
+    text[3].setFont(font);
+    text[3].setFillColor(sf::Color(168,31,000));
+    text[3].setString("Nome Gioco");
+    text[3].setPosition(sf::Vector2f((width / 2)-150, height / (3+2)));
+}
 
-    //selectedItemIndex = 0;
+void Menu::Menuclear(sf::Text *text) {
+    for (int i = 0; i < 4; i++)
+    {
 
+        text[i].setString("");
+    }
 };
 
 
