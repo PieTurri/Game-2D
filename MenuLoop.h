@@ -5,7 +5,7 @@
 //#include "Rules.h"
 
 #include <SFML/Graphics.hpp>
-
+#include <SFML/Audio/Music.hpp>
 
 
 #ifndef PROJECT_MENULOOP_H
@@ -19,11 +19,9 @@ public:
     int getIndex();
     void generateScreen();
 
-
 protected:
 
     int index=0; // 0=Menù principale, 1=inizia gioco, 2=regole
-
 
     sf::Event event;
     sf::Texture texture;
@@ -31,9 +29,10 @@ protected:
     sf::RenderWindow window;
     sf::Font font;
     sf::Text text[4];
-
-
-
+    sf::Text textRules[3];
+    sf::Texture texture1[5];
+    sf::Sprite spriteC[5];
+    sf::Music music;
 };
 
 #endif //PROJECT_MENULOOP_H

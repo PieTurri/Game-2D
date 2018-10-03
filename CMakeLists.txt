@@ -3,7 +3,7 @@ project(Project)
 
 set(CMAKE_CXX_STANDARD 11)
 set(EXECUTABLE_NAME Project)
-add_executable(${EXECUTABLE_NAME} main.cpp GameCharacter.h GameCharacter.cpp Hero.cpp Hero.h Weapon.cpp Weapon.h Abstract_Factory.h Enemy.cpp Enemy.h Companion.cpp Companion.h Menu.cpp Menu.h Rules.cpp Rules.h MenuLoop.cpp MenuLoop.h)
+add_executable(${EXECUTABLE_NAME} main.cpp GameCharacter.h GameCharacter.cpp Hero.cpp Hero.h Weapon.cpp Weapon.h Abstract_Factory.h Enemy.cpp Enemy.h Companion.cpp Companion.h Menu.cpp Menu.h Rules.cpp Rules.h MenuLoop.cpp MenuLoop.h ChoosCharacter.cpp ChoosCharacter.h)
 
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})

@@ -15,8 +15,12 @@ public:
     Rules();
     ~Rules();
 
-    bool isOpen();
-    void setRulesScreen(sf::Texture &texture,sf::Sprite &sprite);
+    void setRulesScreen(Texture &texture,Sprite &sprite,Text *textRules,Font &font);
+    void draw(RenderWindow &window,Text *textRules);
+
+private:
+    const float width=700;
+    const float height=450;
 };
 
 

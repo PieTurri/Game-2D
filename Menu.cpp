@@ -49,9 +49,6 @@ void Menu::MoveDown(Text *text)
     }
 }
 
-
-
-
 void  Menu::setMenuScreen(Texture &texture,Sprite &sprite,sf::Font &font,sf::Text *text){
 
     texture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/SchermataIniziale.png");
@@ -88,13 +85,5 @@ void  Menu::setMenuScreen(Texture &texture,Sprite &sprite,sf::Font &font,sf::Tex
     text[3].setString("Nome Gioco");
     text[3].setPosition(sf::Vector2f((width / 2)-150, height / (3+2)));
 }
-
-void Menu::Menuclear(sf::Text *text) {
-    for (int i = 0; i < 4; i++)
-    {
-
-        text[i].setString("");
-    }
-};
 
 

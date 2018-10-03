@@ -6,8 +6,11 @@
 #include "MenuLoop.h"
 #include "Menu.h"
 #include "Rules.h"
+#include "ChoosCharacter.h"
+#include <SFML/Audio.hpp>
 
 using namespace std;
+using namespace sf;
 
 MenuLoop::MenuLoop() {}
 
@@ -21,8 +24,15 @@ void MenuLoop::generateScreen() {
 
     Menu menu;
     Rules rules;
-    //index=0;
+    ChoosCharacter choose;
+
+
+    music.openFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Excalibur.ogg");
+    music.play();
+
     while (window.isOpen()) {
+
+
 
         while (window.pollEvent(event)) {
 
@@ -49,14 +59,14 @@ void MenuLoop::generateScreen() {
                                 break;
 
                             case sf::Keyboard::Return:
-                                switch (menu.GetPressedItem())
-                                {
+                                switch (menu.GetPressedItem()) {
                                     case 0:
                                         index = 1;
+                                        choose.setChooseCharacterScreen(texture, sprite, font,texture1,spriteC);
                                         break;
                                     case 1:
                                         index = 2;
-                                        rules.setRulesScreen(texture,sprite);
+                                        rules.setRulesScreen(texture, sprite, textRules, font);
                                         break;
                                     case 2:
                                         window.close();
@@ -70,30 +80,63 @@ void MenuLoop::generateScreen() {
                         window.close();
                         break;
                 }
-            }else if(getIndex() == 2){
-                switch (event.type){
+
+            } else if (getIndex() == 1) {
+
+                switch (event.type) {
 
                     case sf::Event::KeyReleased:
 
-                        switch (event.key.code){
+                        switch (event.key.code) {
 
                             case sf::Keyboard::Escape:
-                                window.close();
+                                index = 0;
+                                menu.selectedMenuIndex = 0;
+                                menu.a = true;
+                                menu.setMenuScreen(texture, sprite, font, text);
                                 break;
                         }
+                        break;
+                    case sf::Event::Closed:
+                        window.close();
+                        break;
+                }
+
+            } else if (getIndex() == 2) {
+                switch (event.type) {
+
+                    case sf::Event::KeyReleased:
+
+                        switch (event.key.code) {
+
+                            case sf::Keyboard::Escape:
+                                index = 0;
+                                menu.selectedMenuIndex = 0;
+                                menu.a = true;
+                                menu.setMenuScreen(texture, sprite, font, text);
+                                break;
+                        }
+                        break;
                     case sf::Event::Closed:
                         window.close();
                         break;
                 }
             }
         }
-    window.clear();
+        window.clear();
 
-    window.draw(sprite);
-    if(index == 0)
-        menu.draw(window,text);
-    window.display();
+        window.draw(sprite);
+        if (index == 0)
+            menu.draw(window, text);
+
+        if (index == 1){
+            choose.draw(spriteC, texture1);
+            for(int i=0; i < 5 ; i++)
+                window.draw(spriteC[i]);
+        }
+        if (index == 2)
+            rules.draw(window, textRules);
+
+        window.display();
     }
 }
-
-
