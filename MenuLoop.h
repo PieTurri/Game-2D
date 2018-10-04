@@ -33,6 +33,7 @@ protected:
     sf::Texture texture1[5];
     sf::Sprite spriteC[5];
     sf::Music music;
+    sf::Text textC;
 };
 
 #endif //PROJECT_MENULOOP_H

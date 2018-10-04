@@ -62,7 +62,7 @@ void MenuLoop::generateScreen() {
                                 switch (menu.GetPressedItem()) {
                                     case 0:
                                         index = 1;
-                                        choose.setChooseCharacterScreen(texture, sprite, font,texture1,spriteC);
+                                        choose.setChooseCharacterScreen(texture, sprite, font,texture1,spriteC,textC);
                                         break;
                                     case 1:
                                         index = 2;
@@ -94,6 +94,14 @@ void MenuLoop::generateScreen() {
                                 menu.selectedMenuIndex = 0;
                                 menu.a = true;
                                 menu.setMenuScreen(texture, sprite, font, text);
+                                break;
+
+                            case sf::Keyboard::Left:
+                                choose.MoveLeft(texture1,spriteC);
+                                break;
+
+                            case sf::Keyboard::Right:
+                                choose.MoveRight(texture1,spriteC);
                                 break;
                         }
                         break;
@@ -133,6 +141,7 @@ void MenuLoop::generateScreen() {
             choose.draw(spriteC, texture1);
             for(int i=0; i < 5 ; i++)
                 window.draw(spriteC[i]);
+            choose.drawC(window,textC);
         }
         if (index == 2)
             rules.draw(window, textRules);

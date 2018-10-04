@@ -30,7 +30,7 @@ public:
     void setMenuScreen(sf::Texture &texture,sf::Sprite &sprite,sf::Font &font,sf::Text *text);
 
     int selectedMenuIndex=0;
-    bool a = true;
+    bool a = true; //serve per avere la prima scritta già rossa;
     bool menuOpen = true;
 
 private:
