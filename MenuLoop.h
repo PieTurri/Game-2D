@@ -19,14 +19,16 @@ public:
     int getIndex();
     void generateScreen();
 
-protected:
+    sf::RenderWindow window;
+
+private:
 
     int index=0; // 0=Menù principale, 1=inizia gioco, 2=regole
 
     sf::Event event;
     sf::Texture texture;
     sf::Sprite sprite;
-    sf::RenderWindow window;
+
     sf::Font font;
     sf::Text text[4];
     sf::Text textRules[3];

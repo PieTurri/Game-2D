@@ -1,13 +1,14 @@
 //
 // Created by piero on 9/28/18.
 //
-
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include "MenuLoop.h"
 #include "Menu.h"
 #include "Rules.h"
 #include "ChoosCharacter.h"
-#include <SFML/Audio.hpp>
+#include "TileMap.h"
+
 
 using namespace std;
 using namespace sf;
@@ -58,6 +59,7 @@ void MenuLoop::generateScreen() {
                                 window.close();
                                 break;
 
+
                             case sf::Keyboard::Return:
                                 switch (menu.GetPressedItem()) {
                                     case 0:
@@ -103,8 +105,49 @@ void MenuLoop::generateScreen() {
                             case sf::Keyboard::Right:
                                 choose.MoveRight(texture1,spriteC);
                                 break;
+
+                            case sf::Keyboard::Return:
+
+                                switch (choose.GetPressedItem()) {
+
+                                    case 0 :
+                                        cout << "HAI SCELTO IL PRIMO PERSONAGGIO" << endl;
+                                        TileMap map;
+
+                                        /*   const int level[] =
+
+                                               {
+
+                                                       0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+
+                                                       0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 23, 0, 0, 0, 0,
+
+                                                       1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3,
+
+                                                       0, 1, 0, 0, 23, 0, 3, 3, 3, 0, 1, 1, 1, 0, 0, 0,
+
+                                                       0, 1, 1, 0, 3, 3, 3, 0, 0, 0, 1, 1, 1, 23, 0, 0,
+
+                                                       0, 0, 1, 0, 3, 0, 23, 23, 0, 0, 1, 1, 1, 1, 23, 0,
+
+                                                       23, 0, 1, 0, 3, 0, 23, 23, 23, 0, 1, 1, 1, 1, 1, 1,
+
+                                                       0, 0, 1, 0, 3, 23, 23, 23, 0, 0, 0, 0, 1, 1, 1, 1,
+
+                                               };
+
+                                           if (!map.load("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset.png", sf::Vector2u(32, 32), level, 16, 8))
+                                                   cout << "Errore caricamento mappa" << endl;*/
+                                        break;
+
+                                    case 1 :
+                                        cout << "HAI SCELTO IL SECONDO PERSONAGGIO" << endl;
+                                        break;
+                                    }
+                                break;
                         }
                         break;
+
                     case sf::Event::Closed:
                         window.close();
                         break;

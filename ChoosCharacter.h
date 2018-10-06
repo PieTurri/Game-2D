@@ -26,6 +26,8 @@ public:
     const int *getIndex() const;
     bool first;
 
+    int GetPressedItem() { return setindex; }
+
 
 private:
 
