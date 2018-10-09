@@ -4,7 +4,11 @@
 
 #include "TileMap.h"
 
-bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize, const int *tiles, unsigned int width,
+//TileMap::TileMap() {}
+
+TileMap::~TileMap() {}
+
+bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize,const int *tiles, unsigned int width,
                    unsigned int height) {
 
     // load the tileset texture
@@ -12,7 +16,6 @@ bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize, const int 
     if (!m_tileset.loadFromFile(tileset))
 
         return false;
-
 
 
     // resize the vertex array to fit the level size
@@ -81,22 +84,20 @@ bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize, const int 
 
 }
 
+
 void TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
     // apply the transform
-
     states.transform *= getTransform();
 
-
-
     // apply the tileset texture
-
     states.texture = &m_tileset;
 
-
-
     // draw the vertex array
-
     target.draw(m_vertices, states);
 
+
+
 }
+
+

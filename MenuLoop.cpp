@@ -8,6 +8,9 @@
 #include "Rules.h"
 #include "ChoosCharacter.h"
 #include "TileMap.h"
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics.hpp>
 
 
 using namespace std;
@@ -21,12 +24,12 @@ int MenuLoop::getIndex() {
 
 void MenuLoop::generateScreen() {
 
-    window.create(sf::VideoMode(1400, 900), "Leo&Pie Game");
+    window.create(sf::VideoMode(1400, 896), "Leo&Pie Game");
 
     Menu menu;
     Rules rules;
     ChoosCharacter choose;
-
+    TileMap map;
 
     music.openFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Excalibur.ogg");
     music.play();
@@ -112,32 +115,11 @@ void MenuLoop::generateScreen() {
 
                                     case 0 :
                                         cout << "HAI SCELTO IL PRIMO PERSONAGGIO" << endl;
-                                        TileMap map;
 
-                                        /*   const int level[] =
+                                        if (!map.load("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset.png", sf::Vector2u(32, 32), map.level, 45, 28))
+                                            cout << "Errore caricamento mappa" << endl;
 
-                                               {
 
-                                                       0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-
-                                                       0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 23, 0, 0, 0, 0,
-
-                                                       1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3,
-
-                                                       0, 1, 0, 0, 23, 0, 3, 3, 3, 0, 1, 1, 1, 0, 0, 0,
-
-                                                       0, 1, 1, 0, 3, 3, 3, 0, 0, 0, 1, 1, 1, 23, 0, 0,
-
-                                                       0, 0, 1, 0, 3, 0, 23, 23, 0, 0, 1, 1, 1, 1, 23, 0,
-
-                                                       23, 0, 1, 0, 3, 0, 23, 23, 23, 0, 1, 1, 1, 1, 1, 1,
-
-                                                       0, 0, 1, 0, 3, 23, 23, 23, 0, 0, 0, 0, 1, 1, 1, 1,
-
-                                               };
-
-                                           if (!map.load("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset.png", sf::Vector2u(32, 32), level, 16, 8))
-                                                   cout << "Errore caricamento mappa" << endl;*/
                                         break;
 
                                     case 1 :
@@ -188,6 +170,9 @@ void MenuLoop::generateScreen() {
         }
         if (index == 2)
             rules.draw(window, textRules);
+
+        if(choose.getIndex())
+         window.draw(map);
 
         window.display();
     }
