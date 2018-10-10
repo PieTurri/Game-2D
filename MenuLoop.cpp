@@ -8,6 +8,9 @@
 #include "Rules.h"
 #include "ChoosCharacter.h"
 #include "TileMap.h"
+#include "Dungeon.h"
+#include "Hero.h"
+#include "Abstract_Factory.h"
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics.hpp>
@@ -30,6 +33,8 @@ void MenuLoop::generateScreen() {
     Rules rules;
     ChoosCharacter choose;
     TileMap map;
+    //Dungeon map;
+
 
     music.openFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Excalibur.ogg");
     music.play();
@@ -114,17 +119,35 @@ void MenuLoop::generateScreen() {
                                 switch (choose.GetPressedItem()) {
 
                                     case 0 :
-                                        cout << "HAI SCELTO IL PRIMO PERSONAGGIO" << endl;
+                                        Abstract_Factory*  factory = new KnightFactory;
 
+                                        Hero* hero;
+
+                                        hero = factory -> createHero();
+
+                                        hero -> draw();
+
+                                        //if (!map.load("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset.png", sf::Vector2u(32, 32), map.level, 45, 28))
+                                          //  cout << "Errore caricamento mappa" << endl;
+
+
+                                        /*switch(event.type){
+                                            case sf::Event::Closed:
+                                                window.close();
+                                                break;
+                                        }*/
+                                        break;
+
+                                    /*case 1 :
                                         if (!map.load("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset.png", sf::Vector2u(32, 32), map.level, 45, 28))
                                             cout << "Errore caricamento mappa" << endl;
 
-
-                                        break;
-
-                                    case 1 :
-                                        cout << "HAI SCELTO IL SECONDO PERSONAGGIO" << endl;
-                                        break;
+                                       *//* switch(event.type){
+                                            case sf::Event::Closed:
+                                                window.close();
+                                                break;
+                                        }*//*
+                                        break;*/
                                     }
                                 break;
                         }
@@ -172,7 +195,7 @@ void MenuLoop::generateScreen() {
             rules.draw(window, textRules);
 
         if(choose.getIndex())
-         window.draw(map);
+            window.draw(map);
 
         window.display();
     }

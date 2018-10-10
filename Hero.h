@@ -7,6 +7,9 @@
 
 #include "GameCharacter.h"
 #include "Weapon.h"
+#include <iostream>
+
+using namespace std;
 
 class Hero : public GameCharacter{
 
@@ -39,6 +42,10 @@ public:
     void setArmor(bool Armor);
 
     void movement(int PosX, int PosY);
+
+    void draw(){
+        cout << "Cavaliere creato" << endl;
+    }
 
 protected:
     bool Locked;
