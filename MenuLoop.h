@@ -14,16 +14,21 @@
 
 class MenuLoop {
 public:
-    MenuLoop();
+    MenuLoop(sf::RenderWindow &window);
+
+    virtual ~MenuLoop();
 
     int getIndex();
     void generateScreen();
 
     sf::RenderWindow window;
 
+    int k; //ritorna l'ultima scelta
 private:
 
     int index=0; // 0=Menù principale, 1=inizia gioco, 2=regole
+
+
 
     sf::Event event;
     sf::Texture texture;

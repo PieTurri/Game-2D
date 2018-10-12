@@ -19,13 +19,7 @@
 using namespace std;
 using namespace sf;
 
-MenuLoop::MenuLoop() {}
-
-int MenuLoop::getIndex() {
-    return index;
-}
-
-void MenuLoop::generateScreen() {
+ MenuLoop::MenuLoop(RenderWindow &window) {
 
     window.create(sf::VideoMode(1400, 896), "Leo&Pie Game");
 
@@ -34,6 +28,7 @@ void MenuLoop::generateScreen() {
     ChoosCharacter choose;
     TileMap map;
     //Dungeon map;
+
 
 
     music.openFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Excalibur.ogg");
@@ -119,16 +114,10 @@ void MenuLoop::generateScreen() {
                                 switch (choose.GetPressedItem()) {
 
                                     case 0 :
-                                        Abstract_Factory*  factory = new KnightFactory;
-
-                                        Hero* hero;
-
-                                        hero = factory -> createHero();
-
-                                        hero -> draw();
+                                        k=0;
 
                                         //if (!map.load("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset.png", sf::Vector2u(32, 32), map.level, 45, 28))
-                                          //  cout << "Errore caricamento mappa" << endl;
+                                        //  cout << "Errore caricamento mappa" << endl;
 
 
                                         /*switch(event.type){
@@ -138,17 +127,17 @@ void MenuLoop::generateScreen() {
                                         }*/
                                         break;
 
-                                    /*case 1 :
-                                        if (!map.load("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset.png", sf::Vector2u(32, 32), map.level, 45, 28))
-                                            cout << "Errore caricamento mappa" << endl;
+                                        /*case 1 :
+                                            if (!map.load("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset.png", sf::Vector2u(32, 32), map.level, 45, 28))
+                                                cout << "Errore caricamento mappa" << endl;
 
-                                       *//* switch(event.type){
+                                           *//* switch(event.type){
                                             case sf::Event::Closed:
                                                 window.close();
                                                 break;
                                         }*//*
                                         break;*/
-                                    }
+                                }
                                 break;
                         }
                         break;
@@ -199,4 +188,17 @@ void MenuLoop::generateScreen() {
 
         window.display();
     }
+}
+
+int MenuLoop::getIndex() {
+    return index;
+}
+
+void MenuLoop::generateScreen() {
+
+
+}
+
+MenuLoop::~MenuLoop() {
+
 }

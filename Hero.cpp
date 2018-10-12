@@ -3,8 +3,8 @@
 //
 
 #include "Hero.h"
-#include "Weapon.h"
-#
+
+
 
 Hero::Hero(int Hp, int speed, bool armor) : GameCharacter(Hp, speed) {
     armor= false;
