@@ -86,8 +86,6 @@ bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize, int *tiles
             quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
 
         }
-
-
     return true;
 
 }

@@ -27,7 +27,7 @@ public:
     bool first;
 
     int GetPressedItem() { return setindex; }
-
+    int setindex = 0;
 
 private:
 
@@ -41,7 +41,7 @@ private:
     bool planetarLocked = true;
 
     int index[5];
-    int setindex = 0;
+
     bool iselected = false;
 };
 

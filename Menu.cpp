@@ -11,9 +11,11 @@ using namespace std;
 using namespace sf;
 
 Menu::Menu(float width,float height) {
+
 }
 
 Menu::Menu() {}
+
 
 Menu::~Menu(){
 }
@@ -49,7 +51,7 @@ void Menu::MoveDown(Text *text)
     }
 }
 
-void  Menu::setMenuScreen(Texture &texture,Sprite &sprite,sf::Font &font,sf::Text *text){
+void  Menu::setMenuScreen(Texture &texture,Sprite &sprite,sf::Font &font,sf::Text *text,sf::Font &font1){
 
     texture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/SchermataIniziale.png");
 
@@ -68,22 +70,30 @@ void  Menu::setMenuScreen(Texture &texture,Sprite &sprite,sf::Font &font,sf::Tex
         text[0].setFillColor(sf::Color::Black);
     text[0].setString("Start Game");
     text[0].setPosition(sf::Vector2f((width / 2)+700,height / (3+2) * 1));
+    text[0].setCharacterSize(40);
 
     text[1].setFont(font);
     text[1].setFillColor(sf::Color::Black);
     text[1].setString("Rules");
-    text[1].setPosition(sf::Vector2f((width / 2)+700, height / (3+2) * 2));
+    text[1].setPosition(sf::Vector2f((width / 2)+730, height / (3+2) * 2));
+    text[1].setCharacterSize(40);
 
     text[2].setFont(font);
     if(selectedMenuIndex != 2)
         text[2].setFillColor(sf::Color::Black);
     text[2].setString("Exit");
-    text[2].setPosition(sf::Vector2f((width / 2)+700, height / (3+2) * 3));
+    text[2].setPosition(sf::Vector2f((width / 2)+730, height / (3+2) * 3));
+    text[2].setCharacterSize(40);
 
-    text[3].setFont(font);
+    if(!font1.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Seagram tfb.ttf"))
+        cout << "errore" << endl;
+
+
+    text[3].setFont(font1);
     text[3].setFillColor(sf::Color(168,31,000));
     text[3].setString("Nome Gioco");
-    text[3].setPosition(sf::Vector2f((width / 2)-150, height / (3+2)));
+    text[3].setPosition(sf::Vector2f((width / 2)-240, height / (3+2)));
+    text[3].setCharacterSize(50);
 }
 
 

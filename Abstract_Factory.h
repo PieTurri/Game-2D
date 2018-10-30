@@ -20,6 +20,7 @@
 class Abstract_Factory{
 public:
 
+
     virtual ~Abstract_Factory(){}
 
     //enum CharacterType {Knight, Valkyrie, Ninja, Wizard, Planetar};
