@@ -6,8 +6,10 @@
 #define PROJECT_KNIGHT_H
 
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
+using namespace sf;
 
 #include "Hero.h"
 
@@ -17,6 +19,14 @@ public:
 
     ~Knight();
 
+    void movement(Sprite &Ksprite,string dir,View &Kview);
+
+
+    void draw(Sprite &Ksprite,Texture &Ktexture,int KtypeMove);
+private:
+
+    bool TypeFoot=true;
+    int i=0;
 
 };
 

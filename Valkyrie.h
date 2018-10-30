@@ -6,10 +6,20 @@
 #define PROJECT_VALKYRIE_H
 
 
-class Valkyrie {
+#include "Hero.h"
+
+class Valkyrie : public Hero{
 public:
-    Valkyrie();
+
+    Valkyrie(int Hp,int speed, bool armor);
     ~Valkyrie();
+
+    void draw(Sprite &Vsprite,Texture &Vtexture,int VtypeMove);
+
+    void movement(Sprite &Vsprite,string dir,View &Vview);
+
+private:
+    bool TypeFoot = true;
 };
 
 

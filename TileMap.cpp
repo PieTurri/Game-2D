@@ -3,13 +3,22 @@
 //
 
 #include "TileMap.h"
+#include <iostream>
 
-//TileMap::TileMap() {}
+using namespace std;
+
+unsigned int TileMap::height=40;
+unsigned int TileMap::width=40;
+
+TileMap::TileMap() {}
+
+
+//TileMap::TileMap(unsigned int h, unsigned int w): height(h), width(w) {}
+
 
 TileMap::~TileMap() {}
 
-bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize,const int *tiles, unsigned int width,
-                   unsigned int height) {
+bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize, int *tiles) {
 
     // load the tileset texture
 
@@ -79,11 +88,9 @@ bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize,const int *
         }
 
 
-
     return true;
 
 }
-
 
 void TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
@@ -96,8 +103,58 @@ void TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     // draw the vertex array
     target.draw(m_vertices, states);
 
+}
+
+void TileMap::SetTileMap(int *lv,unsigned int h,unsigned int w) {
+
+    height=h;
+    width=w;
+
+    for(int i=0;i<height;i++) {
+        for(int j = 0; j <  width; j++)
+            if(i==0 || i==height-1 || j==0 || j==width-1)
+                lv[(i*width)+j]=478;
+            else
+                if(i==1 || i==height-2 || j==1 || j==width-2)
+                    lv[(i*width)+j] =42 ;
+                else
+                    lv[(i*width)+j] =11 ;
+    }
 
 
+        /*srand((unsigned)time(NULL));
+
+        int ULcellVertex=rand()%519;*/
+
+        //int ULcellVertex[]={40,14,68,600,334,628,654};
+
+        /*
+        for(int i=0;i<7;i++) {
+
+
+            for (int j = 0; j < 7; j++) {
+
+                lv[ULcellVertex[i] + 40 * j] = 3;
+                lv[ULcellVertex[i] + 11 + 40 * j] = 3;
+            }
+            for (int j = 0; j < 12; j++) {
+
+                lv[ULcellVertex[i] + j] = 3;
+                lv[ULcellVertex[i] + 40 * 6 + j] = 3;
+            }
+
+        }
+
+        */
+
+}
+
+unsigned int TileMap::getMapHeight() {
+    return height;
+}
+
+unsigned int TileMap::getMapWidth() {
+    return width;
 }
 
 
