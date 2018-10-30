@@ -19,19 +19,14 @@ public:
 
     ~Knight();
 
-
-    void movement(int PosX, int PosY);
-protected:
-
-    float playerMovmentSpeed=0.3;
-    int passoUp=0;
-    Texture texturePlayer;
+    void movement(Sprite &Ksprite,string dir,View &Kview);
 
 
-    //inserisco la texure in una sprite...
+    void draw(Sprite &Ksprite,Texture &Ktexture,int KtypeMove);
+private:
 
-    Sprite spritePlayer;
-
+    bool TypeFoot=true;
+    int i=0;
 
 };
 

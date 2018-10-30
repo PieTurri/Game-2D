@@ -8,8 +8,10 @@
 #include "GameCharacter.h"
 #include "Weapon.h"
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
+using namespace sf;
 
 class Hero : public GameCharacter{
 
@@ -41,11 +43,9 @@ public:
 
     void setArmor(bool Armor);
 
-    void movement(int PosX, int PosY);
+    virtual void movement(Sprite &sprite,string dir,View &view)=0;
 
-    void draw(){
-        cout << "Cavaliere creato" << endl;
-    }
+    virtual void draw(Sprite &spritePlayer,Texture &texturePlayer,int TypeMove)=0;
 
 protected:
     bool Locked;
@@ -54,7 +54,9 @@ protected:
     bool FinalAttack;
     bool Armor;
     int HeroType; //non è detto
-    int id;       // non e detto
+
+
+    int id=0;       // non e detto
 
 
 };

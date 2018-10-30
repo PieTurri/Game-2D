@@ -12,6 +12,7 @@ int MenuLoop::getIndex() {
     return index;
 }
 
+
 void MenuLoop::generateScreen() {
 
 
@@ -26,6 +27,13 @@ void MenuLoop::generateScreen() {
     window.create(sf::VideoMode(1400, 896), "Leo&Pie Game");
 
     songs.playMusic(music, index, mapScreen);
+
+
+    unsigned int h=map.getMapHeight();
+    unsigned int w=map.getMapWidth();
+
+    cout<<map.getMapWidth()<<" , "<<map.getMapHeight()<<endl;
+
 
     while (window.isOpen()) {
 
@@ -91,6 +99,7 @@ void MenuLoop::generateScreen() {
 
                         switch (event.key.code) {
 
+
                             case sf::Keyboard::Left:
                                 choose.MoveLeft(texture1, spriteC);
                                 break;
@@ -120,6 +129,27 @@ void MenuLoop::generateScreen() {
                                 break;
 
                             case sf::Keyboard::Return:
+
+                                tilepos=new int[h*w];
+
+                                map.SetTileMap(tilepos,h,w);
+
+
+                                map.load("/home/leogori/Scaricati/immagini progetto/Risorse/Tileset1.png", sf::Vector2u(32, 32), tilepos);
+                                index=3;
+
+                                view.setCenter(sf::Vector2f(spritex+16, spritey+16));
+
+                                view.setSize(sf::Vector2f(640 , 480));
+
+                                view.setViewport(FloatRect(0, 0, 1, 1));
+
+                                miniview.setCenter(Vector2f(w*16,h*16));
+
+                                miniview.setSize(sf::Vector2f((w-2)*32, (h-2)*32));
+
+                                miniview.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
+
 
                                 switch (choose.GetPressedItem()) {
                                     case 0 :
@@ -155,8 +185,28 @@ void MenuLoop::generateScreen() {
                                             musicLoop = false;
                                             songs.playMusic(music, index, mapScreen);
                                         }
+                                        factory= new KnightFactory;
+
+                                        hero=factory->createHero();
+
+                                        spritePlayer.setPosition(spritex,spritey);
+
+                                        hero->draw(spritePlayer,texturePlayer,typeMove);
 
                                         break;
+
+                                    case 1:
+
+                                        factory= new ValkyrieFactory;
+
+                                        hero=factory->createHero();
+
+                                        spritePlayer.setPosition(spritex,spritey);
+
+                                        hero->draw(spritePlayer,texturePlayer,typeMove);
+
+                                        break;
+
 
                                     default:
                                         break;
@@ -197,11 +247,55 @@ void MenuLoop::generateScreen() {
                     case sf::Event::Closed:
                         window.close();
                         break;
-
                     default:
                         break;
                 }
+            }else if(getIndex()==3){
+
+
+
+                switch (event.type) {
+
+                    case sf::Event::KeyPressed:
+
+                        switch (event.key.code) {
+
+                            case Keyboard::Left:
+                                hero->movement(spritePlayer, "left", view);
+                                hero->draw(spritePlayer, texturePlayer, 2);
+
+                                break;
+
+                            case Keyboard::Right:
+                                hero->movement(spritePlayer, "right",view);
+                                hero->draw(spritePlayer,texturePlayer,3);
+                                break;
+
+                            case Keyboard::Up:
+                                hero->movement(spritePlayer, "up",view);
+                                hero->draw(spritePlayer,texturePlayer,1);
+                                break;
+
+                            case Keyboard::Down:
+                                hero->movement(spritePlayer, "down",view);
+                                hero->draw(spritePlayer,texturePlayer,0);
+                                break;
+
+                            case Keyboard::Escape:
+
+                                window.close();
+                                break;
+                        }
+                        break;
+
+                    case sf::Event::Closed:
+                        window.close();
+                        break;
+                }
+
             }
+        }
+
 
         }
 
@@ -266,10 +360,36 @@ void MenuLoop::generateScreen() {
         }
 
 
+        if (index == 3) {
+
+
+            window.setView(view);
+            window.draw(map);
+            window.draw(spritePlayer);
+
+
+            //spritePlayer.setScale(5,5);
+            if (spritePlayer.getPosition().x <= 1056 || spritePlayer.getPosition().y >= 153) {
+
+                //spritePlayer.getPosition().x <=((w-2)*32-miniview.getSize().x) || spritePlayer.getPosition().y >= miniview.getSize().y+64
+
+                //cout<<miniview.getSize().x<<" , "<<miniview.getSize().y<<endl;
+
+                window.setView(miniview);
+                window.draw(map);
+                window.draw(spritePlayer);
+            }
+            //spritePlayer.setScale(1,1);
+        }
+
             window.display();
 
 
     }
 }
 
-MenuLoop::~MenuLoop() = default;
+
+
+MenuLoop::~MenuLoop() {
+
+}

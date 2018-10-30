@@ -20,11 +20,13 @@
 class Abstract_Factory{
 public:
 
-    ~Abstract_Factory(){}
+
+    virtual ~Abstract_Factory(){}
 
     //enum CharacterType {Knight, Valkyrie, Ninja, Wizard, Planetar};
 
     virtual Hero * createHero() = 0;
+
 
     //virtual Enemy*createEnemy()=0;
     //virtual Companion*createCompanion()=0;
@@ -38,11 +40,19 @@ protected:
 class KnightFactory : public Abstract_Factory{
 
 public:
-     Hero * createHero() override {
-        auto knight = new Knight(3,4,true);
-         return knight;
+     Hero* createHero() {
 
-    };
+        auto knight = new Knight(3,8,false);
+        return knight;
+     }
+};
+
+class ValkyrieFactory : public Abstract_Factory{
+
+    Hero* createHero() {
+        auto valkyrie = new Valkyrie(16,1,true);
+        return valkyrie;
+    }
 };
 
 #endif //PROJECT_ABSTRACT_FACTORY_H

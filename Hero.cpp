@@ -7,7 +7,8 @@
 
 
 Hero::Hero(int Hp, int speed, bool armor) : GameCharacter(Hp, speed) {
-    armor= false;
+    Armor=armor;
+    id++;
 }
 Hero::~Hero() {}
 
@@ -57,8 +58,5 @@ void Hero::setArmor(bool Armor) {
     Hero::Armor = Armor;
 }
 
-void Hero::movement(int PosX, int PosY) {
-    PosX;
-}
 
 
