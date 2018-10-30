@@ -52,7 +52,7 @@ void ChoosCharacter::setChooseCharacterScreen(sf::Texture &texture,sf::Sprite &s
 void ChoosCharacter::draw(sf::Sprite *spriteC, sf::Texture *texture1) {
 
     for(int i=0 ; i < 5 ; i++)
-    spriteC[i].setTexture(texture1[i]);
+        spriteC[i].setTexture(texture1[i]);
 }
 
 void ChoosCharacter::drawC(sf::RenderWindow &window, sf::Text &textC) {
@@ -77,7 +77,6 @@ bool ChoosCharacter::isLocked(int setindex) {
         case 4:
             return planetarLocked;
     }
-
 }
 
 bool ChoosCharacter::setLocked(int setindex) {

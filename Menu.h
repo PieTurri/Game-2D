@@ -27,7 +27,7 @@ public:
     void MoveDown(sf::Text *text);
     int GetPressedItem() { return selectedMenuIndex; }
 
-    void setMenuScreen(sf::Texture &texture,sf::Sprite &sprite,sf::Font &font,sf::Text *text);
+    void setMenuScreen(sf::Texture &texture,sf::Sprite &sprite,sf::Font &font,sf::Text *text,sf::Font &font1);
 
     int selectedMenuIndex=0;
     bool a = true; //serve per avere la prima scritta già rossa;

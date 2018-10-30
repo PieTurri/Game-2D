@@ -6,8 +6,10 @@
 #define PROJECT_KNIGHT_H
 
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
+using namespace sf;
 
 #include "Hero.h"
 
@@ -16,6 +18,19 @@ public:
     Knight(int Hp, int speed, bool armor);
 
     ~Knight();
+
+
+    void movement(int PosX, int PosY);
+protected:
+
+    float playerMovmentSpeed=0.3;
+    int passoUp=0;
+    Texture texturePlayer;
+
+
+    //inserisco la texure in una sprite...
+
+    Sprite spritePlayer;
 
 
 };
