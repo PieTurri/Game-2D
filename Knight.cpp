@@ -16,11 +16,11 @@ void Knight::draw(Sprite &Ksprite,Texture &Ktexture,int KtypeMove) {
     if (KtypeMove==0) {
 
         if (TypeFoot) {
-            Ktexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player1/npc3_fr1.png");
+            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_fr1.png");
             TypeFoot = false;
         }
         else{
-            Ktexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player1/npc3_fr2.png");
+            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_fr2.png");
             TypeFoot = true;
         }
 
@@ -29,11 +29,11 @@ void Knight::draw(Sprite &Ksprite,Texture &Ktexture,int KtypeMove) {
     if (KtypeMove==1) {
 
         if (TypeFoot) {
-            Ktexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player1/npc3_bk1.png");
+            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_bk1.png");
             TypeFoot = false;
         }
         else{
-            Ktexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player1/npc3_bk2.png");
+            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_bk2.png");
             TypeFoot = true;
         }
 
@@ -42,11 +42,11 @@ void Knight::draw(Sprite &Ksprite,Texture &Ktexture,int KtypeMove) {
     if (KtypeMove==2) {
 
         if (TypeFoot) {
-            Ktexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player1/npc3_lf1.png");
+            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_lf1.png");
             TypeFoot = false;
         }
         else{
-            Ktexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player1/npc3_lf2.png");
+            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_lf2.png");
             TypeFoot = true;
         }
 
@@ -55,11 +55,11 @@ void Knight::draw(Sprite &Ksprite,Texture &Ktexture,int KtypeMove) {
     if (KtypeMove==3) {
 
         if (TypeFoot) {
-            Ktexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player1/npc3_rt1.png");
+            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_rt1.png");
             TypeFoot = false;
         }
         else{
-            Ktexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player1/npc3_rt2.png");
+            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_rt2.png");
             TypeFoot = true;
         }
 

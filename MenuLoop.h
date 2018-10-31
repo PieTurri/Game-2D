@@ -97,6 +97,9 @@ private:
     int spritex=32*20;
     int spritey=32*20;
 
+    bool startGame = false;
+    bool firstK = true;
+
 
 };
 

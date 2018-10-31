@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "TileMap.h"
 
 using namespace std;
 using namespace sf;

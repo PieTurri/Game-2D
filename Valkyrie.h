@@ -20,10 +20,6 @@ public:
 
 private:
     bool TypeFoot = true;
-class Valkyrie {
-public:
-    Valkyrie();
-    ~Valkyrie();
 };
 
 
