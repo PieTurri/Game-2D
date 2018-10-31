@@ -29,10 +29,10 @@ void MenuLoop::generateScreen() {
     songs.playMusic(music, index, mapScreen);
 
 
-    unsigned int h=map.getMapHeight();
-    unsigned int w=map.getMapWidth();
+    unsigned int h = map.getMapHeight();
+    unsigned int w = map.getMapWidth();
 
-    cout<<map.getMapWidth()<<" , "<<map.getMapHeight()<<endl;
+    cout << map.getMapWidth() << " , " << map.getMapHeight() << endl;
 
 
     while (window.isOpen()) {
@@ -99,7 +99,6 @@ void MenuLoop::generateScreen() {
 
                         switch (event.key.code) {
 
-
                             case sf::Keyboard::Left:
                                 choose.MoveLeft(texture1, spriteC);
                                 break;
@@ -121,7 +120,6 @@ void MenuLoop::generateScreen() {
                                         index = 1;
                                         choose.setChooseCharacterScreen(texture, sprite, font, texture1, spriteC,
                                                                         textC);
-
                                         break;
                                     default:
                                         break;
@@ -130,86 +128,120 @@ void MenuLoop::generateScreen() {
 
                             case sf::Keyboard::Return:
 
-                                tilepos=new int[h*w];
+                                if(startGame){
 
-                                map.SetTileMap(tilepos,h,w);
+                                    flagMap=2;
 
+                                    switch (event.key.code){
 
-                                map.load("/home/leogori/Scaricati/immagini progetto/Risorse/Tileset1.png", sf::Vector2u(32, 32), tilepos);
-                                index=3;
+                                        case sf::Keyboard::Return:
 
-                                view.setCenter(sf::Vector2f(spritex+16, spritey+16));
+                                            tilepos = new int[h * w];
 
-                                view.setSize(sf::Vector2f(640 , 480));
+                                            map.SetTileMap(tilepos, h, w);
 
-                                view.setViewport(FloatRect(0, 0, 1, 1));
+                                            map.load(
+                                                    "/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset1.png",
+                                                    sf::Vector2u(32, 32), tilepos);
 
-                                miniview.setCenter(Vector2f(w*16,h*16));
+                                            view.setCenter(sf::Vector2f(spritex + 16, spritey + 16));
 
-                                miniview.setSize(sf::Vector2f((w-2)*32, (h-2)*32));
+                                            view.setSize(sf::Vector2f(640, 480));
 
-                                miniview.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
+                                            view.setViewport(FloatRect(0, 0, 1, 1));
 
+                                            miniview.setCenter(Vector2f(w * 16, h * 16));
 
-                                switch (choose.GetPressedItem()) {
-                                    case 0 :
+                                            miniview.setSize(sf::Vector2f((w - 2) * 32, (h - 2) * 32));
 
-                                        permission = true;
+                                            miniview.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
 
-                                        flag = 1;
+                                            break;
 
-                                        if (drawMapLevel) {
+                                        default:
+                                            break;
+                                    }
+                                }
 
-                                            level.setMapLevelScreen(texturel, spritel, texturem, spritem, textureCharacterLevel, spriteCharacterLevel);
-                                            mapScreen = 1;
+                                else{
 
+                                    switch (choose.GetPressedItem()) {
+                                        case 0 :
 
-                                            switch (event.key.code) {
+                                            permission = true;
 
-                                                case sf::Keyboard::Return:
-                                                    flag = 1;
-                                                    drawMapLevel = false;
-                                                    flagMap = 1;
-                                                    break;
+                                            flag = 1;
 
-                                                default:
-                                                    break;
+                                            if (drawMapLevel) {
+
+                                                level.setMapLevelScreen(texturel, spritel, texturem, spritem,
+                                                                        textureCharacterLevel, spriteCharacterLevel);
+                                                mapScreen = 1;
+
+                                                switch (event.key.code) {
+
+                                                    case sf::Keyboard::Return:
+                                                        flag = 1;
+                                                        drawMapLevel = false;
+                                                        flagMap = 1;
+
+                                                        break;
+
+                                                    default:
+                                                        break;
+
+                                                }
+
+                                                songs.playMusic(music, index, mapScreen);
+
+                                            } else {
+
+                                                flagMap = 0;
+                                                switch(event.key.code){
+                                                    case Keyboard::Return:
+                                                        startGame = true;
+                                                        break;
+                                                }
+
+                                                level.setScreenLevel(texturel, spritel, textl, font);
+                                                musicLoop = false;
+                                                songs.playMusic(music, index, mapScreen);
                                             }
-                                            songs.playMusic(music, index, mapScreen);
 
-                                        } else {
+                                            if(startGame && firstK){
 
+                                                factory = new KnightFactory;
 
-                                            flagMap = 0;
-                                            level.setScreenLevel(texturel, spritel, textl, font);
-                                            musicLoop = false;
-                                            songs.playMusic(music, index, mapScreen);
-                                        }
-                                        factory= new KnightFactory;
+                                                hero = factory->createHero();
 
-                                        hero=factory->createHero();
+                                                spritePlayer.setPosition(spritex, spritey);
 
-                                        spritePlayer.setPosition(spritex,spritey);
+                                                hero->draw(spritePlayer, texturePlayer, typeMove);
 
-                                        hero->draw(spritePlayer,texturePlayer,typeMove);
+                                                firstK = false;
+                                            }
 
-                                        break;
+                                            break;
 
-                                    case 1:
+                                        case 1:
 
-                                        factory= new ValkyrieFactory;
+                                            if(startGame) {
 
-                                        hero=factory->createHero();
+                                                factory = new ValkyrieFactory;
 
-                                        spritePlayer.setPosition(spritex,spritey);
+                                                hero = factory->createHero();
 
-                                        hero->draw(spritePlayer,texturePlayer,typeMove);
+                                                spritePlayer.setPosition(spritex, spritey);
 
-                                        break;
+                                                hero->draw(spritePlayer, texturePlayer, typeMove);
 
+                                            }
 
-                                    default:
-                                        break;
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
                                 }
                                 break;
                             default:
@@ -250,8 +282,7 @@ void MenuLoop::generateScreen() {
                     default:
                         break;
                 }
-            }else if(getIndex()==3){
-
+            } else if (getIndex() == 3) {
 
 
                 switch (event.type) {
@@ -263,27 +294,29 @@ void MenuLoop::generateScreen() {
                             case Keyboard::Left:
                                 hero->movement(spritePlayer, "left", view);
                                 hero->draw(spritePlayer, texturePlayer, 2);
-
                                 break;
 
                             case Keyboard::Right:
-                                hero->movement(spritePlayer, "right",view);
-                                hero->draw(spritePlayer,texturePlayer,3);
+                                hero->movement(spritePlayer, "right", view);
+                                hero->draw(spritePlayer, texturePlayer, 3);
                                 break;
 
                             case Keyboard::Up:
-                                hero->movement(spritePlayer, "up",view);
-                                hero->draw(spritePlayer,texturePlayer,1);
+                                hero->movement(spritePlayer, "up", view);
+                                hero->draw(spritePlayer, texturePlayer, 1);
                                 break;
 
                             case Keyboard::Down:
-                                hero->movement(spritePlayer, "down",view);
-                                hero->draw(spritePlayer,texturePlayer,0);
+                                hero->movement(spritePlayer, "down", view);
+                                hero->draw(spritePlayer, texturePlayer, 0);
                                 break;
 
                             case Keyboard::Escape:
 
                                 window.close();
+                                break;
+
+                            default:
                                 break;
                         }
                         break;
@@ -291,12 +324,11 @@ void MenuLoop::generateScreen() {
                     case sf::Event::Closed:
                         window.close();
                         break;
+                    default:
+                        break;
                 }
 
             }
-        }
-
-
         }
 
         window.clear();
@@ -329,17 +361,16 @@ void MenuLoop::generateScreen() {
                         std::this_thread::sleep_for(std::chrono::milliseconds(500));
                         shine = true;
                     }
-
+                    cout << flagMap << endl;
                 }
             }
-
         }
 
         if (flagMap == 1) {
             level.drawCloud(texturem, spritem);
 
             for (int i = 0; i < 16; i++)
-                    window.draw(spritem[i]);
+                window.draw(spritem[i]);
 
             window.draw(spriteCharacterLevel);
             if (shineLevel) {
@@ -352,16 +383,27 @@ void MenuLoop::generateScreen() {
                 std::this_thread::sleep_for(std::chrono::milliseconds(25));
                 shineLevel = true;
             }
-
         }
 
+        if(startGame && flagMap == 2){
+            switch (event.key.code) {
+
+                case Keyboard::Return:
+
+                    index = 3;
+
+                    break;
+
+                default:
+
+                    break;
+            }
+        }
         if (index == 2) {
             rules.draw(window, textRules);
         }
 
-
         if (index == 3) {
-
 
             window.setView(view);
             window.draw(map);
@@ -379,17 +421,24 @@ void MenuLoop::generateScreen() {
                 window.draw(map);
                 window.draw(spritePlayer);
             }
+
             //spritePlayer.setScale(1,1);
         }
-
-            window.display();
-
-
+        window.display();
     }
 }
 
 
 
-MenuLoop::~MenuLoop() {
+MenuLoop::~MenuLoop() = default;
 
-}
+
+/*
+switch (event.key.code){
+case Keyboard::Return:
+
+        index = 3;
+
+break;
+default:
+break;*/

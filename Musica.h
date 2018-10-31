@@ -10,7 +10,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include <curses.h>
 #include <ctime>
 #include <cstdlib>
 #include <fstream>

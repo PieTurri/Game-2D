@@ -3,6 +3,7 @@
 //
 
 #include "Valkyrie.h"
+#include "TileMap.h"
 
 Valkyrie::Valkyrie(int Hp, int speed, bool armor) : Hero(Hp, speed, armor) {}
 
