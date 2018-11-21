@@ -94,11 +94,16 @@ private:
     View view;
     View miniview;
 
-    int spritex=32*20;
-    int spritey=32*20;
+
+    int h,w,spritex,spritey;
 
     bool startGame = false;
     bool firstK = true;
+
+    bool moveU=false;
+    bool moveD=false;
+    bool moveL=false;
+    bool moveR=false;
 
 
 };

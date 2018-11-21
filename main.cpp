@@ -9,7 +9,7 @@ int main() {
 
     MenuLoop ml;
     ml.generateScreen();
+
     return 0;
 }
-
 

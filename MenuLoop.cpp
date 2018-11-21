@@ -32,6 +32,9 @@ void MenuLoop::generateScreen() {
     unsigned int h = map.getMapHeight();
     unsigned int w = map.getMapWidth();
 
+    int spritex=128;
+    int spritey=128;
+
     cout << map.getMapWidth() << " , " << map.getMapHeight() << endl;
 
 
@@ -65,8 +68,7 @@ void MenuLoop::generateScreen() {
                                 switch (menu.GetPressedItem()) {
                                     case 0:
                                         index = 1;
-                                        choose.setChooseCharacterScreen(texture, sprite, font, texture1, spriteC,
-                                                                        textC);
+                                        choose.setChooseCharacterScreen(texture, sprite, font, texture1, spriteC, textC);
                                         break;
                                     case 1:
                                         index = 2;
@@ -140,13 +142,12 @@ void MenuLoop::generateScreen() {
 
                                             map.SetTileMap(tilepos, h, w);
 
-                                            map.load(
-                                                    "/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset1.png",
+                                            map.load("/home/leogori/Scaricati/immagini progetto/Risorse/Tileset1.png",
                                                     sf::Vector2u(32, 32), tilepos);
 
-                                            view.setCenter(sf::Vector2f(spritex + 16, spritey + 16));
+                                            view.setCenter(sf::Vector2f(spritex+16, spritey+16));
 
-                                            view.setSize(sf::Vector2f(640, 480));
+                                            view.setSize(sf::Vector2f(640,480));
 
                                             view.setViewport(FloatRect(0, 0, 1, 1));
 
@@ -154,7 +155,7 @@ void MenuLoop::generateScreen() {
 
                                             miniview.setSize(sf::Vector2f((w - 2) * 32, (h - 2) * 32));
 
-                                            miniview.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
+                                            miniview.setViewport(sf::FloatRect(0.85f, 0, 0.15f, 0.25f));
 
                                             break;
 
@@ -200,6 +201,8 @@ void MenuLoop::generateScreen() {
                                                 switch(event.key.code){
                                                     case Keyboard::Return:
                                                         startGame = true;
+                                                        break;
+                                                    default:
                                                         break;
                                                 }
 
@@ -287,47 +290,130 @@ void MenuLoop::generateScreen() {
 
                 switch (event.type) {
 
-                    case sf::Event::KeyPressed:
-
+                    case Event::KeyReleased:
                         switch (event.key.code) {
-
-                            case Keyboard::Left:
-                                hero->movement(spritePlayer, "left", view);
-                                hero->draw(spritePlayer, texturePlayer, 2);
-                                break;
-
-                            case Keyboard::Right:
-                                hero->movement(spritePlayer, "right", view);
-                                hero->draw(spritePlayer, texturePlayer, 3);
-                                break;
-
                             case Keyboard::Up:
-                                hero->movement(spritePlayer, "up", view);
-                                hero->draw(spritePlayer, texturePlayer, 1);
+                                moveU = false;
                                 break;
-
                             case Keyboard::Down:
-                                hero->movement(spritePlayer, "down", view);
-                                hero->draw(spritePlayer, texturePlayer, 0);
+                                moveD = false;
                                 break;
-
+                            case Keyboard::Left:
+                                moveL = false;
+                                break;
+                            case Keyboard::Right:
+                                moveR = false;
+                                break;
                             case Keyboard::Escape:
-
                                 window.close();
                                 break;
-
                             default:
                                 break;
                         }
                         break;
 
-                    case sf::Event::Closed:
-                        window.close();
+                    case Event::KeyPressed:
+                        switch (event.key.code) {
+                            case Keyboard::Up:
+                                moveU = true;
+                                break;
+                            case Keyboard::Down:
+                                moveD = true;
+                                break;
+                            case Keyboard::Left:
+                                moveL = true;
+                                break;
+                            case Keyboard::Right:
+                                moveR = true;
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     default:
                         break;
-                }
+                    }
 
+                    if(moveR && moveU) {
+                        hero->movement(spritePlayer, "right", view);
+                        hero->movement(spritePlayer, "up", view);
+                        if (!map.getTileWalkability(spritePlayer.getPosition())
+                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,24))
+                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,0))) {
+                            hero->movement(spritePlayer, "left", view);
+                            hero->movement(spritePlayer,"down",view);
+                        }
+                        hero->draw(spritePlayer, texturePlayer, 3);
+                    }
+
+                    else if(moveL && moveU) {
+                        hero->movement(spritePlayer, "left", view);
+                        hero->movement(spritePlayer, "up", view);
+                        if (!map.getTileWalkability(spritePlayer.getPosition())
+                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24))
+                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,0))) {
+                            hero->movement(spritePlayer, "right", view);
+                            hero->movement(spritePlayer,"down",view);
+                        }
+                        hero->draw(spritePlayer, texturePlayer, 2);
+                    }
+
+                    else if(moveR && moveD) {
+                        hero->movement(spritePlayer, "right", view);
+                        hero->movement(spritePlayer, "down", view);
+                        if (!map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,24))
+                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,0))
+                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24))) {
+                            hero->movement(spritePlayer, "left", view);
+                            hero->movement(spritePlayer,"up",view);
+                        }
+                        hero->draw(spritePlayer, texturePlayer, 3);
+                    }
+
+                    else if(moveL && moveD) {
+                        hero->movement(spritePlayer, "left", view);
+                        hero->movement(spritePlayer, "down", view);
+                        if (!map.getTileWalkability(spritePlayer.getPosition())
+                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,24))
+                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24))) {
+                            hero->movement(spritePlayer, "right", view);
+                            hero->movement(spritePlayer,"up",view);
+                        }
+                        hero->draw(spritePlayer, texturePlayer, 2);
+                    }
+
+                    else if(moveD){
+                        hero->movement(spritePlayer, "down", view);
+                        if(!map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,24))
+                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24)))
+                            hero->movement(spritePlayer,"up",view);
+                        hero->draw(spritePlayer, texturePlayer, 0);
+                    }
+
+                    else if(moveU){
+                        hero->movement(spritePlayer, "up", view);
+                        if(!map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,0))
+                            || !map.getTileWalkability(spritePlayer.getPosition()))
+                            hero->movement(spritePlayer,"down",view);
+                        hero->draw(spritePlayer, texturePlayer, 1);
+                    }
+
+                    else if(moveL){
+                        hero->movement(spritePlayer, "left", view);
+                        if(!map.getTileWalkability(spritePlayer.getPosition())
+                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24)) )
+                            hero->movement(spritePlayer,"right",view);
+                        hero->draw(spritePlayer, texturePlayer, 2);
+                    }
+
+                    else if(moveR) {
+                        hero->movement(spritePlayer, "right", view);
+                        if (!map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 24))
+                            || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 0)))
+                            hero->movement(spritePlayer, "left", view);
+                        hero->draw(spritePlayer, texturePlayer, 3);
+                    }
+                cout<<"Valori di move in U,D,L,R: "<<moveU<<" , "<<moveD<<" , "<<moveL<<" , "<<moveR<<endl;
             }
         }
 
@@ -405,24 +491,22 @@ void MenuLoop::generateScreen() {
 
         if (index == 3) {
 
+
+
+            if(!moveU && !moveD && !moveL && !moveR){
+
+                map.followCharPos(view,spritePlayer);
+            }
+
             window.setView(view);
             window.draw(map);
             window.draw(spritePlayer);
 
-
-            //spritePlayer.setScale(5,5);
-            if (spritePlayer.getPosition().x <= 1056 || spritePlayer.getPosition().y >= 153) {
-
-                //spritePlayer.getPosition().x <=((w-2)*32-miniview.getSize().x) || spritePlayer.getPosition().y >= miniview.getSize().y+64
-
-                //cout<<miniview.getSize().x<<" , "<<miniview.getSize().y<<endl;
-
-                window.setView(miniview);
-                window.draw(map);
-                window.draw(spritePlayer);
-            }
-
-            //spritePlayer.setScale(1,1);
+            spritePlayer.setScale(3,3);
+            window.setView(miniview);
+            window.draw(map);
+            window.draw(spritePlayer);
+            spritePlayer.setScale(1,1);
         }
         window.display();
     }

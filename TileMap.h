@@ -11,6 +11,7 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics.hpp>
 
+
 using namespace sf;
 
 class TileMap : public sf::Drawable, public sf::Transformable{
@@ -32,9 +33,11 @@ public:
 
     void SetTileMap(int *lv,unsigned int heigth, unsigned int width);
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+    bool getTileWalkability(Vector2f charPos);
 
+    void followCharPos(View &view, Sprite &spritePlayer);
 
 private:
 
@@ -44,6 +47,10 @@ private:
 
     static unsigned int height;
     static unsigned int width;
+
+    bool* isWalkable;
+
+    int cellDim=17;
 
 };
 
