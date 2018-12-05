@@ -30,15 +30,22 @@ void Enemy::setPosition(Sprite &Esprite, TileMap map1) {
 
     srand(unsigned(time(NULL)));
     int casualPos = rand() % 225;
-
+    int pos;
     int Posx = casualPos % 15;
     int Posy = (casualPos - Posx)/15;
 
     for(int i = 0; i < 9;i ++){
 
-        if(map1.fightRooms)
+        if(map1.getFightRoomAccessibility(i)){
 
+            pos = map1.cellFloorCoords[i] + Posx + Posy*map1.getMapWidth();
+            Posx = pos % map1.getMapWidth();
+            Posy = (pos - Posx)/map1.getMapWidth();
+
+        }
     }
+
+
 
 }
 

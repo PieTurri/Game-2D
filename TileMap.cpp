@@ -674,3 +674,7 @@ void TileMap::setFightRooms() {
     cout<<endl;
 }
 
+bool TileMap::getFightRoomAccessibility(int pos) {
+    return fightRooms[pos];
+}
+

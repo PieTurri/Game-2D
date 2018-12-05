@@ -48,6 +48,9 @@ public:
 
     void setFightRooms();
 
+    bool getFightRoomAccessibility(int pos);
+
+    int cellFloorCoords[9]={148, 175, 202, 2119, 2146, 2173, 4090, 4117, 4144};
 
 private:
 
@@ -80,7 +83,7 @@ private:
 
     int cellCoords[9]={74, 101, 128, 2099, 2045, 2072, 4043, 4070, 4016};;
     int corridorCoords[12]={1321,529, 1348,556, 1375,2500, 3292,2527, 3319,4471, 3346,4498};
-    static int cellFloorCoords[9]={148, 175, 202, 2119, 2146, 2173, 4090, 4117, 4144};
+
     int corridorFloorCoords[12]={1322,1349,1376,3293,3320,3347,602,629,2573,2600,4544,4571};
 };
 
