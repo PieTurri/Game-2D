@@ -6,27 +6,30 @@
 #include <iostream>
 #include <cmath>
 #include <ctime>
+#include <string>
 
 #define BLACK 478;
 #define WALL 42;
 #define MOUNT 49;
 #define FLOOR 111;
+#define VOLCANO 342;
+#define STATUE 251;
+#define BOSSDOOR 153;
+#define LADDER 247;
 
 
 using namespace std;
 
-unsigned int TileMap::height=73;
-unsigned int TileMap::width=73;
 
-TileMap::TileMap() {}
+TileMap::TileMap() : TileMap(73,73) {}
 
 
-//TileMap::TileMap(unsigned int h, unsigned int w): height(h), width(w) {}
+TileMap::TileMap(unsigned int h, unsigned int w): height(h), width(w) , cellDim(17) {}
 
 
 TileMap::~TileMap() {}
 
-bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize, int *tiles) {
+bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize) {
 
     // load the tileset texture
 
@@ -113,98 +116,101 @@ void TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 }
 
-void TileMap::SetTileMap(int *lv,unsigned int h,unsigned int w) {
+void TileMap::SetTileMap() {
 
-    height = h;
-    width = w;
     isWalkable = new bool[height * width];
 
+    tiles=new int[height*width];
+
+    //definisce lo sfondo della mappa (nero)
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            lv[(i * width) + j] = BLACK;
+            tiles[(i * width) + j] = BLACK;
             isWalkable[(i * width) + j] = true;
         }
     }
 
+    //genera le celle
+
     for (int j = 0; j < 9; j++) {
         for (int i = 0; i < cellDim; i++) {
 
-            int v[] = {74, 101, 128, 2099, 2045, 2072, 4043, 4070, 4016};
-
             if (i != 7 && i != 8 && i != 9) {
-                lv[v[j] + i] = WALL;
-                isWalkable[v[j] + i] = false;
-                lv[v[j] + i * width] = WALL;
-                isWalkable[v[j] + i * width] = false;
-                lv[v[j] + (cellDim - 1) + i * width] = WALL;
-                isWalkable[v[j] + (cellDim - 1) + i * width] = false;
-                lv[v[j] + (cellDim - 1) * width + i] = WALL;
-                isWalkable[v[j] + (cellDim - 1) * width + i] = false;
+                tiles[cellCoords[j] + i] = WALL;
+                isWalkable[cellCoords[j] + i] = false;
+                tiles[cellCoords[j] + i * width] = WALL;
+                isWalkable[cellCoords[j] + i * width] = false;
+                tiles[cellCoords[j] + (cellDim - 1) + i * width] = WALL;
+                isWalkable[cellCoords[j] + (cellDim - 1) + i * width] = false;
+                tiles[cellCoords[j] + (cellDim - 1) * width + i] = WALL;
+                isWalkable[cellCoords[j] + (cellDim - 1) * width + i] = false;
             } else {
-                lv[v[j] + i] = MOUNT;
-                isWalkable[v[j] + i] = true;
-                lv[v[j] + i * width] = MOUNT;
-                isWalkable[v[j] + i * width] = true;
-                lv[v[j] + (cellDim - 1) + i * width] = MOUNT;
-                isWalkable[v[j] + (cellDim - 1) + i * width] = true;
-                lv[v[j] + (cellDim - 1) * width + i] = MOUNT;
-                isWalkable[v[j] + (cellDim - 1) * width + i] = true;
+                tiles[cellCoords[j] + i] = MOUNT;
+                isWalkable[cellCoords[j] + i] = true;
+                tiles[cellCoords[j] + i * width] = MOUNT;
+                isWalkable[cellCoords[j] + i * width] = true;
+                tiles[cellCoords[j] + (cellDim - 1) + i * width] = MOUNT;
+                isWalkable[cellCoords[j] + (cellDim - 1) + i * width] = true;
+                tiles[cellCoords[j] + (cellDim - 1) * width + i] = MOUNT;
+                isWalkable[cellCoords[j] + (cellDim - 1) * width + i] = true;
             }
         }
     }
 
+    //genera i corridoi
 
-    for (int j = 0; j < 6; j++) {
+    for (int j = 0; j < 12; j=j+2) {
 
         int i = 0;
-        int v[] = {1321, 1348, 1375, 3292, 3319, 3346};
 
-        while (isWalkable[v[j] + i * width] && isWalkable[v[j] + i * width + 4]) {
 
-            lv[v[j] + i * width] = WALL;
-            lv[v[j] + 4 + i * width] = WALL;
-            isWalkable[v[j] + i * width] = false;
-            isWalkable[v[j] + i * width + 4] = false;
-            i++;
-        }
+        while (isWalkable[corridorCoords[j] + i * width] && isWalkable[corridorCoords[j] + i * width + 4]
+            && isWalkable[corridorCoords[j+1] + i] && isWalkable[corridorCoords[j+1] + i + 4 * width]) {
 
-        int v1[] = {529, 556, 2500, 2527, 4471, 4498};
-        i = 0;
-        while (isWalkable[v1[j] + i] && isWalkable[v1[j] + i + 4 * width]) {
+            //corridoi verticali
 
-            lv[v1[j] + i] = WALL;
-            lv[v1[j] + 4 * width + i] = WALL;
-            isWalkable[v1[j] + i] = false;
-            isWalkable[v1[j] + i + 4 * width] = false;
+            tiles[corridorCoords[j] + i * width] = WALL;
+            tiles[corridorCoords[j] + 4 + i * width] = WALL;
+            isWalkable[corridorCoords[j] + i * width] = false;
+            isWalkable[corridorCoords[j] + i * width + 4] = false;
+
+            //corridoi orizzontali
+
+            tiles[corridorCoords[j+1] + i] = WALL;
+            tiles[corridorCoords[j+1] + 4 * width + i] = WALL;
+            isWalkable[corridorCoords[j+1] + i] = false;
+            isWalkable[corridorCoords[j+1] + i + 4 * width] = false;
             i++;
         }
 
     }
 
+    //genera il pavimento nelle celle
+
     for (int i = 0; i < 9; i++) {
-        int v[] = {148, 175, 202, 2119, 2146, 2173, 4090, 4117, 4144};
 
         for (int j = 0; j < 15; j++) {
             for (int k = 0; k < 15; k++) {
-                lv[v[i] + j * width + k] = FLOOR;
+                tiles[cellFloorCoords[i] + j * width + k] = FLOOR;
             }
         }
     }
 
+    //genera il pavimento nei corridoi
+
     for(int i=0;i<12;i++){
-        int v[]={1322,1349,1376,3293,3320,3347,602,629,2573,2600,4544,4571};
 
         if(i<6) {
             for (int j = 0; j < 10; j++) {
                 for (int k = 0; k < 3; k++) {
-                    lv[v[i] + j * width + k] = FLOOR;
+                    tiles[corridorFloorCoords[i] + j * width + k] = FLOOR;
                 }
             }
         } else{
             for (int j = 0; j < 3; j++) {
                 for (int k = 0; k < 10; k++) {
-                    lv[v[i] + j * width + k] = FLOOR;
+                    tiles[corridorFloorCoords[i] + j * width + k] = FLOOR;
                 }
             }
         }
@@ -232,16 +238,438 @@ void TileMap::followCharPos(View &view,Sprite &spritePlayer) {
     float dy=spritePlayer.getPosition().y+16-view.getCenter().y;
     float dx=spritePlayer.getPosition().x+16-view.getCenter().x;
 
-    if(dx!=0 || dy!=0) {
+    times=clock.getElapsedTime();
 
-        float m=dy/dx;
+    if(times.asMilliseconds()>10) {
+        if (dx != 0 || dy != 0) {
 
-        if(dx>0)
-            view.move(1,m);
-        else if(dx<0)
-            view.move(-1,-m);
-        else
-            view.move(0,abs(dy)/dy);
+            float m = dy / dx;
+
+            if (dx > 0)
+                view.move(1, m);
+            else if (dx < 0)
+                view.move(-1, -m);
+            else
+                view.move(0, abs(dy) / dy);
+
+        }
+        clock.restart();
     }
+
+}
+void TileMap::generateRoomsItems(Sprite *spriteItems) {
+
+
+    string s,s1,s2;
+
+    s = to_string(nTorch);
+
+    s2 = "/home/leogori/Scaricati/immagini progetto/Risorse/Room items/torch frames sequence/formato png/frame-" + s + ".png";
+
+    texture[0].loadFromFile(s2);
+
+
+    for(int i=0;i<84;i++) {
+        spriteItems[i].setTexture(texture[0]);
+    }
+
+    texture[1].loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/Room items/barrel frame sequences/png senza ombra/frame-1.png");
+
+    for(int i=84;i<144;i++) {
+        spriteItems[i].setTexture(texture[1]);
+    }
+
+    s=to_string(nMerchant);
+
+    s1="/home/leogori/Scaricati/immagini progetto/Risorse/Room items/merchant frames sequence/mercante senza sfondo png/frame-"+s+".png";
+
+    texture[2].loadFromFile(s1);
+
+    spriteItems[144].setTexture(texture[2]);
+
+    nTorch++;
+    if(nTorch%15==0)
+        nMerchant++;
+    if(nTorch==33)
+        nTorch=1;
+    if(nMerchant==6)
+        nMerchant=1;
+
+
+}
+
+void TileMap::setItemsProperty(Sprite *spriteItems) {
+
+    int j = 0;
+
+    for (int i = 0; i < 84; i++) {
+        spriteItems[i].setScale(0.25, 0.25);
+    }
+
+    for (int i = 84; i < 144; i++) {
+        spriteItems[i].setScale(0.30, 0.30);
+        spriteItems[i].setOrigin(-16, -10);
+    }
+
+    for (int i = 0; i < 18; i = i + 2) {
+
+        spriteItems[i].setPosition((cellFloorCoords[j] % 73) * 32, (float) (floor(cellFloorCoords[j] / 73) * 32));
+        spriteItems[i + 1].setPosition((cellFloorCoords[j] % 73) * 32,
+                                       (float) (floor(cellFloorCoords[j] / 73) * 32 + 32 * 13 + 16));
+        spriteItems[i].rotate(30);
+        spriteItems[i + 1].rotate(30);
+        j++;
+    }
+
+    j = 0;
+    for (int i = 18; i < 36; i = i + 2) {
+
+        spriteItems[i].setPosition((cellFloorCoords[j] % 73) * 32 + 32 * 14 + 4,
+                                   (float) (floor(cellFloorCoords[j] / 73) * 32 + 16));
+        spriteItems[i + 1].setPosition((cellFloorCoords[j] % 73) * 32 + 32 * 14 + 4,
+                                       (float) (floor(cellFloorCoords[j] / 73) * 32 + 32 * 14));
+        spriteItems[i].rotate(-30);
+        spriteItems[i + 1].rotate(-30);
+        j++;
+    }
+
+    j = 0;
+    for (int i = 36; i < 84; i = i + 8) {
+        spriteItems[i].setPosition((corridorCoords[j] % 73) * 32, (float) (floor(corridorCoords[j] / 73) * 32 - 52));
+        spriteItems[i + 1].setPosition((corridorCoords[j] % 73) * 32 + 32 * 4,
+                                       (float) (floor(corridorCoords[j] / 73) * 32 - 52));
+        spriteItems[i].scale(1, 0.75);
+        spriteItems[i + 1].scale(1, 0.75);
+        spriteItems[i + 2].setPosition((corridorCoords[j] % 73) * 32 + 32,
+                                       (float) (floor(corridorCoords[j] / 73) * 32 + 32 * 11 + 20));
+        spriteItems[i + 3].setPosition((corridorCoords[j] % 73) * 32 + 32 * 5,
+                                       (float) (floor(corridorCoords[j] / 73) * 32 + 32 * 11 + 20));
+        spriteItems[i + 2].scale(1, 0.75);
+        spriteItems[i + 3].scale(1, 0.75);
+        spriteItems[i + 2].rotate(180);
+        spriteItems[i + 3].rotate(180);
+
+        j++;
+
+        spriteItems[i + 4].setPosition((corridorCoords[j] % 73) * 32 - 60,
+                                       (float) (floor(corridorCoords[j] / 73) * 32));
+        spriteItems[i + 5].setPosition((corridorCoords[j] % 73) * 32 - 60,
+                                       (float) (floor(corridorCoords[j] / 73) * 32 + 32 * 4));
+        spriteItems[i + 4].rotate(-30);
+        spriteItems[i + 5].rotate(-30);
+        spriteItems[i + 6].setPosition((corridorCoords[j] % 73) * 32 + 32 * 11,
+                                       (float) (floor(corridorCoords[j] / 73) * 32 - 16));
+        spriteItems[i + 7].setPosition((corridorCoords[j] % 73) * 32 + 32 * 11,
+                                       (float) (floor(corridorCoords[j] / 73) * 32 + 32 * 4 - 16));
+        spriteItems[i + 6].rotate(30);
+        spriteItems[i + 7].rotate(30);
+
+        j++;
+
+    }
+
+    srand((unsigned) time(NULL));
+
+    int c = 84;
+
+    int obPossiblePos;
+    int k;
+    int adderx;
+    int addery;
+    int obstaclePos;
+    int dispType=0;
+    int posx;
+    int posy;
+    int pos[2];
+    int store[5]={5,5,5,5,5};
+    int store1[4]={4,4,4,4};
+    int s=0;
+    int s1=0;
+    bool variation;
+
+    setFightRooms();
+
+    for (int i = 0; i < 9; i++) {
+
+        variation=false;
+        if (fightRooms[i]) {
+
+            while(!variation) {
+                variation=true;
+                dispType = rand() % 5;
+                for (int m = 0; m < 4; m++) {
+                    if (dispType == store[m])
+                        variation=false;
+                }
+            }
+
+            store[s]=dispType;
+            s++;
+
+            if (dispType == 0) {
+
+                cout << "tipo di disposizione: " << dispType << endl;
+
+                obPossiblePos = rand() % 99;
+
+                k = 0;
+                adderx = obPossiblePos % 12;
+                addery = ((obPossiblePos - adderx) / 12);
+
+                cout << "aggiunta ostacolo x e y: " << adderx << " , " << addery << endl;
+
+                obstaclePos = cellFloorCoords[i] + 1 + adderx + (addery+1) * width;
+                posx = (obstaclePos % width) * 32;
+                posy = ((obstaclePos - (posx / 32)) / width) * 32;
+
+                cout << "posizione possibile: " << obPossiblePos << " in stanza " << i << endl;
+                cout << "posizione ostacolo x e y: " << posx << " , " << posy << endl;
+
+                for (int z = c; z < c + 15; z++) {
+
+
+                    spriteItems[z].setPosition(posx + 32 * (k % 3), posy);
+
+                    setTileWalkability(posx + 32 * (k % 3), posy, false);
+
+                    k++;
+
+                    if (k % 3 == 0) {
+                        posy = posy + 32;
+                    }
+                }
+
+                c += 15;
+            } else if (dispType == 1) {
+
+                cout << "tipo di disposizione: " << dispType << endl;
+
+                for (int z = c; z < c + 15; z++) {
+
+
+                    obPossiblePos = rand() % 169;
+
+                    adderx = obPossiblePos % 13;
+                    addery = ((obPossiblePos - adderx) / 13);
+
+                    obstaclePos = cellFloorCoords[i] + 1 + adderx + width * (addery + 1);
+
+                    cout << "posizione possibile " << obstaclePos << " in stanza " << i << endl;
+
+                    posx = (obstaclePos % width) * 32;
+                    posy = ((obstaclePos - (posx / 32)) / width) * 32;
+
+                    if(getTileWalkability(Vector2f(posx,posy))) {
+                        spriteItems[z].setPosition(posx, posy);
+                        setTileWalkability(posx, posy, false);
+                    }
+                    else
+                        z--;
+                }
+                c += 15;
+
+            } else if (dispType == 2) {
+                cout << "tipo di disposizione: " << dispType << endl;
+
+                obPossiblePos = rand() % 81;
+
+                k = 0;
+
+                adderx = obPossiblePos % 9;
+                addery = ((obPossiblePos - adderx) / 9);
+
+                cout << "aggiunta ostacolo x e y: " << adderx << " , " << addery << endl;
+
+                obstaclePos = cellFloorCoords[i] + 74 + adderx + addery * width;
+                posx = (obstaclePos % width) * 32;
+                posy = ((obstaclePos - (posx / 32)) / width) * 32;
+
+                cout << "posizione possibile: " << obPossiblePos << " in stanza " << i << endl;
+                cout << "posizione ostacolo x e y: " << posx << " , " << posy << endl;
+
+                for (int z = c; z < c + 15; z++) {
+
+                    spriteItems[z].setPosition(posx, posy + 32 * (k % 3));
+
+                    setTileWalkability(posx, posy + 32 * (k % 3), false);
+
+                    k++;
+
+                    if (k % 3 == 0) {
+                        posx = posx + 32;
+                    }
+                }
+
+                c += 15;
+            } else if(dispType ==3){
+
+                cout << "tipo di disposizione: " << dispType << " in stanza " << i << endl;
+
+                pos[0] = cellFloorCoords[i] + 3 * width + 5;
+                pos[1] = cellFloorCoords[i] + 11 * width + 5;
+                for (int y = 0; y < 2; y++) {
+                    for (int z = 0; z < 5; z++) {
+                        tiles[pos[y] + z] = WALL;
+                        isWalkable[pos[y] + z] = false;
+                    }
+                }
+
+                pos[0] += 4;
+                pos[1] -= 4 * width;
+                for (int y = 0; y < 2; y++) {
+                    for (int z = 0; z < 5; z++) {
+                        tiles[pos[y] + z * width] = WALL;
+                        isWalkable[pos[y] + z * width] = false;
+                    }
+                }
+
+                pos[0] += 4 * width;
+                pos[1] -= 2;
+
+                for (int y = 0; y < 2; y++) {
+                    for (int z = 0; z < 3; z++) {
+                        tiles[pos[y] + z] = WALL;
+                        isWalkable[pos[y] + z] = false;
+                    }
+                }
+
+
+                pos[0] += 2;
+                for (int y = 0; y < 2; y++) {
+                    for (int z = 0; z < 3; z++) {
+                        tiles[pos[y] + z * width] = WALL;
+                        isWalkable[pos[y] + z * width] = false;
+                        tiles[pos[y] - z * width] = WALL;
+                        isWalkable[pos[y] - z * width] = false;
+                    }
+                }
+
+                posx = ((cellFloorCoords[i] + 7 * (width + 1)) % width) * 32;
+                posy = (cellFloorCoords[i] + 7 * (width + 1) - (posx / 32)) / width * 32;
+
+                spriteItems[c].setPosition(posx, posy);
+                isWalkable[cellFloorCoords[i] + 7 * (width + 1)] = false;
+
+                c++;
+
+                pos[0] = cellFloorCoords[i] + 9 * width;
+                pos[1] = cellFloorCoords[i] + 12 + 5 * width;
+
+                for (int y = 0; y < 2; y++) {
+                    for (int z = c; z < c + 3; z++) {
+                        posx = (pos[y] % width) * 32;
+                        posy = (pos[y] - posx / 32) / width * 32;
+                        spriteItems[z].setPosition(posx + (z - c) * 32, posy);
+                        isWalkable[pos[y] + (z - c)] = false;
+                    }
+                    c += 3;
+                }
+
+                pos[0] = cellFloorCoords[i] + 10 * width;
+                pos[1] = cellFloorCoords[i] + 11 + 4 * width;
+
+                for (int y = 0; y < 2; y++) {
+                    for (int z = c; z < c + 4; z++) {
+                        posx = (pos[y] % width) * 32;
+                        posy = (pos[y] - posx / 32) / width * 32;
+                        spriteItems[z].setPosition(posx + (z - c) * 32, posy);
+                        isWalkable[pos[y] + (z - c)] = false;
+                    }
+                    c += 4;
+                }
+            }
+            else{
+
+                cout << "tipo di disposizione: " << dispType << endl;
+
+                for(int z=0;z<15;z++){
+                    obPossiblePos = rand() % 169;
+
+                    adderx = obPossiblePos % 13;
+                    addery = ((obPossiblePos - adderx) / 13);
+
+                    obstaclePos = cellFloorCoords[i] + 1 + adderx + width * (addery + 1);
+
+                    cout << "posizione possibile " << obstaclePos << " in stanza " << i << endl;
+
+                    tiles[obstaclePos] = VOLCANO;
+                    isWalkable[obstaclePos] = false;
+                }
+
+            }
+        }
+        else{
+            while(!variation) {
+                variation=true;
+                dispType = rand() % 4;
+                for (int m = 0; m < 3; m++) {
+                    if (dispType == store1[m])
+                        variation=false;
+                }
+            }
+
+            store1[s1]=dispType;
+            s1++;
+
+            if(dispType==0) {
+                tiles[cellFloorCoords[i] + (width + 1) * 7] = LADDER;
+                isWalkable[cellFloorCoords[i] + (width + 1) * 7] = false;
+            }
+            else if(dispType==1){
+                posx = ((cellFloorCoords[i] + 7 * (width + 1)) % width) * 32;
+                posy = (cellFloorCoords[i] + 7 * (width + 1) - (posx / 32)) / width * 32;
+
+                spriteItems[144].setPosition(posx, posy);
+                cout<<"scala dimensioni mercante: "<<spriteItems[144].getScale().x<<"  , "<<spriteItems[144].getScale().y<<endl;
+                spriteItems[144].setOrigin(300,300);
+                isWalkable[cellFloorCoords[i] + 7 * (width + 1)] = false;
+            }
+        }
+    }
+}
+
+void TileMap::setTileWalkability(float x, float y, bool walkProperty) {
+
+    isWalkable[(int)(floor(x) / 32) +((int)floor(y) / 32) * width] = walkProperty;
+}
+
+void TileMap::setFightRooms() {
+
+    srand((unsigned) time (NULL));
+
+    bool fR;
+    int v[4];
+
+    cout<<"VETTORE v:";
+
+    for (int i = 0; i < 4; i++) {
+        v[i] = rand() % 9;
+        for (int z = 0; z < i; z++) {
+            if (v[z] == v[i])
+                i--;
+        }
+
+    }
+
+    for(int i=0;i<4;i++)
+        cout<<" "<<v[i];
+
+
+    for(int i=0;i<9;i++){
+        fR=true;
+        for(int j=0;j<4;j++) {
+            if (i == v[j])
+                fR = false;
+        }
+
+        fightRooms[i]=fR;
+    }
+    cout<<endl;
+    cout<<"VETTORE fightRooms:";
+
+    for(int i=0;i<9;i++)
+        cout<<" "<<fightRooms[i];
+
+    cout<<endl;
 }
 

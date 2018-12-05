@@ -16,24 +16,17 @@ int MenuLoop::getIndex() {
 void MenuLoop::generateScreen() {
 
 
-    Menu menu;
-    Rules rules;
-    ChoosCharacter choose;
-    TileMap map;
-    Level level;
-    Musica songs;
-
-
     window.create(sf::VideoMode(1400, 896), "Leo&Pie Game");
 
     songs.playMusic(music, index, mapScreen);
 
 
+
     unsigned int h = map.getMapHeight();
     unsigned int w = map.getMapWidth();
 
-    int spritex=128;
-    int spritey=128;
+    spritex=128;
+    spritey=128;
 
     cout << map.getMapWidth() << " , " << map.getMapHeight() << endl;
 
@@ -138,12 +131,18 @@ void MenuLoop::generateScreen() {
 
                                         case sf::Keyboard::Return:
 
-                                            tilepos = new int[h * w];
+                                            spriteItems=new Sprite[145];
 
-                                            map.SetTileMap(tilepos, h, w);
+                                            map.SetTileMap();
 
-                                            map.load("/home/leogori/Scaricati/immagini progetto/Risorse/Tileset1.png",
-                                                    sf::Vector2u(32, 32), tilepos);
+                                            map.generateRoomsItems(spriteItems);
+
+                                            map.setItemsProperty(spriteItems);
+
+                                            map.load("/home/leogori/Scaricati/immagini progetto/Risorse/Tileset4.png",
+                                                    sf::Vector2u(32, 32));
+
+
 
                                             view.setCenter(sf::Vector2f(spritex+16, spritey+16));
 
@@ -168,48 +167,7 @@ void MenuLoop::generateScreen() {
 
                                     switch (choose.GetPressedItem()) {
                                         case 0 :
-
-                                            permission = true;
-
-                                            flag = 1;
-
-                                            if (drawMapLevel) {
-
-                                                level.setMapLevelScreen(texturel, spritel, texturem, spritem,
-                                                                        textureCharacterLevel, spriteCharacterLevel);
-                                                mapScreen = 1;
-
-                                                switch (event.key.code) {
-
-                                                    case sf::Keyboard::Return:
-                                                        flag = 1;
-                                                        drawMapLevel = false;
-                                                        flagMap = 1;
-
-                                                        break;
-
-                                                    default:
-                                                        break;
-
-                                                }
-
-                                                songs.playMusic(music, index, mapScreen);
-
-                                            } else {
-
-                                                flagMap = 0;
-                                                switch(event.key.code){
-                                                    case Keyboard::Return:
-                                                        startGame = true;
-                                                        break;
-                                                    default:
-                                                        break;
-                                                }
-
-                                                level.setScreenLevel(texturel, spritel, textl, font);
-                                                musicLoop = false;
-                                                songs.playMusic(music, index, mapScreen);
-                                            }
+                                            drawPlay();
 
                                             if(startGame && firstK){
 
@@ -219,7 +177,7 @@ void MenuLoop::generateScreen() {
 
                                                 spritePlayer.setPosition(spritex, spritey);
 
-                                                hero->draw(spritePlayer, texturePlayer, typeMove);
+                                                hero->draw(spritePlayer, typeMove);
 
                                                 firstK = false;
                                             }
@@ -227,6 +185,9 @@ void MenuLoop::generateScreen() {
                                             break;
 
                                         case 1:
+
+                                            drawPlay();
+
 
                                             if(startGame) {
 
@@ -236,7 +197,7 @@ void MenuLoop::generateScreen() {
 
                                                 spritePlayer.setPosition(spritex, spritey);
 
-                                                hero->draw(spritePlayer, texturePlayer, typeMove);
+                                                hero->draw(spritePlayer, typeMove);
 
                                             }
 
@@ -343,7 +304,7 @@ void MenuLoop::generateScreen() {
                             hero->movement(spritePlayer, "left", view);
                             hero->movement(spritePlayer,"down",view);
                         }
-                        hero->draw(spritePlayer, texturePlayer, 3);
+                        hero->draw(spritePlayer, 3);
                     }
 
                     else if(moveL && moveU) {
@@ -355,7 +316,7 @@ void MenuLoop::generateScreen() {
                             hero->movement(spritePlayer, "right", view);
                             hero->movement(spritePlayer,"down",view);
                         }
-                        hero->draw(spritePlayer, texturePlayer, 2);
+                        hero->draw(spritePlayer, 2);
                     }
 
                     else if(moveR && moveD) {
@@ -367,7 +328,7 @@ void MenuLoop::generateScreen() {
                             hero->movement(spritePlayer, "left", view);
                             hero->movement(spritePlayer,"up",view);
                         }
-                        hero->draw(spritePlayer, texturePlayer, 3);
+                        hero->draw(spritePlayer, 3);
                     }
 
                     else if(moveL && moveD) {
@@ -379,7 +340,7 @@ void MenuLoop::generateScreen() {
                             hero->movement(spritePlayer, "right", view);
                             hero->movement(spritePlayer,"up",view);
                         }
-                        hero->draw(spritePlayer, texturePlayer, 2);
+                        hero->draw(spritePlayer, 2);
                     }
 
                     else if(moveD){
@@ -387,7 +348,7 @@ void MenuLoop::generateScreen() {
                         if(!map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,24))
                             || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24)))
                             hero->movement(spritePlayer,"up",view);
-                        hero->draw(spritePlayer, texturePlayer, 0);
+                        hero->draw(spritePlayer, 0);
                     }
 
                     else if(moveU){
@@ -395,7 +356,7 @@ void MenuLoop::generateScreen() {
                         if(!map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,0))
                             || !map.getTileWalkability(spritePlayer.getPosition()))
                             hero->movement(spritePlayer,"down",view);
-                        hero->draw(spritePlayer, texturePlayer, 1);
+                        hero->draw(spritePlayer, 1);
                     }
 
                     else if(moveL){
@@ -403,7 +364,7 @@ void MenuLoop::generateScreen() {
                         if(!map.getTileWalkability(spritePlayer.getPosition())
                             || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24)) )
                             hero->movement(spritePlayer,"right",view);
-                        hero->draw(spritePlayer, texturePlayer, 2);
+                        hero->draw(spritePlayer, 2);
                     }
 
                     else if(moveR) {
@@ -411,9 +372,8 @@ void MenuLoop::generateScreen() {
                         if (!map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 24))
                             || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 0)))
                             hero->movement(spritePlayer, "left", view);
-                        hero->draw(spritePlayer, texturePlayer, 3);
+                        hero->draw(spritePlayer, 3);
                     }
-                cout<<"Valori di move in U,D,L,R: "<<moveU<<" , "<<moveD<<" , "<<moveL<<" , "<<moveR<<endl;
             }
         }
 
@@ -492,7 +452,6 @@ void MenuLoop::generateScreen() {
         if (index == 3) {
 
 
-
             if(!moveU && !moveD && !moveL && !moveR){
 
                 map.followCharPos(view,spritePlayer);
@@ -500,29 +459,81 @@ void MenuLoop::generateScreen() {
 
             window.setView(view);
             window.draw(map);
+
+
+
             window.draw(spritePlayer);
+
+            map.generateRoomsItems(spriteItems);
+
+            for(int i=0;i<145;i++)
+                window.draw(spriteItems[i]);
 
             spritePlayer.setScale(3,3);
             window.setView(miniview);
             window.draw(map);
             window.draw(spritePlayer);
+            for(int i=84;i<145;i++){
+                spriteItems[i].setScale(1,1);
+            }
+            for(int i=0;i<145;i++){
+                window.draw(spriteItems[i]);
+            }
+            for(int i=84;i<145;i++){
+                spriteItems[i].setScale(0.30,0.30);
+            }
+
             spritePlayer.setScale(1,1);
         }
         window.display();
     }
 }
 
+void MenuLoop::drawPlay() {
+    permission = true;
+
+    flag = 1;
+
+    if (drawMapLevel) {
+
+        level.setMapLevelScreen(texturel, spritel, texturem, spritem,
+                                textureCharacterLevel, spriteCharacterLevel);
+        mapScreen = 1;
+
+        switch (event.key.code) {
+
+            case sf::Keyboard::Return:
+                flag = 1;
+                drawMapLevel = false;
+                flagMap = 1;
+
+                break;
+
+            default:
+                break;
+
+        }
+
+        songs.playMusic(music, index, mapScreen);
+
+    } else {
+
+        flagMap = 0;
+        switch(event.key.code){
+            case Keyboard::Return:
+                startGame = true;
+                break;
+            default:
+                break;
+        }
+
+        level.setScreenLevel(texturel, spritel, textl, font);
+        musicLoop = false;
+        songs.playMusic(music, index, mapScreen);
+    }
+
+}
 
 
 MenuLoop::~MenuLoop() = default;
 
-
-/*
-switch (event.key.code){
-case Keyboard::Return:
-
-        index = 3;
-
-break;
-default:
-break;*/

@@ -43,10 +43,19 @@ public:
 
     int index=0; // 0=Menù principale, 1=inizia gioco, 2=regole , 3=schermata mappa livelli
 
+    void drawPlay();
+
 
 
 
 private:
+
+    Menu menu;
+    Rules rules;
+    ChoosCharacter choose;
+    TileMap map;
+    Level level;
+    Musica songs;
 
     sf::Event event;
     sf::Texture texture;
@@ -86,8 +95,6 @@ private:
     Hero* hero;
 
 
-    int* tilepos;
-
     Sprite spritePlayer;
     Texture texturePlayer;
     int typeMove=0;
@@ -105,6 +112,9 @@ private:
     bool moveL=false;
     bool moveR=false;
 
+
+    //forse si mette:
+    Sprite* spriteItems;
 
 };
 
