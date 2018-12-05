@@ -47,6 +47,8 @@ public:
 
     virtual void draw(Sprite &spritePlayer,Texture &texturePlayer,int TypeMove)=0;
 
+    //virtual void fire(Sprite &spriteFire, Texture &textureFire) = 0;
+
 protected:
     bool Locked;
     bool Mp;

@@ -15,11 +15,11 @@ void Valkyrie::draw(Sprite &Vsprite, Texture &Vtexture, int VtypeMove) {
     if (VtypeMove==0) {
 
         if (TypeFoot) {
-            Vtexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player2/npc4_fr1.gif");
+            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_fr1.gif");
             TypeFoot = false;
         }
         else{
-            Vtexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player2/npc4_fr2.gif");
+            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_fr2.gif");
             TypeFoot = true;
         }
 
@@ -28,11 +28,11 @@ void Valkyrie::draw(Sprite &Vsprite, Texture &Vtexture, int VtypeMove) {
     if (VtypeMove==1) {
 
         if (TypeFoot) {
-            Vtexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player2/npc4_bk1.gif");
+            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_bk1.gif");
             TypeFoot = false;
         }
         else{
-            Vtexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player2/npc4_bk2.gif");
+            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_bk2.gif");
             TypeFoot = true;
         }
 
@@ -41,11 +41,11 @@ void Valkyrie::draw(Sprite &Vsprite, Texture &Vtexture, int VtypeMove) {
     if (VtypeMove==2) {
 
         if (TypeFoot) {
-            Vtexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player2/npc4_lf1.gif");
+            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_lf1.gif");
             TypeFoot = false;
         }
         else{
-            Vtexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player2/npc4_lf2.gif");
+            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_lf2.gif");
             TypeFoot = true;
         }
 
@@ -54,11 +54,11 @@ void Valkyrie::draw(Sprite &Vsprite, Texture &Vtexture, int VtypeMove) {
     if (VtypeMove==3) {
 
         if (TypeFoot) {
-            Vtexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player2/npc4_rt1.gif");
+            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_rt1.gif");
             TypeFoot = false;
         }
         else{
-            Vtexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player2/npc4_rt2.gif");
+            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_rt2.gif");
             TypeFoot = true;
         }
 

@@ -15,20 +15,27 @@ int MenuLoop::getIndex() {
 
 void MenuLoop::generateScreen() {
 
+    int counter = 0;
+    int counter2 = 0;
+    int counter3 = 0;
 
     window.create(sf::VideoMode(1400, 896), "Leo&Pie Game");
 
     songs.playMusic(music, index, mapScreen);
 
-
-
     unsigned int h = map.getMapHeight();
     unsigned int w = map.getMapWidth();
 
-    spritex=128;
-    spritey=128;
+    int spritex=128;
+    int spritey=128;
 
-    cout << map.getMapWidth() << " , " << map.getMapHeight() << endl;
+    //Projectile projectile1;
+
+    //vector<Projectile>::const_iterator iter;
+    //vector<Projectile> projectileArray;
+
+
+
 
 
     while (window.isOpen()) {
@@ -61,7 +68,8 @@ void MenuLoop::generateScreen() {
                                 switch (menu.GetPressedItem()) {
                                     case 0:
                                         index = 1;
-                                        choose.setChooseCharacterScreen(texture, sprite, font, texture1, spriteC, textC);
+                                        choose.setChooseCharacterScreen(texture, sprite, font, texture1, spriteC,
+                                                                        textC);
                                         break;
                                     case 1:
                                         index = 2;
@@ -125,7 +133,7 @@ void MenuLoop::generateScreen() {
 
                                 if(startGame){
 
-                                    flagMap=2;
+                                    flagMap = 2;
 
                                     switch (event.key.code){
 
@@ -139,7 +147,7 @@ void MenuLoop::generateScreen() {
 
                                             map.setItemsProperty(spriteItems);
 
-                                            map.load("/home/leogori/Scaricati/immagini progetto/Risorse/Tileset4.png",
+                                            map.load("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Tileset1.png",
                                                     sf::Vector2u(32, 32));
 
 
@@ -167,19 +175,24 @@ void MenuLoop::generateScreen() {
 
                                     switch (choose.GetPressedItem()) {
                                         case 0 :
+
                                             drawPlay();
 
-                                            if(startGame && firstK){
+                                            if (startGame) {
 
                                                 factory = new KnightFactory;
 
                                                 hero = factory->createHero();
 
+                                                Efactory = new SkeletonFactory;
+
+                                                enemy = Efactory->createEnemy();
+
                                                 spritePlayer.setPosition(spritex, spritey);
 
-                                                hero->draw(spritePlayer, typeMove);
+                                                hero->draw(spritePlayer, texturePlayer, typeMove);
 
-                                                firstK = false;
+                                                enemy->draw(Esprite, Etexture, x_load, y_load);
                                             }
 
                                             break;
@@ -188,8 +201,7 @@ void MenuLoop::generateScreen() {
 
                                             drawPlay();
 
-
-                                            if(startGame) {
+                                            if (startGame) {
 
                                                 factory = new ValkyrieFactory;
 
@@ -197,8 +209,7 @@ void MenuLoop::generateScreen() {
 
                                                 spritePlayer.setPosition(spritex, spritey);
 
-                                                hero->draw(spritePlayer, typeMove);
-
+                                                hero->draw(spritePlayer, texturePlayer, typeMove);
                                             }
 
                                             break;
@@ -265,9 +276,7 @@ void MenuLoop::generateScreen() {
                             case Keyboard::Right:
                                 moveR = false;
                                 break;
-                            case Keyboard::Escape:
-                                window.close();
-                                break;
+
                             default:
                                 break;
                         }
@@ -295,89 +304,100 @@ void MenuLoop::generateScreen() {
                         break;
                     }
 
-                    if(moveR && moveU) {
-                        hero->movement(spritePlayer, "right", view);
-                        hero->movement(spritePlayer, "up", view);
-                        if (!map.getTileWalkability(spritePlayer.getPosition())
-                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,24))
-                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,0))) {
-                            hero->movement(spritePlayer, "left", view);
-                            hero->movement(spritePlayer,"down",view);
-                        }
-                        hero->draw(spritePlayer, 3);
-                    }
-
-                    else if(moveL && moveU) {
-                        hero->movement(spritePlayer, "left", view);
-                        hero->movement(spritePlayer, "up", view);
-                        if (!map.getTileWalkability(spritePlayer.getPosition())
-                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24))
-                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,0))) {
-                            hero->movement(spritePlayer, "right", view);
-                            hero->movement(spritePlayer,"down",view);
-                        }
-                        hero->draw(spritePlayer, 2);
-                    }
-
-                    else if(moveR && moveD) {
-                        hero->movement(spritePlayer, "right", view);
-                        hero->movement(spritePlayer, "down", view);
-                        if (!map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,24))
-                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,0))
-                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24))) {
-                            hero->movement(spritePlayer, "left", view);
-                            hero->movement(spritePlayer,"up",view);
-                        }
-                        hero->draw(spritePlayer, 3);
-                    }
-
-                    else if(moveL && moveD) {
+                if (moveR && moveU) {
+                    hero->movement(spritePlayer, "right", view);
+                    hero->movement(spritePlayer, "up", view);
+                    if (!map.getTileWalkability(spritePlayer.getPosition())
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 24))
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 0))) {
                         hero->movement(spritePlayer, "left", view);
                         hero->movement(spritePlayer, "down", view);
-                        if (!map.getTileWalkability(spritePlayer.getPosition())
-                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,24))
-                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24))) {
-                            hero->movement(spritePlayer, "right", view);
-                            hero->movement(spritePlayer,"up",view);
-                        }
-                        hero->draw(spritePlayer, 2);
                     }
-
-                    else if(moveD){
-                        hero->movement(spritePlayer, "down", view);
-                        if(!map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,24))
-                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24)))
-                            hero->movement(spritePlayer,"up",view);
-                        hero->draw(spritePlayer, 0);
-                    }
-
-                    else if(moveU){
-                        hero->movement(spritePlayer, "up", view);
-                        if(!map.getTileWalkability(spritePlayer.getPosition()+Vector2f(24,0))
-                            || !map.getTileWalkability(spritePlayer.getPosition()))
-                            hero->movement(spritePlayer,"down",view);
-                        hero->draw(spritePlayer, 1);
-                    }
-
-                    else if(moveL){
-                        hero->movement(spritePlayer, "left", view);
-                        if(!map.getTileWalkability(spritePlayer.getPosition())
-                            || !map.getTileWalkability(spritePlayer.getPosition()+Vector2f(0,24)) )
-                            hero->movement(spritePlayer,"right",view);
-                        hero->draw(spritePlayer, 2);
-                    }
-
-                    else if(moveR) {
+                    hero->draw(spritePlayer, texturePlayer, 3);
+                } else if (moveL && moveU) {
+                    hero->movement(spritePlayer, "left", view);
+                    hero->movement(spritePlayer, "up", view);
+                    if (!map.getTileWalkability(spritePlayer.getPosition())
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(0, 24))
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 0))) {
                         hero->movement(spritePlayer, "right", view);
-                        if (!map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 24))
-                            || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 0)))
-                            hero->movement(spritePlayer, "left", view);
-                        hero->draw(spritePlayer, 3);
+                        hero->movement(spritePlayer, "down", view);
                     }
+                    hero->draw(spritePlayer, texturePlayer, 2);
+                } else if (moveR && moveD) {
+                    hero->movement(spritePlayer, "right", view);
+                    hero->movement(spritePlayer, "down", view);
+                    if (!map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 24))
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 0))
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(0, 24))) {
+                        hero->movement(spritePlayer, "left", view);
+                        hero->movement(spritePlayer, "up", view);
+                    }
+                    hero->draw(spritePlayer, texturePlayer, 3);
+                } else if (moveL && moveD) {
+                    hero->movement(spritePlayer, "left", view);
+                    hero->movement(spritePlayer, "down", view);
+                    if (!map.getTileWalkability(spritePlayer.getPosition())
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(32, 32))
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(0, 32))) {
+                        hero->movement(spritePlayer, "right", view);
+                        hero->movement(spritePlayer, "up", view);
+                    }
+                    hero->draw(spritePlayer, texturePlayer, 2);
+                } else if (moveD) {
+                    hero->movement(spritePlayer, "down", view);
+                    if (!map.getTileWalkability(spritePlayer.getPosition() + Vector2f(28, 28))
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(0, 28)))
+                        hero->movement(spritePlayer, "up", view);
+                    hero->draw(spritePlayer, texturePlayer, 0);
+                } else if (moveU) {
+                    hero->movement(spritePlayer, "up", view);
+                    if (!map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 0))
+                        || !map.getTileWalkability(spritePlayer.getPosition()))
+                        hero->movement(spritePlayer, "down", view);
+                    hero->draw(spritePlayer, texturePlayer, 1);
+                } else if (moveL) {
+                    hero->movement(spritePlayer, "left", view);
+                    if (!map.getTileWalkability(spritePlayer.getPosition())
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(0, 24)))
+                        hero->movement(spritePlayer, "right", view);
+                    hero->draw(spritePlayer, texturePlayer, 2);
+                } else if (moveR) {
+                    hero->movement(spritePlayer, "right", view);
+                    if (!map.getTileWalkability(spritePlayer.getPosition() + Vector2f(28, 28))
+                        || !map.getTileWalkability(spritePlayer.getPosition() + Vector2f(24, 0)))
+                        hero->movement(spritePlayer, "left", view);
+                    hero->draw(spritePlayer, texturePlayer, 3);
+                }
+
+                switch (event.type) {
+
+                    case Event::Closed:
+                        window.close();
+                    default:
+                        break;
+                }
+
+                //fire missle (space bar)
+                /*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+                {
+                    projectile1.fireT.setPosition(hero->getPosX(),hero->getPosY());
+                    projectileArray.push_back(projectile1);
+                }*/
             }
         }
 
         window.clear();
+
+        //draw projectiles
+
+        /*for(iter = projectileArray.begin(); iter != projectileArray.end(); iter ++){
+
+            window.draw(projectileArray[counter].fireT);
+            counter++;
+
+        }*/
+
 
         window.draw(sprite);
         if (index == 0)
@@ -451,18 +471,19 @@ void MenuLoop::generateScreen() {
 
         if (index == 3) {
 
-
-            if(!moveU && !moveD && !moveL && !moveR){
+            if (!moveU && !moveD && !moveL && !moveR) {
 
                 map.followCharPos(view,spritePlayer);
             }
 
+            //view
+
             window.setView(view);
             window.draw(map);
-
-
-
             window.draw(spritePlayer);
+            window.draw(Esprite);
+
+            //miniview
 
             map.generateRoomsItems(spriteItems);
 
@@ -473,6 +494,7 @@ void MenuLoop::generateScreen() {
             window.setView(miniview);
             window.draw(map);
             window.draw(spritePlayer);
+            window.draw(Esprite);
             for(int i=84;i<145;i++){
                 spriteItems[i].setScale(1,1);
             }
@@ -484,9 +506,80 @@ void MenuLoop::generateScreen() {
             }
 
             spritePlayer.setScale(1,1);
+
+            //movimento random del nemico ->>>>>>RIGUARDA: SI BLOCCA QUANDO MUOVO OMINO E NEMICO ASSIEME
+
+            timeEnemy = clockEnemy.getElapsedTime();
+
+            if (timeEnemy.asMilliseconds() > 500) {
+                switch(direction){
+                    case 0:
+                        if (map.getTileWalkability(Esprite.getPosition()) && noWall) {
+                            if (!map.getTileWalkability(Esprite.getPosition() + Vector2f(32, 0))) {
+
+                                enemy->randomDirection(direction);
+
+                            } else {
+
+                                x_load += 32;
+                                Esprite.setPosition(x_load, y_load);
+                            }
+                        }
+                        break;
+
+                    case 1:
+                        if (map.getTileWalkability(Esprite.getPosition()) && noWall) {
+                            if (!map.getTileWalkability(Esprite.getPosition() + Vector2f(-32, 0))) {
+
+                                enemy->randomDirection(direction);
+
+
+                            } else {
+
+                                x_load -= 32;
+                                Esprite.setPosition(x_load, y_load);
+                            }
+                        }
+                        break;
+
+                    case 2:
+                        if (map.getTileWalkability(Esprite.getPosition()) && noWall) {
+                            if (!map.getTileWalkability(Esprite.getPosition() + Vector2f(0, -32))) {
+
+                                enemy->randomDirection(direction);
+
+                            } else {
+
+                                y_load -= 32;
+                                Esprite.setPosition(x_load, y_load);
+                            }
+                        }
+                        break;
+
+                    case 3:
+                        if (map.getTileWalkability(Esprite.getPosition()) && noWall) {
+                            if (!map.getTileWalkability(Esprite.getPosition() + Vector2f(0, 32))) {
+
+                                enemy->randomDirection(direction);
+
+                            } else {
+
+                                y_load += 32;
+                                Esprite.setPosition(x_load, y_load);
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                clockEnemy.restart();
+            }
+
         }
         window.display();
     }
+
 }
 
 void MenuLoop::drawPlay() {

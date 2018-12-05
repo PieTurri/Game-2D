@@ -118,6 +118,7 @@ void TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 void TileMap::SetTileMap() {
 
+
     isWalkable = new bool[height * width];
 
     tiles=new int[height*width];
@@ -264,7 +265,7 @@ void TileMap::generateRoomsItems(Sprite *spriteItems) {
 
     s = to_string(nTorch);
 
-    s2 = "/home/leogori/Scaricati/immagini progetto/Risorse/Room items/torch frames sequence/formato png/frame-" + s + ".png";
+    s2 = "/home/piero/Documents/Programmazione/Project2/Project/Risorse/formato png/frame-" + s + ".png";
 
     texture[0].loadFromFile(s2);
 
@@ -273,7 +274,7 @@ void TileMap::generateRoomsItems(Sprite *spriteItems) {
         spriteItems[i].setTexture(texture[0]);
     }
 
-    texture[1].loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/Room items/barrel frame sequences/png senza ombra/frame-1.png");
+    texture[1].loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/png senza ombra/frame-1.png");
 
     for(int i=84;i<144;i++) {
         spriteItems[i].setTexture(texture[1]);
@@ -281,7 +282,7 @@ void TileMap::generateRoomsItems(Sprite *spriteItems) {
 
     s=to_string(nMerchant);
 
-    s1="/home/leogori/Scaricati/immagini progetto/Risorse/Room items/merchant frames sequence/mercante senza sfondo png/frame-"+s+".png";
+    s1="/home/piero/Documents/Programmazione/Project2/Project/Risorse/mercante senza sfondo png/frame-"+s+".png";
 
     texture[2].loadFromFile(s1);
 

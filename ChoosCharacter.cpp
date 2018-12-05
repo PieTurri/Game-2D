@@ -76,6 +76,8 @@ bool ChoosCharacter::isLocked(int setindex) {
 
         case 4:
             return planetarLocked;
+        default:
+            break;
     }
 }
 
@@ -83,10 +85,11 @@ bool ChoosCharacter::setLocked(int setindex) {
     switch(setindex){
         case 0:
             knightLocked = true;
-            break;
+            return knightLocked;
         case 1:
             valkyrieLocked = true;
-            break;
+            return valkyrieLocked;
+
     }
 }
 

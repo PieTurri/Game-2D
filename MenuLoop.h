@@ -43,19 +43,24 @@ public:
 
     int index=0; // 0=Menù principale, 1=inizia gioco, 2=regole , 3=schermata mappa livelli
 
-    void drawPlay();
-
-
-
-
-private:
-
     Menu menu;
     Rules rules;
     ChoosCharacter choose;
     TileMap map;
     Level level;
     Musica songs;
+    //Skeleton skeleton;
+
+    int x_load=64;
+    int y_load=64;
+    bool noWall = true;
+
+    int direction = 0; //indica la direzione in cui il nemico sta andando
+                       //0->verso dx,1->verso sx,2->verso up,3->verso down
+    void drawPlay();
+
+
+private:
 
     sf::Event event;
     sf::Texture texture;
@@ -78,6 +83,9 @@ private:
     sf::Font font1;
     sf::Texture textureCharacterLevel;
     sf::Sprite spriteCharacterLevel;
+    sf::Sprite Esprite;
+    sf::Texture Etexture;
+
 
     int flag = 0; // almeno la funzione escape una volta iniziato il gioco non può essere più usata
 
@@ -92,8 +100,12 @@ private:
 
     //aggiunti da leo:
     Abstract_Factory* factory;
-    Hero* hero;
+    Enemy_Abstract_Factory* Efactory;
 
+    Hero* hero;
+    Enemy* enemy;
+
+    int* tilepos;
 
     Sprite spritePlayer;
     Texture texturePlayer;
@@ -111,6 +123,10 @@ private:
     bool moveD=false;
     bool moveL=false;
     bool moveR=false;
+
+    Clock clockEnemy;
+    Time timeEnemy;
+
 
 
     //forse si mette:

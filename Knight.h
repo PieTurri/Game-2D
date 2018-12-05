@@ -24,6 +24,9 @@ public:
 
 
     void draw(Sprite &Ksprite,Texture &Ktexture,int KtypeMove);
+
+    //void fire(Sprite &spriteFire, Texture &textureFire);
+
 private:
 
     bool TypeFoot=true;
