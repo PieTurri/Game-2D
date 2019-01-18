@@ -20,18 +20,22 @@ public:
 
     ~Knight();
 
-    void movement(Sprite &Ksprite,string dir,View &Kview);
+    void movement(RenderWindow &window);
 
 
-    void draw(Sprite &Ksprite,Texture &Ktexture,int KtypeMove);
+    void draw(RenderWindow &window);
+
+    void setDirection();
 
     //void fire(Sprite &spriteFire, Texture &textureFire);
 
 private:
 
-    bool TypeFoot=true;
-    int i=0;
+    bool TypeFoot;
 
+    Texture Ktexture;
+
+    Sprite Ksprite;
 };
 
 

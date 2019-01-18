@@ -6,19 +6,13 @@
 #include "TileMap.h"
 Skeleton::Skeleton(int Hp, int speed) : Enemy(Hp, speed) {}
 
-void Skeleton::draw(Sprite &Esprite,Texture &Etexture,int x_load, int y_load) {
+void Skeleton::draw(Sprite &Esprite) {
 
-    Etexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/enemy2cropped.png");
+    Etexture.loadFromFile("enemy2cropped.png");
 
     Esprite.setTexture(Etexture);
 
-    Esprite.setPosition(x_load,y_load);
-
 }
-
-
-
-
 
 
 /*void Skeleton::move(Sprite &Esprite, Texture &Etexture, int x_load) {

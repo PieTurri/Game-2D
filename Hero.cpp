@@ -7,9 +7,15 @@
 
 
 Hero::Hero(int Hp, int speed, bool armor) : GameCharacter(Hp, speed) {
-    Armor=armor;
+    Armor = armor;
     id++;
+
+    moveU = false;
+    moveD = false;
+    moveL = false;
+    moveR = false;
 }
+
 Hero::~Hero() {}
 
 bool Hero::isLocked() const {
@@ -56,6 +62,26 @@ bool Hero::isArmor() const {
 
 void Hero::setArmor(bool Armor) {
     Hero::Armor = Armor;
+}
+
+void Hero::setDirUp(bool state) {
+
+    moveU=state;
+}
+
+void Hero::setDirDown(bool state) {
+
+    moveD=state;
+}
+
+void Hero::setDirLeft(bool state) {
+
+    moveL=state;
+}
+
+void Hero::setDirRight(bool state) {
+
+    moveR=state;
 }
 
 

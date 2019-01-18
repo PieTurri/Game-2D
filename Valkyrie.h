@@ -14,12 +14,16 @@ public:
     Valkyrie(int Hp,int speed, bool armor);
     ~Valkyrie();
 
-    void draw(Sprite &Vsprite,Texture &Vtexture,int VtypeMove);
+    void draw(RenderWindow &window);
 
-    void movement(Sprite &Vsprite,string dir,View &Vview);
+    void movement(RenderWindow &window);
+
+    void setDirection();
 
 private:
     bool TypeFoot = true;
+    Texture Vtexture;
+    Sprite Vsprite;
 };
 
 

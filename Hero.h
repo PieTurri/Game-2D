@@ -43,9 +43,20 @@ public:
 
     void setArmor(bool Armor);
 
-    virtual void movement(Sprite &sprite,string dir,View &view)=0;
+    virtual void movement(RenderWindow &window) =0;
 
-    virtual void draw(Sprite &spritePlayer,Texture &texturePlayer,int TypeMove)=0;
+    virtual void draw(RenderWindow &window)=0;
+
+    virtual void setDirection()=0;
+
+    void setDirUp(bool state);
+
+    void setDirDown(bool state);
+
+    void setDirLeft(bool state);
+
+    void setDirRight(bool state);
+
 
     //virtual void fire(Sprite &spriteFire, Texture &textureFire) = 0;
 
@@ -57,9 +68,12 @@ protected:
     bool Armor;
     int HeroType; //non è detto
 
-
     int id=0;       // non e detto
 
+    bool moveU;
+    bool moveD;
+    bool moveL;
+    bool moveR;
 
 };
 

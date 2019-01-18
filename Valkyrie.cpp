@@ -5,77 +5,26 @@
 #include "Valkyrie.h"
 #include "TileMap.h"
 
-Valkyrie::Valkyrie(int Hp, int speed, bool armor) : Hero(Hp, speed, armor) {}
+Valkyrie::Valkyrie(int Hp, int speed, bool armor) : Hero(Hp, speed, armor) {
+
+    Vtexture.loadFromFile("npc4_fr1.gif");
+    Vsprite.setTexture(Vtexture);
+}
 
 Valkyrie::~Valkyrie() {}
 
-void Valkyrie::draw(Sprite &Vsprite, Texture &Vtexture, int VtypeMove) {
+void Valkyrie::draw(RenderWindow& window) {
 
-
-    if (VtypeMove==0) {
-
-        if (TypeFoot) {
-            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_fr1.gif");
-            TypeFoot = false;
-        }
-        else{
-            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_fr2.gif");
-            TypeFoot = true;
-        }
-
-    }
-
-    if (VtypeMove==1) {
-
-        if (TypeFoot) {
-            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_bk1.gif");
-            TypeFoot = false;
-        }
-        else{
-            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_bk2.gif");
-            TypeFoot = true;
-        }
-
-    }
-
-    if (VtypeMove==2) {
-
-        if (TypeFoot) {
-            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_lf1.gif");
-            TypeFoot = false;
-        }
-        else{
-            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_lf2.gif");
-            TypeFoot = true;
-        }
-
-    }
-
-    if (VtypeMove==3) {
-
-        if (TypeFoot) {
-            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_rt1.gif");
-            TypeFoot = false;
-        }
-        else{
-            Vtexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc4_rt2.gif");
-            TypeFoot = true;
-        }
-
-    }
-
-    //if(!Ktexture.loadFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/player2/npc4_fr1.gif"))
-      //  cout << "ERRORE" << endl;
-
-
-
-    Vsprite.setTexture(Vtexture);
-
+    window.draw(Vsprite);
 }
 
-void Valkyrie::movement(Sprite &Vsprite, string dir,View &Vview) {
+void Valkyrie::movement(RenderWindow &window) {
 
-    if(dir=="left") {
+    setDirection();
+
+    View Vview=window.getView();
+
+    if(moveL) {
 
         Vsprite.move(-Speed, 0);
 
@@ -92,7 +41,7 @@ void Valkyrie::movement(Sprite &Vsprite, string dir,View &Vview) {
 
     }
 
-    if(dir=="right") {
+    if(moveR) {
 
 
         Vsprite.move(Speed, 0);
@@ -109,7 +58,7 @@ void Valkyrie::movement(Sprite &Vsprite, string dir,View &Vview) {
 
     }
 
-    if(dir=="up") {
+    if(moveU) {
 
         Vsprite.move(0, -Speed);
 
@@ -124,7 +73,7 @@ void Valkyrie::movement(Sprite &Vsprite, string dir,View &Vview) {
         cout <<"posizione cavaliere: "<< Vsprite.getPosition().x << " , " << Vsprite.getPosition().y << endl;
 
     }
-    if(dir=="down") {
+    if(moveD) {
 
         Vsprite.move(0, Speed);
 
@@ -139,6 +88,66 @@ void Valkyrie::movement(Sprite &Vsprite, string dir,View &Vview) {
         cout <<"posizione cavaliere: "<< Vsprite.getPosition().x << " , " << Vsprite.getPosition().y << endl;
 
     }
+
+    window.setView(Vview);
+}
+
+void Valkyrie::setDirection() {
+
+    if (moveD&&!moveL||moveD&&!moveR) {
+
+        if (TypeFoot) {
+            Vtexture.loadFromFile("npc4_fr1.gif");
+            TypeFoot = false;
+        }
+        else{
+            Vtexture.loadFromFile("npc4_fr2.gif");
+            TypeFoot = true;
+        }
+
+    }
+
+    if (moveU&&!moveL||moveU&&!moveR) {
+
+        if (TypeFoot) {
+            Vtexture.loadFromFile("npc4_bk1.gif");
+            TypeFoot = false;
+        }
+        else{
+            Vtexture.loadFromFile("npc4_bk2.gif");
+            TypeFoot = true;
+        }
+
+    }
+
+    if (moveL&&moveU||moveL&&moveD) {
+
+        if (TypeFoot) {
+            Vtexture.loadFromFile("npc4_lf1.gif");
+            TypeFoot = false;
+        }
+        else{
+            Vtexture.loadFromFile("npc4_lf2.gif");
+            TypeFoot = true;
+        }
+
+    }
+
+    if (moveR&&moveU||moveR&&moveD) {
+
+        if (TypeFoot) {
+            Vtexture.loadFromFile("npc4_rt1.gif");
+            TypeFoot = false;
+        }
+        else{
+            Vtexture.loadFromFile("npc4_rt2.gif");
+            TypeFoot = true;
+        }
+
+    }
+
+    Vsprite.setTexture(Vtexture);
+
 }
 
 

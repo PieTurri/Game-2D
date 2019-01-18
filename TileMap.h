@@ -6,7 +6,7 @@
 #define PROJECT_TILEMAP_H
 
 #include <iostream>
-
+#include <fstream>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics.hpp>
@@ -15,7 +15,7 @@
 using namespace sf;
 using namespace std;
 
-class TileMap : public sf::Drawable, public sf::Transformable{
+class TileMap  /*:public sf::Drawable*/{
 
 public:
 
@@ -32,19 +32,19 @@ public:
     bool load(const string& tileset, Vector2u tileSize);
 
 
-    void SetTileMap();
+    void setTileMap();
 
-    void draw(RenderTarget& target,RenderStates states) const;
+    void draw(RenderWindow &window);
 
     bool getTileWalkability(Vector2f charPos);
 
     void followCharPos(View &view, Sprite &spritePlayer);
 
-    void generateRoomsItems(Sprite *spriteItems);
+    void updateRoomsItems();
 
     void setTileWalkability(float x,float y,bool walkProperty);
 
-    void setItemsProperty(Sprite* spriteItems);
+    void setItemsProperty();
 
     void setFightRooms();
 
@@ -53,9 +53,6 @@ public:
     int cellFloorCoords[9]={148, 175, 202, 2119, 2146, 2173, 4090, 4117, 4144};
 
 private:
-
-    Clock clock;
-    Time times;
 
     sf::VertexArray m_vertices;
 
@@ -66,20 +63,24 @@ private:
 
     bool fightRooms[9];
 
-
-
     int *tiles;
 
     bool* isWalkable;
 
     int cellDim;
 
+    Clock clock;
+    Time times;
 
+    Sprite *spriteItems;
 
     int nTorch=1;
     int nMerchant=1;
 
     Texture texture[3];
+
+    RenderStates states;
+
 
     int cellCoords[9]={74, 101, 128, 2099, 2045, 2072, 4043, 4070, 4016};;
     int corridorCoords[12]={1321,529, 1348,556, 1375,2500, 3292,2527, 3319,4471, 3346,4498};

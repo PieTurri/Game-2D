@@ -16,7 +16,7 @@ public:
 
     Skeleton(int Hp, int speed);
 
-    void draw(Sprite &Esprite,Texture &Etexture,int x_load,int y_load) override;
+    void draw(Sprite &Esprite) override;
 
    // void move(Sprite &spritePlayer,Texture &texturePlayer, int x_load, int y_load) override;
 
@@ -24,6 +24,7 @@ public:
 
 private:
     //bool noWall = true;
+    Texture Etexture;
 };
 
 

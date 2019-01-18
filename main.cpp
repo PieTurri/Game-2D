@@ -7,9 +7,8 @@ using namespace sf;
 int main() {
 
 
-    MenuLoop ml;
-    ml.generateScreen();
+    MenuLoop menuLoop;
+    menuLoop.generateScreen();
 
     return 0;
 }
-

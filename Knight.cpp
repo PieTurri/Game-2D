@@ -6,77 +6,36 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 
-Knight::Knight(int Hp, int speed, bool armor) : Hero(Hp, speed, armor) {}
+Knight::Knight(int Hp, int speed, bool armor) : Hero(Hp, speed, armor) {
+
+    Ktexture.loadFromFile("npc3_fr1.png");
+    Ksprite.setTexture(Ktexture);
+
+    Ksprite.setPosition(64,64);
+}
 
 Knight::~Knight() {}
 
 
 
-void Knight::draw(Sprite &Ksprite,Texture &Ktexture,int KtypeMove) {
+void Knight::draw(RenderWindow &window) {
 
-    if (KtypeMove==0) {
 
-        if (TypeFoot) {
-            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_fr1.png");
-            TypeFoot = false;
-        }
-        else{
-            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_fr2.png");
-            TypeFoot = true;
-        }
-
-    }
-
-    if (KtypeMove==1) {
-
-        if (TypeFoot) {
-            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_bk1.png");
-            TypeFoot = false;
-        }
-        else{
-            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_bk2.png");
-            TypeFoot = true;
-        }
-
-    }
-
-    if (KtypeMove==2) {
-
-        if (TypeFoot) {
-            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_lf1.png");
-            TypeFoot = false;
-        }
-        else{
-            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_lf2.png");
-            TypeFoot = true;
-        }
-
-    }
-
-    if (KtypeMove==3) {
-
-        if (TypeFoot) {
-            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_rt1.png");
-            TypeFoot = false;
-        }
-        else{
-            Ktexture.loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/npc3_rt2.png");
-            TypeFoot = true;
-        }
-
-    }
-    Ksprite.setTexture(Ktexture);
+    window.draw(Ksprite);
 
 }
 
-void Knight::movement(Sprite &Ksprite,string dir,View &Kview) {
+void Knight::movement(RenderWindow &window) {
 
+    setDirection();
 
-    if(dir=="left") {
+    View Kview=window.getView();
+
+    if(moveL) {
 
         Ksprite.move(-Speed, 0);
 
-        if(abs(Ksprite.getPosition().x-Kview.getCenter().x)<3*32)
+        if(abs(Ksprite.getPosition().x-Kview.getCenter().x)<2*32)
             Kview.move(-Speed/2,0);
         else
             Kview.move(-Speed,0);
@@ -86,15 +45,14 @@ void Knight::movement(Sprite &Ksprite,string dir,View &Kview) {
         cout <<"centro visuale:"<< Kview.getCenter().x << " , " << Kview.getCenter().y << endl;
         cout <<"posizione cavaliere: "<< Ksprite.getPosition().x << " , " << Ksprite.getPosition().y << endl;
 
-
     }
 
-    if(dir=="right") {
+    if(moveR) {
 
 
         Ksprite.move(Speed, 0);
 
-        if(abs(Ksprite.getPosition().x-Kview.getCenter().x)<3*32)
+        if(abs(Ksprite.getPosition().x-Kview.getCenter().x)<2*32)
             Kview.move(Speed/2,0);
         else
             Kview.move(Speed,0);
@@ -106,11 +64,11 @@ void Knight::movement(Sprite &Ksprite,string dir,View &Kview) {
 
     }
 
-    if(dir=="up") {
+    if(moveU) {
 
         Ksprite.move(0, -Speed);
 
-        if(abs(Ksprite.getPosition().y-Kview.getCenter().y)<3*32)
+        if(abs(Ksprite.getPosition().y-Kview.getCenter().y)<2*32)
             Kview.move(0,-Speed/2);
         else
             Kview.move(0,-Speed);
@@ -121,11 +79,11 @@ void Knight::movement(Sprite &Ksprite,string dir,View &Kview) {
             cout <<"posizione cavaliere: "<< Ksprite.getPosition().x << " , " << Ksprite.getPosition().y << endl;
 
     }
-    if(dir=="down") {
+    if(moveD) {
 
         Ksprite.move(0, Speed);
 
-        if(abs(Ksprite.getPosition().y-Kview.getCenter().y)<3*32)
+        if(abs(Ksprite.getPosition().y-Kview.getCenter().y)<2*32)
             Kview.move(0,Speed/2);
         else
             Kview.move(0,Speed);
@@ -137,7 +95,70 @@ void Knight::movement(Sprite &Ksprite,string dir,View &Kview) {
 
     }
 
+    //cout<<"dim  view: "<<Kview.getSize().x<<" , "<<Kview.getSize().y<<endl;
+
+    window.setView(Kview);
+
 }
+
+void Knight::setDirection() {
+
+    if (moveD) {
+
+        if (TypeFoot) {
+            Ktexture.loadFromFile("npc3_fr1.png");
+            TypeFoot = false;
+        }
+        else{
+            Ktexture.loadFromFile("npc3_fr2.png");
+            TypeFoot = true;
+        }
+
+    }
+
+    if (moveU) {
+
+        if (TypeFoot) {
+            Ktexture.loadFromFile("npc3_bk1.png");
+            TypeFoot = false;
+        }
+        else{
+            Ktexture.loadFromFile("npc3_bk2.png");
+            TypeFoot = true;
+        }
+
+    }
+
+    if (moveL) {
+
+        if (TypeFoot) {
+            Ktexture.loadFromFile("npc3_lf1.png");
+            TypeFoot = false;
+        }
+        else{
+            Ktexture.loadFromFile("npc3_lf2.png");
+            TypeFoot = true;
+        }
+
+    }
+
+    if (moveR) {
+
+        if (TypeFoot) {
+            Ktexture.loadFromFile("npc3_rt1.png");
+            TypeFoot = false;
+        }
+        else{
+            Ktexture.loadFromFile("npc3_rt2.png");
+            TypeFoot = true;
+        }
+
+    }
+
+    Ksprite.setTexture(Ktexture);
+}
+
+
 
 
 

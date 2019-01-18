@@ -3,40 +3,50 @@
 //
 
 #include <SFML/Graphics.hpp>
-#include "MenuLoop.h"
+#include "GraphicState.h"
 
 
 #ifndef PROJECT_MENU_H
 #define PROJECT_MENU_H
 
+using namespace sf;
 
 
-class Menu{
+class Menu: public GraphicState{
 
 public:
-    Menu(float width,float height);
+    Menu(float w,float h);
 
     Menu();
 
-    virtual ~Menu();
+    ~Menu();
 
+    void draw(sf::RenderWindow &window);
 
+    void MoveUp();
 
-    void draw(sf::RenderWindow &window,sf::Text *text);
-    void MoveUp(sf::Text *text);
-    void MoveDown(sf::Text *text);
-    int GetPressedItem() { return selectedMenuIndex; }
+    void MoveDown();
 
-    void setMenuScreen(sf::Texture &texture,sf::Sprite &sprite,sf::Font &font,sf::Text *text,sf::Font &font1);
+    void setScreen();
 
-    int selectedMenuIndex=0;
-    bool a = true; //serve per avere la prima scritta già rossa;
-    bool menuOpen = true;
+    void getActivities(Event event,RenderWindow &window);
+
+    GraphicState* getNextState();
 
 private:
 
-    const float width=700;
-    const float height=450;
+    int selectedTextIndex;
+    bool redText; //serve per avere la prima scritta già rossa;
+    //bool menuOpen = true;
+
+    const float width;
+    const float height;
+    Texture texture;
+    Font font[2];
+    Text text[4];
+    Sprite sprite;
+
+
 };
 
 

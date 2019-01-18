@@ -23,18 +23,22 @@ public:
 
     virtual ~Enemy();
 
-    virtual void draw(Sprite &spritePlayer,Texture &texturePlayer, int x_load, int y_load) = 0;
+    virtual void draw(Sprite &spritePlayer) = 0;
     //virtual void move(Sprite &spritePlayer,Texture &texturePlayer, int x_load, int y_load) = 0;
 
-    void randomDirection(int &direction);
+    void randomDirection(Sprite &Esprite, TileMap &map);
 
     void setPosition(Sprite &Esprite,TileMap map1);
 
 protected:
     int Id;
     int CpuStrategy;
-
+    Clock clockEnemy;
+    Time timeEnemy;
+    int direction;
+    bool didEnemyMove;
 
 };
+
 
 #endif //PROJECT_ENEMY_H

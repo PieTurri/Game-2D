@@ -11,17 +11,17 @@ void Musica::playMusic(sf::Music &music, int &index, int &mapScreen) {
     switch(index){
 
         case 0:
-            music.openFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Excalibur.ogg");
+            music.openFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/Excalibur.ogg");
             music.play();
             break;
 
         case 1:
             if(mapScreen == 1){
-                music.openFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/Courage.ogg");
+                music.openFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/Courage.ogg");
                 mapScreen = 0;
             }
             else
-                music.openFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/AchillevsEttore.ogg");
+                music.openFromFile("/home/leogori/Scaricati/immagini progetto/Risorse/AchillevsEttore.ogg");
             music.play();
             break;
     }

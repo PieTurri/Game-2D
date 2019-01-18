@@ -7,6 +7,7 @@
 #include <cmath>
 #include <ctime>
 #include <string>
+#include <fstream>
 
 #define BLACK 478;
 #define WALL 42;
@@ -21,7 +22,15 @@
 using namespace std;
 
 
-TileMap::TileMap() : TileMap(73,73) {}
+TileMap::TileMap() : TileMap(73,73) {
+
+    spriteItems=new Sprite[145];
+
+    setTileMap();
+    load("Tileset1.png",Vector2u(32,32));
+    updateRoomsItems();
+    setItemsProperty();
+}
 
 
 TileMap::TileMap(unsigned int h, unsigned int w): height(h), width(w) , cellDim(17) {}
@@ -32,7 +41,6 @@ TileMap::~TileMap() {}
 bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize) {
 
     // load the tileset texture
-
 
     if (!m_tileset.loadFromFile(tileset))
 
@@ -98,126 +106,46 @@ bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize) {
         }
     }
 
+    states.texture=&m_tileset;
+
     return true;
 
 }
 
-void TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-
-    // apply the transform
-    states.transform *= getTransform();
-
-    // apply the tileset texture
-    states.texture = &m_tileset;
+void TileMap::draw(RenderWindow &window) {
 
 
-    // draw the vertex array
-    target.draw(m_vertices, states);
 
+    window.draw(m_vertices,states);
+
+    for(int i=0;i<145;i++)
+        window.draw(spriteItems[i]);
 }
 
-void TileMap::SetTileMap() {
+void TileMap::setTileMap() {
 
+    ifstream mapTextFile;
 
     isWalkable = new bool[height * width];
 
     tiles=new int[height*width];
 
-    //definisce lo sfondo della mappa (nero)
+    mapTextFile.open("mappa");
 
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            tiles[(i * width) + j] = BLACK;
-            isWalkable[(i * width) + j] = true;
-        }
-    }
+    char ch;
+    int i=0;
 
-    //genera le celle
-
-    for (int j = 0; j < 9; j++) {
-        for (int i = 0; i < cellDim; i++) {
-
-            if (i != 7 && i != 8 && i != 9) {
-                tiles[cellCoords[j] + i] = WALL;
-                isWalkable[cellCoords[j] + i] = false;
-                tiles[cellCoords[j] + i * width] = WALL;
-                isWalkable[cellCoords[j] + i * width] = false;
-                tiles[cellCoords[j] + (cellDim - 1) + i * width] = WALL;
-                isWalkable[cellCoords[j] + (cellDim - 1) + i * width] = false;
-                tiles[cellCoords[j] + (cellDim - 1) * width + i] = WALL;
-                isWalkable[cellCoords[j] + (cellDim - 1) * width + i] = false;
-            } else {
-                tiles[cellCoords[j] + i] = MOUNT;
-                isWalkable[cellCoords[j] + i] = true;
-                tiles[cellCoords[j] + i * width] = MOUNT;
-                isWalkable[cellCoords[j] + i * width] = true;
-                tiles[cellCoords[j] + (cellDim - 1) + i * width] = MOUNT;
-                isWalkable[cellCoords[j] + (cellDim - 1) + i * width] = true;
-                tiles[cellCoords[j] + (cellDim - 1) * width + i] = MOUNT;
-                isWalkable[cellCoords[j] + (cellDim - 1) * width + i] = true;
-            }
-        }
-    }
-
-    //genera i corridoi
-
-    for (int j = 0; j < 12; j=j+2) {
-
-        int i = 0;
-
-
-        while (isWalkable[corridorCoords[j] + i * width] && isWalkable[corridorCoords[j] + i * width + 4]
-            && isWalkable[corridorCoords[j+1] + i] && isWalkable[corridorCoords[j+1] + i + 4 * width]) {
-
-            //corridoi verticali
-
-            tiles[corridorCoords[j] + i * width] = WALL;
-            tiles[corridorCoords[j] + 4 + i * width] = WALL;
-            isWalkable[corridorCoords[j] + i * width] = false;
-            isWalkable[corridorCoords[j] + i * width + 4] = false;
-
-            //corridoi orizzontali
-
-            tiles[corridorCoords[j+1] + i] = WALL;
-            tiles[corridorCoords[j+1] + 4 * width + i] = WALL;
-            isWalkable[corridorCoords[j+1] + i] = false;
-            isWalkable[corridorCoords[j+1] + i + 4 * width] = false;
+    while(!mapTextFile.eof()) {
+        if (!isspace(ch)) {
+            mapTextFile >> tiles[i];
+            if(tiles[i]==42)
+                isWalkable[i]=false;
+            else
+                isWalkable[i]=true;
             i++;
         }
-
     }
-
-    //genera il pavimento nelle celle
-
-    for (int i = 0; i < 9; i++) {
-
-        for (int j = 0; j < 15; j++) {
-            for (int k = 0; k < 15; k++) {
-                tiles[cellFloorCoords[i] + j * width + k] = FLOOR;
-            }
-        }
-    }
-
-    //genera il pavimento nei corridoi
-
-    for(int i=0;i<12;i++){
-
-        if(i<6) {
-            for (int j = 0; j < 10; j++) {
-                for (int k = 0; k < 3; k++) {
-                    tiles[corridorFloorCoords[i] + j * width + k] = FLOOR;
-                }
-            }
-        } else{
-            for (int j = 0; j < 3; j++) {
-                for (int k = 0; k < 10; k++) {
-                    tiles[corridorFloorCoords[i] + j * width + k] = FLOOR;
-                }
-            }
-        }
-
-
-    }
+    mapTextFile.close();
 }
 
 
@@ -258,14 +186,13 @@ void TileMap::followCharPos(View &view,Sprite &spritePlayer) {
     }
 
 }
-void TileMap::generateRoomsItems(Sprite *spriteItems) {
+
+void TileMap::updateRoomsItems() {
 
 
-    string s,s1,s2;
+    string s1,s2;
 
-    s = to_string(nTorch);
-
-    s2 = "/home/piero/Documents/Programmazione/Project2/Project/Risorse/formato png/frame-" + s + ".png";
+    s2 = "Room items/torch frames sequence/formato png/frame-" + to_string(nTorch) + ".png";
 
     texture[0].loadFromFile(s2);
 
@@ -274,15 +201,13 @@ void TileMap::generateRoomsItems(Sprite *spriteItems) {
         spriteItems[i].setTexture(texture[0]);
     }
 
-    texture[1].loadFromFile("/home/piero/Documents/Programmazione/Project2/Project/Risorse/png senza ombra/frame-1.png");
+    texture[1].loadFromFile("Room items/barrel frame sequences/png senza ombra/frame-1.png");
 
     for(int i=84;i<144;i++) {
         spriteItems[i].setTexture(texture[1]);
     }
 
-    s=to_string(nMerchant);
-
-    s1="/home/piero/Documents/Programmazione/Project2/Project/Risorse/mercante senza sfondo png/frame-"+s+".png";
+    s1="Room items/merchant frames sequence/mercante senza sfondo png/frame-"+to_string(nMerchant)+".png";
 
     texture[2].loadFromFile(s1);
 
@@ -299,7 +224,7 @@ void TileMap::generateRoomsItems(Sprite *spriteItems) {
 
 }
 
-void TileMap::setItemsProperty(Sprite *spriteItems) {
+void TileMap::setItemsProperty() {
 
     int j = 0;
 
@@ -677,4 +602,7 @@ void TileMap::setFightRooms() {
 bool TileMap::getFightRoomAccessibility(int pos) {
     return fightRooms[pos];
 }
+
+
+
 

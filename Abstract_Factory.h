@@ -6,9 +6,8 @@
 #define PROJECT_ABSTRACT_FACTORY_H
 
 #include "Hero.h"
-#include "Enemy.h"
-
 //#include "Weapon.h"
+#include "Enemy.h"
 //#include "Companion.h"
 
 #include "Knight.h"
@@ -25,18 +24,22 @@
 using namespace std;
 
 class Abstract_Factory{
-
 public:
-    virtual ~Abstract_Factory() {}
+
+
+    virtual ~Abstract_Factory(){}
+
+    //enum CharacterType {Knight, Valkyrie, Ninja, Wizard, Planetar};
 
     virtual Hero * createHero() = 0;
 
+    //virtual Enemy*createEnemy()=0;
     //virtual Companion*createCompanion()=0;
 
 protected:
 
-
-    //virtual Weapon*createWeapon()=0;
+    //virtual Weapon*createWeapon()=0;ù
+    Hero * hero;
 
 };
 
@@ -51,7 +54,7 @@ class KnightFactory : public Abstract_Factory{
 
 public:
     Hero* createHero() override {
-        auto knight = new Knight(3,4,false);
+        auto knight = new Knight(3,8,false);
         return knight;
      }
 };
@@ -59,7 +62,7 @@ public:
 class ValkyrieFactory : public Abstract_Factory{
 public:
     Hero* createHero() override {
-        auto valkyrie = new Valkyrie(16,1,true);
+        auto valkyrie = new Valkyrie(16,8,true);
         return valkyrie;
     }
 };

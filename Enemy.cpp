@@ -13,18 +13,74 @@ Enemy::Enemy() {}
 
 Enemy::~Enemy() {}
 
-void Enemy::randomDirection(int &direction) { //tirare fuori dal ctime
+void Enemy::randomDirection(Sprite &Esprite, TileMap &map) { //tirare fuori dal ctime
 
-    int preistoricDirection = direction;
+    srand(unsigned(time(NULL)));
+    direction = rand() % 4;
 
-    do{
+    didEnemyMove=true;
 
-        srand(unsigned(time(NULL)));
-        direction = rand() % 4;
+    //inserito metodo piero
 
-    }while(direction == preistoricDirection);
+    timeEnemy = clockEnemy.getElapsedTime();
+
+    if (timeEnemy.asMilliseconds() > 500) {
+        float x_load=Esprite.getPosition().x;
+        float y_load=Esprite.getPosition().y;
+
+        cout<<"XLOAD E YLOAD: "<<x_load<<" , "<<y_load<<endl;
+
+        switch(direction){
+            case 0:
+                if (map.getTileWalkability(Esprite.getPosition()+Vector2f(32,0))) {
+
+                    map.setTileWalkability(x_load,y_load,true);
+                    Esprite.move(32, 0);
+                    map.setTileWalkability(x_load+32,y_load,false);
+
+                } else
+                    didEnemyMove=false;
+                break;
+
+            case 1:
+                if (map.getTileWalkability(Esprite.getPosition()-Vector2f(32,0))) {
+
+                    map.setTileWalkability(x_load,y_load,true);
+                    Esprite.move(-32, 0);
+                    map.setTileWalkability(x_load-32,y_load,false);
+                } else
+                    didEnemyMove=false;
+                break;
+
+            case 2:
+                if (map.getTileWalkability(Esprite.getPosition()-Vector2f(0,32))) {
+
+                    map.setTileWalkability(x_load,y_load,true);
+                    Esprite.move(0, -32);
+                    map.setTileWalkability(x_load,y_load-32,false);
+                } else
+                    didEnemyMove=false;
+                break;
+
+            case 3:
+                if (map.getTileWalkability(Esprite.getPosition() + Vector2f(0,32))) {
+
+                    map.setTileWalkability(x_load,y_load,true);
+                    Esprite.move(0, 32);
+                    map.setTileWalkability(x_load,y_load+32,false);
+                } else
+                    didEnemyMove=false;
+                break;
+            default:
+                break;
+        }
+
+        if(didEnemyMove)
+            clockEnemy.restart();
+    }
 
 }
+
 
 void Enemy::setPosition(Sprite &Esprite, TileMap map1) {
 
@@ -34,13 +90,19 @@ void Enemy::setPosition(Sprite &Esprite, TileMap map1) {
     int Posx = casualPos % 15;
     int Posy = (casualPos - Posx)/15;
 
+
     for(int i = 0; i < 9;i ++){
 
         if(map1.getFightRoomAccessibility(i)){
 
             pos = map1.cellFloorCoords[i] + Posx + Posy*map1.getMapWidth();
-            Posx = pos % map1.getMapWidth();
-            Posy = (pos - Posx)/map1.getMapWidth();
+            Posx = pos % map1.getMapWidth()*32;
+            Posy = ((pos - Posx/32)/map1.getMapWidth())*32;
+
+            Esprite.setPosition(Posx,Posy);
+            cout<<"VAFFANCUUUUUUUUUUUUUU"<<Esprite.getPosition().x<<" , "<<Esprite.getPosition().y<<endl;
+
+            break;
 
         }
     }
