@@ -15,3 +15,7 @@ bool Companion::isAbility() const {
 void Companion::setAbility(bool ability) {
     Companion::ability = ability;
 }
+
+Companion::~Companion() {
+
+}

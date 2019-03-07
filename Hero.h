@@ -5,15 +5,14 @@
 #ifndef PROJECT_HERO_H
 #define PROJECT_HERO_H
 
-#include "GameCharacter.h"
-#include "Weapon.h"
+
 #include <iostream>
-#include <SFML/Graphics.hpp>
+#include "GameCharacter.h"
 
 using namespace std;
 using namespace sf;
 
-class Hero : public GameCharacter{
+class Hero : public GameCharacter {
 
 public:
 
@@ -37,15 +36,13 @@ public:
 
     void setFinalAttack(bool FinalAttack);
 
-    bool isWeapon() const;
-
     bool isArmor() const;
 
     void setArmor(bool Armor);
 
     virtual void movement(RenderWindow &window) =0;
 
-    virtual void draw(RenderWindow &window)=0;
+    virtual void draw(RenderWindow &window, TileMap &map) =0;
 
     virtual void setDirection()=0;
 
@@ -57,28 +54,28 @@ public:
 
     void setDirRight(bool state);
 
+    bool isStill();
 
-    //virtual void fire(Sprite &spriteFire, Texture &textureFire) = 0;
+    void aim(RenderWindow &window, Event event);
+
+
 
 protected:
+
     bool Locked;
     bool Mp;
     bool SpecialPower;
     bool FinalAttack;
     bool Armor;
-    int HeroType; //non è detto
 
-    int id=0;       // non e detto
+    int HeroType; //non è detto
 
     bool moveU;
     bool moveD;
     bool moveL;
     bool moveR;
 
+
 };
-
-
-
-
 
 #endif //PROJECT_HERO_H

@@ -19,10 +19,5 @@ GraphicState::GraphicState() {
 
 }
 
-void GraphicState::setKindOfScreen(string TypeScreen) {
-
-    KindOfScreen=TypeScreen;
-
-}
 
 

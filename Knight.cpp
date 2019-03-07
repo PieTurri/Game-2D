@@ -3,95 +3,96 @@
 //
 
 #include "Knight.h"
-#include <SFML/Graphics.hpp>
 #include <cmath>
 
 Knight::Knight(int Hp, int speed, bool armor) : Hero(Hp, speed, armor) {
 
-    Ktexture.loadFromFile("npc3_fr1.png");
-    Ksprite.setTexture(Ktexture);
+    texture.loadFromFile("npc3_fr1.png");
+    sprite.setTexture(texture);
 
-    Ksprite.setPosition(64,64);
 }
 
 Knight::~Knight() {}
 
 
 
-void Knight::draw(RenderWindow &window) {
+void Knight::draw(RenderWindow &window, TileMap &map) {
 
-
-    window.draw(Ksprite);
-
+    window.draw(sprite);
+    weapon->draw(window, map);
 }
 
 void Knight::movement(RenderWindow &window) {
 
-    setDirection();
-
     View Kview=window.getView();
 
-    if(moveL) {
 
-        Ksprite.move(-Speed, 0);
 
-        if(abs(Ksprite.getPosition().x-Kview.getCenter().x)<2*32)
-            Kview.move(-Speed/2,0);
+    if(moveL&&!moveR) {
+
+        sprite.move(-speed, 0);
+        weapon->move(-speed,0);
+
+        if(abs(sprite.getPosition().x-Kview.getCenter().x)<2*32)
+            Kview.move(-speed/2,0);
         else
-            Kview.move(-Speed,0);
+            Kview.move(-speed,0);
 
-        cout<<"distanza tra pos cavaliere e pos visuale in x: "<<abs(Ksprite.getPosition().x-Kview.getCenter().x)<<endl;
+        /*cout<<"distanza tra pos cavaliere e pos visuale in x: "<<abs(sprite.getPosition().x-Kview.getCenter().x)<<endl;
 
         cout <<"centro visuale:"<< Kview.getCenter().x << " , " << Kview.getCenter().y << endl;
-        cout <<"posizione cavaliere: "<< Ksprite.getPosition().x << " , " << Ksprite.getPosition().y << endl;
+        cout <<"posizione cavaliere: "<< sprite.getPosition().x << " , " << sprite.getPosition().y << endl;*/
 
     }
 
-    if(moveR) {
+    if(moveR&&!moveL) {
 
 
-        Ksprite.move(Speed, 0);
+        sprite.move(speed, 0);
+        weapon->move(speed,0);
 
-        if(abs(Ksprite.getPosition().x-Kview.getCenter().x)<2*32)
-            Kview.move(Speed/2,0);
+        if(abs(sprite.getPosition().x-Kview.getCenter().x)<2*32)
+            Kview.move(speed/2,0);
         else
-            Kview.move(Speed,0);
+            Kview.move(speed,0);
 
-        cout<<"distanza tra pos cavaliere e pos visuale in x: "<<abs(Ksprite.getPosition().x-Kview.getCenter().x)<<endl;
+        /*cout<<"distanza tra pos cavaliere e pos visuale in x: "<<abs(sprite.getPosition().x-Kview.getCenter().x)<<endl;
 
             cout <<"centro visuale:"<< Kview.getCenter().x << " , " << Kview.getCenter().y << endl;
-            cout <<"posizione cavaliere: "<< Ksprite.getPosition().x << " , " << Ksprite.getPosition().y << endl;
+            cout <<"posizione cavaliere: "<< sprite.getPosition().x << " , " << sprite.getPosition().y << endl;*/
 
     }
 
-    if(moveU) {
+    if(moveU&&!moveD) {
 
-        Ksprite.move(0, -Speed);
+        sprite.move(0, -speed);
+        weapon->move(0,-speed);
 
-        if(abs(Ksprite.getPosition().y-Kview.getCenter().y)<2*32)
-            Kview.move(0,-Speed/2);
+        if(abs(sprite.getPosition().y-Kview.getCenter().y)<2*32)
+            Kview.move(0,-speed/2);
         else
-            Kview.move(0,-Speed);
+            Kview.move(0,-speed);
 
-        cout<<"distanza tra pos cavaliere e pos visuale in y: "<<abs(Ksprite.getPosition().y-Kview.getCenter().y)<<endl;
+        /*cout<<"distanza tra pos cavaliere e pos visuale in y: "<<abs(sprite.getPosition().y-Kview.getCenter().y)<<endl;
 
             cout <<"centro visuale:"<< Kview.getCenter().x << " , " << Kview.getCenter().y << endl;
-            cout <<"posizione cavaliere: "<< Ksprite.getPosition().x << " , " << Ksprite.getPosition().y << endl;
+            cout <<"posizione cavaliere: "<< sprite.getPosition().x << " , " << sprite.getPosition().y << endl;*/
 
     }
-    if(moveD) {
+    if(moveD&!moveU) {
 
-        Ksprite.move(0, Speed);
+        sprite.move(0, speed);
+        weapon->move(0,speed);
 
-        if(abs(Ksprite.getPosition().y-Kview.getCenter().y)<2*32)
-            Kview.move(0,Speed/2);
+        if(abs(sprite.getPosition().y-Kview.getCenter().y)<2*32)
+            Kview.move(0,speed/2);
         else
-            Kview.move(0,Speed);
+            Kview.move(0,speed);
 
-        cout<<"distanza tra pos cavaliere e pos visuale in y: "<<abs(Ksprite.getPosition().y-Kview.getCenter().y)<<endl;
+        /*cout<<"distanza tra pos cavaliere e pos visuale in y: "<<abs(sprite.getPosition().y-Kview.getCenter().y)<<endl;
 
             cout <<"centro visuale:"<< Kview.getCenter().x << " , " << Kview.getCenter().y << endl;
-            cout <<"posizione cavaliere: "<< Ksprite.getPosition().x << " , " << Ksprite.getPosition().y << endl;
+            cout <<"posizione cavaliere: "<< sprite.getPosition().x << " , " << sprite.getPosition().y << endl;*/
 
     }
 
@@ -101,69 +102,59 @@ void Knight::movement(RenderWindow &window) {
 
 }
 
-void Knight::setDirection() {
+void Knight::setDirection() {//void useWeapon(Sprite &spriteFire, Texture &textureFire);
 
-    if (moveD) {
+    if (moveD&&!moveL&&!moveR&&!moveU) {
 
         if (TypeFoot) {
-            Ktexture.loadFromFile("npc3_fr1.png");
+            texture.loadFromFile("npc3_fr1.png");
             TypeFoot = false;
         }
         else{
-            Ktexture.loadFromFile("npc3_fr2.png");
+            texture.loadFromFile("npc3_fr2.png");
             TypeFoot = true;
         }
 
     }
 
-    if (moveU) {
+    if (moveU&&!moveL&&!moveR&&!moveD) {
 
         if (TypeFoot) {
-            Ktexture.loadFromFile("npc3_bk1.png");
+            texture.loadFromFile("npc3_bk1.png");
             TypeFoot = false;
         }
         else{
-            Ktexture.loadFromFile("npc3_bk2.png");
+            texture.loadFromFile("npc3_bk2.png");
             TypeFoot = true;
         }
 
     }
 
-    if (moveL) {
+    if (moveL&&!moveR) {
 
         if (TypeFoot) {
-            Ktexture.loadFromFile("npc3_lf1.png");
+            texture.loadFromFile("npc3_lf1.png");
             TypeFoot = false;
         }
         else{
-            Ktexture.loadFromFile("npc3_lf2.png");
+            texture.loadFromFile("npc3_lf2.png");
             TypeFoot = true;
         }
 
     }
 
-    if (moveR) {
+    if (moveR&&!moveL) {
 
         if (TypeFoot) {
-            Ktexture.loadFromFile("npc3_rt1.png");
+            texture.loadFromFile("npc3_rt1.png");
             TypeFoot = false;
         }
         else{
-            Ktexture.loadFromFile("npc3_rt2.png");
+            texture.loadFromFile("npc3_rt2.png");
             TypeFoot = true;
         }
 
     }
 
-    Ksprite.setTexture(Ktexture);
+    sprite.setTexture(texture);
 }
-
-
-
-
-
-
-
-
-
-

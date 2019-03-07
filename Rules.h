@@ -13,9 +13,9 @@ using namespace sf;
 
 class Rules: public GraphicState {
 public:
-    Rules();
+    Rules(RenderWindow &window);
 
-    Rules(float w,float h);
+    Rules(float w, float h, RenderWindow &window);
 
     ~Rules();
 
@@ -24,8 +24,9 @@ public:
 
     void getActivities(Event event,RenderWindow &window);
 
-    GraphicState* getNextState();
+    GraphicState *getNextState(RenderWindow &window);
 
+    virtual void setView(RenderWindow &window);
 
 private:
     const float width;

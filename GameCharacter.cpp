@@ -3,47 +3,52 @@
 //
 
 #include "GameCharacter.h"
-#include "Weapon.h"
-
 
 GameCharacter::GameCharacter() : GameCharacter (10,10) {}
 
-GameCharacter::GameCharacter(int hp, int speed) : Hp(hp), Speed(speed) {}
+GameCharacter::GameCharacter(int hp, int speed) : Hp(hp), speed(speed) {}
 
 void GameCharacter::setHp(int Hp) {
     GameCharacter::Hp = Hp;
+    usingWeapon=false;
 }
 
-void GameCharacter::setPosX(int PosX) {
-    GameCharacter::PosX = PosX;
-}
-
-void GameCharacter::setPosY(int PosY) {
-    GameCharacter::PosY = PosY;
-}
 
 int GameCharacter::getHp() const {
     return Hp;
-}
-
-int GameCharacter::getPosX() const {
-    return PosX;
-}
-
-int GameCharacter::getPosY() const {
-    return PosY;
 }
 
 GameCharacter::~GameCharacter() {
 
 }
 
-Weapon *GameCharacter::getWeapon() {
-    return weapon;
+Vector2f GameCharacter::getPosition() {
+    return sprite.getPosition();
 }
 
-void GameCharacter::setWeapon(Weapon* Weapon) {
-    this-> weapon = Weapon;
+void GameCharacter::setSpeed(int s) {
+
+    speed=s;
+}
+
+int GameCharacter::getSpeed() {
+    return speed;
+}
+
+void GameCharacter::setWeaponUse(bool statement) {
+
+    usingWeapon=statement;
+}
+
+void GameCharacter::useWeapon() {
+
+    if(usingWeapon)
+        weapon->fire();
+
+}
+
+Weapon *GameCharacter::getWeapon() {
+    return weapon;
 }
 
 

@@ -3,17 +3,21 @@
 //
 
 #include "Hero.h"
-
-
+#include "Kalashnikov.h"
 
 Hero::Hero(int Hp, int speed, bool armor) : GameCharacter(Hp, speed) {
     Armor = armor;
-    id++;
 
     moveU = false;
     moveD = false;
     moveL = false;
     moveR = false;
+
+    sprite.setOrigin(16,24);
+
+    sprite.setPosition(128+16,128+24);
+
+    weapon=new Kalashnikov;
 }
 
 Hero::~Hero() {}
@@ -50,11 +54,6 @@ void Hero::setFinalAttack(bool FinalAttack) {
     Hero::FinalAttack = FinalAttack;
 }
 
-bool Hero::isWeapon() const {
-    return weapon;
-}
-
-
 
 bool Hero::isArmor() const {
     return Armor;
@@ -82,6 +81,20 @@ void Hero::setDirLeft(bool state) {
 void Hero::setDirRight(bool state) {
 
     moveR=state;
+}
+
+bool Hero::isStill() {
+
+    if(!moveU&&!moveD&&!moveR&&!moveL)
+        return true;
+    else
+        return false;
+}
+
+void Hero::aim(RenderWindow &window, Event event) {
+
+    weapon->rotate(event, window);
+
 }
 
 

@@ -5,17 +5,18 @@
 #ifndef PROJECT_TILEMAP_H
 #define PROJECT_TILEMAP_H
 
-#include <iostream>
-#include <fstream>
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Transformable.hpp>
-#include <SFML/Graphics.hpp>
 
+
+#include <SFML/Graphics.hpp>
+#include <vector>
+#include <fstream>
+#include "Obstacle.h"
 
 using namespace sf;
 using namespace std;
 
-class TileMap  /*:public sf::Drawable*/{
+
+class TileMap {
 
 public:
 
@@ -31,18 +32,15 @@ public:
 
     bool load(const string& tileset, Vector2u tileSize);
 
-
     void setTileMap();
 
     void draw(RenderWindow &window);
 
     bool getTileWalkability(Vector2f charPos);
 
-    void followCharPos(View &view, Sprite &spritePlayer);
-
     void updateRoomsItems();
 
-    void setTileWalkability(float x,float y,bool walkProperty);
+    void setTileWalkability(Vector2f pos, bool walkProperty);
 
     void setItemsProperty();
 
@@ -50,42 +48,37 @@ public:
 
     bool getFightRoomAccessibility(int pos);
 
-    int cellFloorCoords[9]={148, 175, 202, 2119, 2146, 2173, 4090, 4117, 4144};
+    Vector2f getTileCoordinates(int index);
+
+    vector<Obstacle> & getObstacle();
+
+    void setObstacle(vector<Obstacle> &obstacle);
 
 private:
 
+    Sprite sprite;
+
     sf::VertexArray m_vertices;
 
-    sf::Texture m_tileset;
+    sf::Texture tilemapTexture;
 
     unsigned int height;
     unsigned int width;
 
     bool fightRooms[9];
 
-    int *tiles;
+    vector <Obstacle> obstacles;
 
-    bool* isWalkable;
+    vector<Item> items;
 
-    int cellDim;
+    vector <vector<int>> tiles;
 
-    Clock clock;
-    Time times;
-
-    Sprite *spriteItems;
-
-    int nTorch=1;
-    int nMerchant=1;
-
-    Texture texture[3];
+    vector <vector<bool>> isWalkable;
 
     RenderStates states;
 
-
-    int cellCoords[9]={74, 101, 128, 2099, 2045, 2072, 4043, 4070, 4016};;
-    int corridorCoords[12]={1321,529, 1348,556, 1375,2500, 3292,2527, 3319,4471, 3346,4498};
-
-    int corridorFloorCoords[12]={1322,1349,1376,3293,3320,3347,602,629,2573,2600,4544,4571};
+    fstream mapTextFile;
+    fstream itemTextFile;
 };
 
 

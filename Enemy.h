@@ -6,13 +6,12 @@
 #define PROJECT_ENEMY_H
 
 #include "GameCharacter.h"
-#include "TileMap.h"
-#include <SFML/Graphics.hpp>
 #include <time.h>
 #include <iostream>
 
 
 using namespace sf;
+using namespace std;
 
 class Enemy : public GameCharacter {
 public:
@@ -23,12 +22,12 @@ public:
 
     virtual ~Enemy();
 
-    virtual void draw(Sprite &spritePlayer) = 0;
+    virtual void draw(RenderWindow &window, TileMap &map) = 0;
     //virtual void move(Sprite &spritePlayer,Texture &texturePlayer, int x_load, int y_load) = 0;
 
     void randomDirection(Sprite &Esprite, TileMap &map);
 
-    void setPosition(Sprite &Esprite,TileMap map1);
+    void setPosition(TileMap &map);
 
 protected:
     int Id;

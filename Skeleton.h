@@ -16,15 +16,14 @@ public:
 
     Skeleton(int Hp, int speed);
 
-    void draw(Sprite &Esprite) override;
+    void draw(RenderWindow &window, TileMap &map) override;
 
    // void move(Sprite &spritePlayer,Texture &texturePlayer, int x_load, int y_load) override;
 
 
 
 private:
-    //bool noWall = true;
-    Texture Etexture;
+
 };
 
 

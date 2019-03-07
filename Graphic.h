@@ -17,7 +17,7 @@ public:
 
     virtual ~Graphic();
 
-    void changeState();
+    void changeState(RenderWindow &window);
 
     void setScreen();
 

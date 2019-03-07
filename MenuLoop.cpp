@@ -3,25 +3,22 @@
 //
 
 #include "MenuLoop.h"
-#include "Game.h"
+#include "Graphic.h"
+#include "Menu.h"
 
 using namespace std;
 using namespace sf;
 
 MenuLoop::MenuLoop() {
 
-    window.create(sf::VideoMode(1400, 896), "Leo&Pie Game");
-    view.setSize(320,320);
-    //view.zoom();
-    view.setCenter(Vector2f(64,64));
-    //view[1].setViewport(FloatRect(0.75f,0.f,0.25f,0.25f));
+    window.create(sf::VideoMode(700,450), "Leo&Pie Game");
     index=0;
     mapScreen=0;
 }
 
 void MenuLoop::generateScreen() {
 
-    Graphic graphic(new Menu);
+    Graphic graphic(new Menu(window));
 
     songs.playMusic(music, index, mapScreen);
 
@@ -35,8 +32,7 @@ void MenuLoop::generateScreen() {
         }
 
         if (graphic.getState()) {
-            graphic.changeState();
-            graphic.setScreen();
+            graphic.changeState(window);
         }
 
         //cout << graphic.getState() << endl;

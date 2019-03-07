@@ -16,9 +16,9 @@ class MapLevel: public GraphicState {
 
 public:
 
-    MapLevel();
+    //MapLevel(RenderWindow &window);
 
-    MapLevel(int charInd);
+    MapLevel(int charInd, RenderWindow &window);
 
     ~MapLevel();
 
@@ -36,7 +36,9 @@ public:
 
     void getActivities(Event event,RenderWindow &window);
 
-    GraphicState* getNextState();
+    GraphicState *getNextState(RenderWindow &window);
+
+    void setView(RenderWindow &window);
 
 private:
 

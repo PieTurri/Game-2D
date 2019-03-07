@@ -5,17 +5,50 @@
 #ifndef PROJECT_PROJECTILE_H
 #define PROJECT_PROJECTILE_H
 
+#include "SFML/Graphics.hpp"
+#include "TileMap.h"
 
-#include "MenuLoop.h"
+using namespace sf;
 
 class Projectile  {
 public:
-    int movementSpeed = 10;
-    int attackDamage = 5;
 
     Projectile();
-    sf::Sprite fireS;
-    sf::Text fireT;
+
+    //Projectile(Vector2f pos, Vector2f aimedP);
+
+    ~Projectile();
+
+    void setSpeed(float speed);
+
+    float getSpeed();
+
+    int getDamage();
+
+    Vector2f getPosition();
+
+    void move(TileMap &map);
+
+    void draw(RenderWindow& window);
+
+    bool isBrokeUp();
+
+    void setDestroyed();
+
+protected:
+
+    float movementSpeed;
+    int damage;
+
+    bool breakUp;
+
+    Sprite sprite;
+    Texture texture;
+
+    Vector2f aimedPoint;
+
+    //bool direction;
+
 
 };
 

@@ -15,9 +15,9 @@ using namespace sf;
 class Menu: public GraphicState{
 
 public:
-    Menu(float w,float h);
+    Menu(float w, float h, RenderWindow &window);
 
-    Menu();
+    Menu(RenderWindow &window);
 
     ~Menu();
 
@@ -31,16 +31,17 @@ public:
 
     void getActivities(Event event,RenderWindow &window);
 
-    GraphicState* getNextState();
+    GraphicState *getNextState(RenderWindow &window);
+
+    void setView(RenderWindow &window);
 
 private:
 
     int selectedTextIndex;
-    bool redText; //serve per avere la prima scritta già rossa;
-    //bool menuOpen = true;
 
     const float width;
     const float height;
+
     Texture texture;
     Font font[2];
     Text text[4];

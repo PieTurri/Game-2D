@@ -5,37 +5,28 @@
 #ifndef PROJECT_KNIGHT_H
 #define PROJECT_KNIGHT_H
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include "TileMap.h"
+#include "Hero.h"
 
 using namespace std;
 using namespace sf;
 
-#include "Hero.h"
-
 class Knight : public Hero{
 public:
+
     Knight(int Hp, int speed, bool armor);
 
     ~Knight();
 
     void movement(RenderWindow &window);
 
-
-    void draw(RenderWindow &window);
+    void draw(RenderWindow &window, TileMap &map);
 
     void setDirection();
-
-    //void fire(Sprite &spriteFire, Texture &textureFire);
 
 private:
 
     bool TypeFoot;
 
-    Texture Ktexture;
-
-    Sprite Ksprite;
 };
 
 

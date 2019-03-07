@@ -9,27 +9,13 @@
 
 using namespace std;
 
-MapLevel::MapLevel() : MapLevel(0) {}
+//MapLevel::MapLevel(RenderWindow &window) : MapLevel(0, window) {}
 
-MapLevel::MapLevel(int charInd): characterIndex(charInd),GraphicState() {
+MapLevel::MapLevel(int charInd, RenderWindow &window) : characterIndex(charInd), GraphicState() {
 
-    width=1400;
-    height=896;
-    levelIndex=0;
-    selected=false;
-    sign=1;
 
-    if(!texturel.loadFromFile("sfondomappalivelli-modified.png"))
-        cout << "errore" << endl;
-
-    spritel.setTexture(texturel);
-
-    if(!texturem.loadFromFile("cloud.png"))
-        cout<<"errore"<<endl;
-
-    for(int i=0 ; i < 16 ; i++) {
-        spritem[i].setTexture(texturem);
-    }
+    setScreen();
+    setView(window);
 }
 
 MapLevel::~MapLevel() {}
@@ -69,7 +55,7 @@ void MapLevel::draw(RenderWindow &window) {
 
         timer=clock.getElapsedTime();
 
-        if(timer.asSeconds()>3){
+        if(timer.asSeconds()>1){
             setState(true);
         }
 
@@ -90,6 +76,24 @@ void MapLevel::draw(RenderWindow &window) {
 }
 
 void MapLevel::setScreen() {
+
+    width=1400;
+    height=896;
+    levelIndex=0;
+    selected=false;
+    sign=1;
+
+    if(!texturel.loadFromFile("sfondomappalivelli-modified.png"))
+        cout << "errore" << endl;
+
+    spritel.setTexture(texturel);
+
+    if(!texturem.loadFromFile("cloud.png"))
+        cout<<"errore"<<endl;
+
+    for(int i=0 ; i < 16 ; i++) {
+        spritem[i].setTexture(texturem);
+    }
 
 
     spritem[0].setPosition(sf::Vector2f(25, 200));
@@ -169,11 +173,11 @@ void MapLevel::getActivities(Event event, RenderWindow &window) {
 
 }
 
-GraphicState *MapLevel::getNextState() {
+GraphicState *MapLevel::getNextState(RenderWindow &window) {
     if(selected)
-        return new Game(characterIndex,levelIndex);
+        return new Game(characterIndex,levelIndex,window);
     else
-        return new ChooseCharacter;
+        return new ChooseCharacter(window);
 }
 
 void MapLevel::animation() {
@@ -186,6 +190,14 @@ void MapLevel::animation() {
         spriteCharacterLevel.move(0,sign*20);
         clock.restart();
     }
+}
+
+void MapLevel::setView(RenderWindow &window) {
+
+    Vector2f v(texturel.getSize());
+    view.setSize(v);
+    view.setCenter(v.x/2,v.y/2);
+    window.setView(view);
 }
 
 

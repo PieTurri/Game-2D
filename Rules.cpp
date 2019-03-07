@@ -10,7 +10,17 @@ using namespace std;
 using namespace sf;
 
 
-Rules::Rules(): Rules(700,450)  {
+Rules::Rules(RenderWindow &window) : Rules(700, 450, window) {}
+
+Rules::Rules(float w, float h, RenderWindow &window) : width(w), height(h), GraphicState() {
+
+    setScreen();
+    setView(window);
+}
+
+Rules::~Rules() {}
+
+void Rules::setScreen() {
 
     if(!texture.loadFromFile("schermatasole.png"))
         cout << "errore" << endl;
@@ -19,13 +29,6 @@ Rules::Rules(): Rules(700,450)  {
 
     if(!font.loadFromFile("DIOGENES.ttf"))
         cout << "errore" << endl;
-}
-
-Rules::Rules(float w, float h) : width(w), height(h), GraphicState() {}
-
-Rules::~Rules() {}
-
-void Rules::setScreen() {
 
     textRules[0].setString("Regole");
     textRules[0].setFont(font);
@@ -80,9 +83,17 @@ void Rules::getActivities(Event event, RenderWindow &window) {
 
 }
 
-GraphicState *Rules::getNextState() {
+GraphicState *Rules::getNextState(RenderWindow &window) {
 
-    return new Menu;
+    return new Menu(window);
+}
+
+void Rules::setView(RenderWindow &window) {
+
+    Vector2f v(texture.getSize());
+    view.setSize(v);
+    view.setCenter(v.x/2,v.y/2);
+    window.setView(view);
 }
 
 

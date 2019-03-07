@@ -3,11 +3,11 @@
 //
 
 #include "Enemy.h"
-#include "TileMap.h"
 #include <iostream>
 using namespace std;
 
-Enemy::Enemy(int Hp, int speed) : GameCharacter(Hp, speed) {}
+Enemy::Enemy(int Hp, int speed) : GameCharacter(Hp, speed) {
+}
 
 Enemy::Enemy() {}
 
@@ -34,9 +34,9 @@ void Enemy::randomDirection(Sprite &Esprite, TileMap &map) { //tirare fuori dal 
             case 0:
                 if (map.getTileWalkability(Esprite.getPosition()+Vector2f(32,0))) {
 
-                    map.setTileWalkability(x_load,y_load,true);
+                    map.setTileWalkability(sf::Vector2f(), true);
                     Esprite.move(32, 0);
-                    map.setTileWalkability(x_load+32,y_load,false);
+                    map.setTileWalkability(sf::Vector2f(), false);
 
                 } else
                     didEnemyMove=false;
@@ -45,9 +45,9 @@ void Enemy::randomDirection(Sprite &Esprite, TileMap &map) { //tirare fuori dal 
             case 1:
                 if (map.getTileWalkability(Esprite.getPosition()-Vector2f(32,0))) {
 
-                    map.setTileWalkability(x_load,y_load,true);
+                    map.setTileWalkability(sf::Vector2f(), true);
                     Esprite.move(-32, 0);
-                    map.setTileWalkability(x_load-32,y_load,false);
+                    map.setTileWalkability(sf::Vector2f(), false);
                 } else
                     didEnemyMove=false;
                 break;
@@ -55,9 +55,9 @@ void Enemy::randomDirection(Sprite &Esprite, TileMap &map) { //tirare fuori dal 
             case 2:
                 if (map.getTileWalkability(Esprite.getPosition()-Vector2f(0,32))) {
 
-                    map.setTileWalkability(x_load,y_load,true);
+                    map.setTileWalkability(sf::Vector2f(), true);
                     Esprite.move(0, -32);
-                    map.setTileWalkability(x_load,y_load-32,false);
+                    map.setTileWalkability(sf::Vector2f(), false);
                 } else
                     didEnemyMove=false;
                 break;
@@ -65,9 +65,9 @@ void Enemy::randomDirection(Sprite &Esprite, TileMap &map) { //tirare fuori dal 
             case 3:
                 if (map.getTileWalkability(Esprite.getPosition() + Vector2f(0,32))) {
 
-                    map.setTileWalkability(x_load,y_load,true);
+                    map.setTileWalkability(sf::Vector2f(), true);
                     Esprite.move(0, 32);
-                    map.setTileWalkability(x_load,y_load+32,false);
+                    map.setTileWalkability(sf::Vector2f(), false);
                 } else
                     didEnemyMove=false;
                 break;
@@ -82,10 +82,10 @@ void Enemy::randomDirection(Sprite &Esprite, TileMap &map) { //tirare fuori dal 
 }
 
 
-void Enemy::setPosition(Sprite &Esprite, TileMap map1) {
+void Enemy::setPosition(TileMap &map) {
 
-    srand(unsigned(time(NULL)));
-    int casualPos = rand() % 225;
+    /*srand(unsigned(time(NULL)));
+    int casualPos = rand() % 5329;
     int pos;
     int Posx = casualPos % 15;
     int Posy = (casualPos - Posx)/15;
@@ -95,7 +95,7 @@ void Enemy::setPosition(Sprite &Esprite, TileMap map1) {
 
         if(map1.getFightRoomAccessibility(i)){
 
-            pos = map1.cellFloorCoords[i] + Posx + Posy*map1.getMapWidth();
+            pos = 2;
             Posx = pos % map1.getMapWidth()*32;
             Posy = ((pos - Posx/32)/map1.getMapWidth())*32;
 
@@ -105,7 +105,10 @@ void Enemy::setPosition(Sprite &Esprite, TileMap map1) {
             break;
 
         }
-    }
+    }*/
+
+    sprite.setPosition(480+16,480+16);
+    map.setTileWalkability(sprite.getPosition(),false);
 
 
 

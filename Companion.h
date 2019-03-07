@@ -12,6 +12,8 @@ class Companion : public GameCharacter{
 public:
     Companion(int Hp, int speed, bool ability);
 
+    virtual ~Companion();
+
     bool isAbility() const;
 
     void setAbility(bool ability);

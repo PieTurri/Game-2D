@@ -5,8 +5,8 @@
 #ifndef PROJECT_GRAPHICSTATE_H
 #define PROJECT_GRAPHICSTATE_H
 
-#include <SFML/Graphics.hpp>
-//#include <string>
+#include "MyView.h"
+
 
 using namespace sf;
 
@@ -23,18 +23,17 @@ public:
 
     virtual void setScreen()=0;
 
-    virtual GraphicState* getNextState()=0;
+    virtual GraphicState *getNextState(RenderWindow &window) =0;
 
     virtual void getActivities(Event event,RenderWindow &window)=0;
 
-    //void setKindOfScreen(string TypeScreen);
-
-    //string getKindOfScreen();
+    virtual void setView(RenderWindow &window) =0;
 
 private:
 
     bool stateChanged;
-    //string KindOfScreen;
+protected:
+    MyView view;
 };
 
 

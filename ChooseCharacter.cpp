@@ -12,7 +12,21 @@
 using namespace std;
 using namespace sf;
 
-ChooseCharacter::ChooseCharacter(): ChooseCharacter(700,450) {
+ChooseCharacter::ChooseCharacter(RenderWindow &window) : ChooseCharacter(700, 450, window) {}
+
+ChooseCharacter::ChooseCharacter(float w, float h, RenderWindow &window) : width(w), height(h), GraphicState() {
+
+    setScreen();
+    setView(window);
+}
+
+ChooseCharacter::~ChooseCharacter() {}
+
+void ChooseCharacter::setScreen() {
+
+
+    if(!tBackground.loadFromFile("sfondopersonaggio.png"))
+        cout << "errore" << endl;
 
     setindex = 0;
 
@@ -21,19 +35,7 @@ ChooseCharacter::ChooseCharacter(): ChooseCharacter(700,450) {
     ninjaLocked = true;
     wizardLocked = true;
     planetarLocked = true;
-
     Selected = false;
-
-}
-
-ChooseCharacter::ChooseCharacter(float w, float h) : width(w), height(h), GraphicState() {}
-
-ChooseCharacter::~ChooseCharacter() {}
-
-void ChooseCharacter::setScreen() {
-
-    if(!tBackground.loadFromFile("sfondopersonaggio.png"))
-        cout << "errore" << endl;
 
     sprite.setTexture(tBackground);
 
@@ -184,14 +186,22 @@ void ChooseCharacter::getActivities(Event event, RenderWindow &window) {
     }
 }
 
-GraphicState *ChooseCharacter::getNextState() {
+GraphicState *ChooseCharacter::getNextState(RenderWindow &window) {
 
     if (Selected)
-        return new MapLevel(setindex);
+        return new MapLevel(setindex, window);
     else
-        return new Menu;
+        return new Menu(window);
 
 
+}
+
+void ChooseCharacter::setView(RenderWindow &window) {
+
+    Vector2f v(tBackground.getSize());
+    view.setSize(v);
+    view.setCenter(v.x/2,v.y/2);
+    window.setView(view);
 }
 
 

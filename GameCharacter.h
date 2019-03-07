@@ -7,6 +7,9 @@
 
 
 #include "Weapon.h"
+#include <SFML/Graphics.hpp>
+
+using namespace sf;
 
 class GameCharacter {
 
@@ -16,38 +19,38 @@ public:
 
     explicit GameCharacter(int Hp, int speed);
 
-    virtual ~GameCharacter();
+    virtual void draw(RenderWindow &window, TileMap &map) =0;
+
+    ~GameCharacter();
+
+    void setSpeed(int s);
+
+    int getSpeed();
 
     void setHp(int Hp);
 
-    void setPosX(int PosX);
-
-    void setPosY(int PosY);
-
     int getHp() const;
 
-    int getPosX() const;
+    Vector2f getPosition();
 
-    int getPosY() const;
+    void setWeaponUse(bool statement);
 
-    //virtual int speedCharacter();
-
-    //virtual int fight();
+    void useWeapon();
 
     Weapon* getWeapon();
 
-    void setWeapon(Weapon *Weapon);
-
-    //virtual void GameCharacter::move(int x, int y){};
-
-
-
 
 protected:
+
     int Hp;
-    int PosX;
-    int PosY;
-    int Speed;
+
+    Texture texture;
+    Sprite sprite;
+
+    int speed;
+
+    bool usingWeapon;
+
     Weapon* weapon;
 };
 

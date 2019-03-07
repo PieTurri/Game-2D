@@ -6,17 +6,15 @@
 #define PROJECT_CHOOSCHARACTER_H
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
 #include "GraphicState.h"
-#include "Abstract_Factory.h"
 
 using namespace sf;
 
 class ChooseCharacter:public GraphicState {
 public:
-    ChooseCharacter();
+    ChooseCharacter(RenderWindow &window);
 
-    ChooseCharacter(float w,float h);
+    ChooseCharacter(float w, float h, RenderWindow &window);
     ~ChooseCharacter();
 
     void draw(RenderWindow &window);
@@ -32,8 +30,11 @@ public:
 
     bool isSelected();
 
-    GraphicState* getNextState();
+    GraphicState *getNextState(RenderWindow &window);
+    
     void getActivities(Event event,RenderWindow &window);
+
+    void setView(RenderWindow &window);
 
     //const int *getIndex() const;
 

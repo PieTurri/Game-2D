@@ -8,10 +8,7 @@
 
 using namespace std;
 
-Graphic::Graphic() {
-
-
-}
+Graphic::Graphic() {}
 
 Graphic::Graphic(GraphicState *gContext) {
 
@@ -21,11 +18,11 @@ Graphic::Graphic(GraphicState *gContext) {
 
 Graphic::~Graphic() {}
 
-void Graphic::changeState() {
+void Graphic::changeState(RenderWindow &window) {
 
     if(graphicState){
 
-        GraphicState* gContext = graphicState->getNextState();
+        GraphicState* gContext = graphicState->getNextState(window);
 
         delete graphicState;
 

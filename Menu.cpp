@@ -2,21 +2,62 @@
 // Created by piero on 9/27/18.
 //
 
-#include <iostream>
+#include<iostream>
 #include "Menu.h"
 #include "ChooseCharacter.h"
 #include "Rules.h"
+
+#define RED sf::Color(168,31,000)
 
 
 using namespace std;
 using namespace sf;
 
-Menu::Menu(float w,float h): width(w),height(h) ,GraphicState() {}
+Menu::Menu(RenderWindow &window) : Menu(700, 450, window) {}
 
-Menu::Menu():Menu(700,450) {
+Menu::Menu(float w, float h, RenderWindow &window) : width(w), height(h) , GraphicState() {
+
+    setScreen();
+    setView(window);
+}
+
+Menu::~Menu(){
+}
+
+
+void Menu::draw(RenderWindow &window)
+{
+
+    window.draw(sprite);
+    for (int i = 0; i < 4; i++)
+    {
+        window.draw(text[i]);
+    }
+}
+
+void Menu::MoveUp()
+{
+    if (selectedTextIndex > 0)
+    {
+        text[selectedTextIndex].setFillColor(Color::Black);
+        selectedTextIndex--;
+        text[selectedTextIndex].setFillColor(RED);
+    }
+}
+
+void Menu::MoveDown()
+{
+    if (selectedTextIndex < 2)
+    {
+        text[selectedTextIndex].setFillColor(Color::Black);
+        selectedTextIndex++;
+        text[selectedTextIndex].setFillColor(RED);
+    }
+}
+
+void  Menu::setScreen(){
 
     selectedTextIndex=0;
-    redText = true;
 
     texture.loadFromFile("SchermataIniziale.png");
 
@@ -29,51 +70,9 @@ Menu::Menu():Menu(700,450) {
         cout << "errore" << endl;
     if(!font[1].loadFromFile("Seagram tfb.ttf"))
         cout << "errore" << endl;
-}
-
-
-Menu::~Menu(){
-}
-
-
-void Menu::draw(RenderWindow &window)
-{
-    window.draw(sprite);
-    for (int i = 0; i < 4; i++)
-    {
-        window.draw(text[i]);
-    }
-}
-
-void Menu::MoveUp()
-{
-    if (selectedTextIndex - 1 >= 0)
-    {
-        redText=false;
-        text[selectedTextIndex].setFillColor(sf::Color::Black);
-        selectedTextIndex--;
-        text[selectedTextIndex].setFillColor(sf::Color(168,31,000));
-    }
-}
-
-void Menu::MoveDown()
-{
-    if (selectedTextIndex + 1 < 3)
-    {
-        redText=false;
-        text[selectedTextIndex].setFillColor(sf::Color::Black);
-        selectedTextIndex++;
-        text[selectedTextIndex].setFillColor(sf::Color(168,31,000));
-    }
-}
-
-void  Menu::setScreen(){
 
     text[0].setFont(font[0]);
-    if( redText || selectedTextIndex == 0){ // a serve per far colorare la prima text del menu in modo corretto
-        text[0].setFillColor(sf::Color(168,31,000));
-    }else
-        text[0].setFillColor(sf::Color::Black);
+    text[0].setFillColor(sf::Color(168,31,000));
     text[0].setString("Start Game");
     text[0].setPosition(sf::Vector2f((width / 2)+700,height / (3+2) * 1));
     text[0].setCharacterSize(40);
@@ -85,9 +84,7 @@ void  Menu::setScreen(){
     text[1].setCharacterSize(40);
 
     text[2].setFont(font[0]);
-
-    if(selectedTextIndex != 2)
-        text[2].setFillColor(sf::Color::Black);
+    text[2].setFillColor(sf::Color::Black);
     text[2].setString("Exit");
     text[2].setPosition(sf::Vector2f((width / 2)+730, height / (3+2) * 3));
     text[2].setCharacterSize(40);
@@ -101,6 +98,8 @@ void  Menu::setScreen(){
 }
 
 void Menu::getActivities(Event event,RenderWindow &window) {
+
+    window.setView(view);
 
     switch (event.type) {
 
@@ -139,13 +138,13 @@ void Menu::getActivities(Event event,RenderWindow &window) {
     }
 }
 
-GraphicState *Menu::getNextState() {
+GraphicState *Menu::getNextState(RenderWindow &window) {
 
     switch (selectedTextIndex) {
         case 0:
-            return new ChooseCharacter;
+            return new ChooseCharacter(window);
         case 1:
-            return new Rules;
+            return new Rules(window);
         default:
             break;
     }
@@ -153,5 +152,11 @@ GraphicState *Menu::getNextState() {
 
 }
 
+void Menu::setView(RenderWindow &window) {
 
+    Vector2f v(texture.getSize());
+    view.setSize(v);
+    view.setCenter(v.x/2,v.y/2);
+    window.setView(view);
 
+}
