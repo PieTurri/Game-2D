@@ -54,3 +54,5 @@ private:
 };
 
 #endif //PROJECT_MENULOOP_H
+//incapsulamento di una funzione di Rendering: CARICARE LE TEXTURE ALL'INIZIO
+//State Pattern  <<<---

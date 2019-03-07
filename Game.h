@@ -7,9 +7,10 @@
 
 #include "GraphicState.h"
 #include "Hero.h"
+#include "Knight.h"
+#include "Valkyrie.h"
 #include "Enemy.h"
-#include "TileMap.h"
-
+#include <vector>
 
 class Game: public GraphicState {
 public:
@@ -18,15 +19,15 @@ public:
 
     Game(int charInd, int levInd,RenderWindow& window);
 
-    void draw(RenderWindow &window);
+    void draw(RenderWindow &window) override;
 
-    void setScreen();
+    void setScreen() override ;
 
-    void getActivities(Event event, RenderWindow &window);
+    void getActivities(Event e1vent, RenderWindow &window) override;
 
-    GraphicState *getNextState(RenderWindow &window);
+    GraphicState *getNextState(RenderWindow &window) override;
 
-    void setView(RenderWindow &window);
+    void setView(RenderWindow &window) override;
 
     void lookForCollision();
 
@@ -36,7 +37,7 @@ private:
     int levelIndex;
 
     Hero* hero;
-    vector<Enemy*> enemy;
+    vector <Enemy*> enemy;
 
     TileMap map;
 

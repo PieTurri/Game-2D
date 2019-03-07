@@ -15,12 +15,14 @@ Hero::Hero(int Hp, int speed, bool armor) : GameCharacter(Hp, speed) {
 
     sprite.setOrigin(16,24);
 
-    sprite.setPosition(128+16,128+24);
+    sprite.setPosition(128+24,128+24);
 
-    weapon=new Kalashnikov;
+    weapon = new Kalashnikov;
 }
 
-Hero::~Hero() {}
+
+
+Hero::~Hero() = default;
 
 bool Hero::isLocked() const {
     return Locked;
@@ -53,7 +55,6 @@ bool Hero::isFinalAttack() const {
 void Hero::setFinalAttack(bool FinalAttack) {
     Hero::FinalAttack = FinalAttack;
 }
-
 
 bool Hero::isArmor() const {
     return Armor;

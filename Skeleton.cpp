@@ -6,20 +6,18 @@
 #include "TileMap.h"
 Skeleton::Skeleton(int Hp, int speed) : Enemy(Hp, speed) {
     texture.loadFromFile("enemy2cropped.png");
+}
+/*void Skeleton::draw(Sprite &sprite) {
+
+    texture.loadFromFile("enemy2cropped.png");
 
     sprite.setTexture(texture);
 
-    sprite.setOrigin(16,16);
-}
-
-void Skeleton::draw(RenderWindow &window, TileMap &map) {
-
-    window.draw(sprite);
-
-}
+}*/
 
 
-/*void Skeleton::move(Sprite &Esprite, Texture &Etexture, int x_load) {
+
+/*void Skeleton::move(Sprite &sprite, Texture &texture, int x_load) {
 
     TileMap map;
 

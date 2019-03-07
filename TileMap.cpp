@@ -5,7 +5,6 @@
 #include "TileMap.h"
 #include <iostream>
 #include <cmath>
-#include <ctime>
 #include<sstream>
 
 
@@ -272,7 +271,6 @@ void TileMap::setFightRooms() {
             if (v[z] == v[i])
                 i--;
         }
-
     }
 
     for(int i=0;i<4;i++)

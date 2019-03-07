@@ -182,7 +182,6 @@ GraphicState *MapLevel::getNextState(RenderWindow &window) {
 
 void MapLevel::animation() {
 
-
     timer=clock.getElapsedTime();
 
     if(timer.asSeconds()>0.5) {

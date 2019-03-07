@@ -18,7 +18,7 @@ public:
 
     Hero(int Hp, int speed, bool armor);
 
-    virtual ~Hero();
+    ~Hero();
 
     bool isLocked() const;
 

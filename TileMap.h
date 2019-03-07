@@ -5,8 +5,6 @@
 #ifndef PROJECT_TILEMAP_H
 #define PROJECT_TILEMAP_H
 
-
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <fstream>
@@ -15,8 +13,7 @@
 using namespace sf;
 using namespace std;
 
-
-class TileMap {
+class TileMap{
 
 public:
 

@@ -5,8 +5,8 @@
 
 #include <iostream>
 #include "ChooseCharacter.h"
-#include "Menu.h"
 #include "MapLevel.h"
+#include "Menu.h"
 
 
 using namespace std;

@@ -3,10 +3,6 @@
 //
 
 #include "Game.h"
-#include <iostream>
-#include "Knight.h"
-#include "Valkyrie.h"
-#include "Skeleton.h"
 #include <cmath>
 
 using namespace std;
@@ -27,9 +23,15 @@ Game::Game(int charInd, int levInd,RenderWindow& window) : characterIndex(charIn
             break;
     }
 
-    setScreen();
-    setView(window);
+    srand((unsigned)time(NULL));
 
+    for(int i=0;i<10;i++){
+        enemy.push_back(new Enemy);
+       // cout <<"alert"<<endl;
+        enemy[i]->setPosition(map);
+    }
+
+    setView(window);
 }
 
 void Game::setScreen() {
@@ -131,6 +133,15 @@ void Game::draw(RenderWindow &window) {
 
     map.draw(window);
     hero->draw(window, map);
+
+    for(int i=0;i<enemy.size();i++){
+
+        enemy[i]->changeStrategy(hero,map);
+
+        enemy[i]->moveEnemy(map);
+
+        enemy[i]->draw(window,map);
+    }
 }
 
 void Game::setView(RenderWindow &window) {
@@ -150,16 +161,18 @@ void Game::lookForCollision() {
 
     float radius=0;
 
+    Vector2f distance;
+
     if(!projectile.empty()) {
 
         for (int i = 0; i < projectile.size(); i++) {
 
             for(int j=0;j<enemy.size();j++) {
-                Vector2f distance = projectile[i]->getPosition() - enemy[j]->getPosition();
+                distance = projectile[i]->getPosition() - enemy[j]->getPosition();
                 radius = (float) sqrt(pow(distance.x, 2) + pow(distance.y, 2));
 
                 if (radius <= 16)
-                    enemy[j]->setHp(enemy->getHp() - projectile[i]->getDamage());
+                    enemy[j]->setHp(enemy[j]->getHp() - projectile[i]->getDamage());
             }
 
             for(int j=0;j<obstacle.size();j++)

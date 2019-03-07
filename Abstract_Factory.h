@@ -44,7 +44,7 @@ protected:
 };
 
 class Enemy_Abstract_Factory{
-
+//factory method
 public:
     virtual Enemy * createEnemy() = 0;
 };

@@ -9,11 +9,9 @@ Knight::Knight(int Hp, int speed, bool armor) : Hero(Hp, speed, armor) {
 
     texture.loadFromFile("npc3_fr1.png");
     sprite.setTexture(texture);
-
 }
 
-Knight::~Knight() {}
-
+Knight::~Knight() = default;
 
 
 void Knight::draw(RenderWindow &window, TileMap &map) {
@@ -48,9 +46,12 @@ void Knight::movement(RenderWindow &window) {
     if(moveR&&!moveL) {
 
 
+
         sprite.move(speed, 0);
         weapon->move(speed,0);
 
+        if(abs(sprite.getPosition().x-Kview.getCenter().x)<2*32)
+            Kview.move(Speed/2,0);
         if(abs(sprite.getPosition().x-Kview.getCenter().x)<2*32)
             Kview.move(speed/2,0);
         else
@@ -158,3 +159,13 @@ void Knight::setDirection() {//void useWeapon(Sprite &spriteFire, Texture &textu
 
     sprite.setTexture(texture);
 }
+
+
+
+
+
+
+
+
+
+

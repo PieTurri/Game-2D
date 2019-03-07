@@ -19,7 +19,7 @@ public:
 
     explicit GameCharacter(int Hp, int speed);
 
-    virtual void draw(RenderWindow &window, TileMap &map) =0;
+    virtual void draw(RenderWindow &window, TileMap &map) = 0;
 
     ~GameCharacter();
 
@@ -39,16 +39,17 @@ public:
 
     Weapon* getWeapon();
 
+    //void setWeapon(Weapon *Weapon);
 
 protected:
 
     int Hp;
+    int Speed;
 
     Texture texture;
     Sprite sprite;
 
     int speed;
-
     bool usingWeapon;
 
     Weapon* weapon;

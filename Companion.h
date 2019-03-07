@@ -22,5 +22,4 @@ protected:
     bool ability;
 };
 
-
 #endif //PROJECT_COMPANION_H

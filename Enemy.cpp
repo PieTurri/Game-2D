@@ -3,116 +3,71 @@
 //
 
 #include "Enemy.h"
-#include <iostream>
-using namespace std;
+#include "EnemySleeping.h"
+#include <cmath>
 
-Enemy::Enemy(int Hp, int speed) : GameCharacter(Hp, speed) {
+using namespace std;
+using namespace sf;
+
+Enemy::Enemy(int Hp, int speed) : GameCharacter(Hp, speed) {}
+
+Enemy::Enemy() {
+    texture.loadFromFile("enemy2cropped.png");
+    sprite.setTexture(texture);
+    Es = new EnemySleeping;
 }
 
-Enemy::Enemy() {}
 
-Enemy::~Enemy() {}
+void Enemy::changeStrategy(Hero *h, TileMap &map) {
 
-void Enemy::randomDirection(Sprite &Esprite, TileMap &map) { //tirare fuori dal ctime
+    float tmpx = h->getPosition().x;
+    float tmpy = h->getPosition().y;
 
-    srand(unsigned(time(NULL)));
-    direction = rand() % 4;
+    tmpx = abs(tmpx-sprite.getPosition().x);
+    tmpy = abs(tmpy-sprite.getPosition().y);
 
-    didEnemyMove=true;
+    r=sqrt(tmpx*tmpx+tmpy*tmpy);
 
-    //inserito metodo piero
-
-    timeEnemy = clockEnemy.getElapsedTime();
-
-    if (timeEnemy.asMilliseconds() > 500) {
-        float x_load=Esprite.getPosition().x;
-        float y_load=Esprite.getPosition().y;
-
-        cout<<"XLOAD E YLOAD: "<<x_load<<" , "<<y_load<<endl;
-
-        switch(direction){
-            case 0:
-                if (map.getTileWalkability(Esprite.getPosition()+Vector2f(32,0))) {
-
-                    map.setTileWalkability(sf::Vector2f(), true);
-                    Esprite.move(32, 0);
-                    map.setTileWalkability(sf::Vector2f(), false);
-
-                } else
-                    didEnemyMove=false;
-                break;
-
-            case 1:
-                if (map.getTileWalkability(Esprite.getPosition()-Vector2f(32,0))) {
-
-                    map.setTileWalkability(sf::Vector2f(), true);
-                    Esprite.move(-32, 0);
-                    map.setTileWalkability(sf::Vector2f(), false);
-                } else
-                    didEnemyMove=false;
-                break;
-
-            case 2:
-                if (map.getTileWalkability(Esprite.getPosition()-Vector2f(0,32))) {
-
-                    map.setTileWalkability(sf::Vector2f(), true);
-                    Esprite.move(0, -32);
-                    map.setTileWalkability(sf::Vector2f(), false);
-                } else
-                    didEnemyMove=false;
-                break;
-
-            case 3:
-                if (map.getTileWalkability(Esprite.getPosition() + Vector2f(0,32))) {
-
-                    map.setTileWalkability(sf::Vector2f(), true);
-                    Esprite.move(0, 32);
-                    map.setTileWalkability(sf::Vector2f(), false);
-                } else
-                    didEnemyMove=false;
-                break;
-            default:
-                break;
-        }
-
-        if(didEnemyMove)
-            clockEnemy.restart();
+    if(r<96) {
+        EnemyEngaged = true;
+        EnemyStrategy *Cs = Es->getState();
+        delete Es;
+        Es = Cs;
     }
 
+    controlTarget();
+
+    if(EnemyContol){
+        EnemyEngaged = false;
+        EnemyStrategy *Cs = Es->getState();
+        delete Es;
+        Es = Cs;
+    }
 }
 
+void Enemy::moveEnemy(TileMap &map) {
+    Es->strategyDirection(map, sprite);
+}
 
 void Enemy::setPosition(TileMap &map) {
 
-    /*srand(unsigned(time(NULL)));
-    int casualPos = rand() % 5329;
-    int pos;
-    int Posx = casualPos % 15;
-    int Posy = (casualPos - Posx)/15;
+    Posx=rand()%73;
+    Posy=rand()%73;
+
+    Vector2f pos(Posx*32,Posy*32
 
 
-    for(int i = 0; i < 9;i ++){
+    );
 
-        if(map1.getFightRoomAccessibility(i)){
-
-            pos = 2;
-            Posx = pos % map1.getMapWidth()*32;
-            Posy = ((pos - Posx/32)/map1.getMapWidth())*32;
-
-            Esprite.setPosition(Posx,Posy);
-            cout<<"VAFFANCUUUUUUUUUUUUUU"<<Esprite.getPosition().x<<" , "<<Esprite.getPosition().y<<endl;
-
-            break;
-
-        }
-    }*/
-
-    sprite.setPosition(480+16,480+16);
-    map.setTileWalkability(sprite.getPosition(),false);
-
-
-
+    if(map.getTileWalkability(pos))
+        sprite.setPosition(Posx, Posy);
 }
 
+void Enemy::draw(RenderWindow &window, TileMap &map) {
+    window.draw(sprite);
+}
 
+void Enemy::controlTarget() {
 
+    EnemyContol = EnemyEngaged;
+}

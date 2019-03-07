@@ -18,9 +18,7 @@ int GameCharacter::getHp() const {
     return Hp;
 }
 
-GameCharacter::~GameCharacter() {
-
-}
+GameCharacter::~GameCharacter(){};
 
 Vector2f GameCharacter::getPosition() {
     return sprite.getPosition();
@@ -50,5 +48,8 @@ void GameCharacter::useWeapon() {
 Weapon *GameCharacter::getWeapon() {
     return weapon;
 }
-
-
+/*
+void GameCharacter::setWeapon(Weapon* Weapon) {
+    this-> weapon = Weapon;
+}
+*/

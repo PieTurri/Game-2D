@@ -11,17 +11,17 @@ void Musica::playMusic(sf::Music &music, int &index, int &mapScreen) {
     switch(index){
 
         case 0:
-            music.openFromFile("Excalibur.ogg");
+            //music.openFromFile("Excalibur.ogg");
             music.play();
             break;
 
         case 1:
             if(mapScreen == 1){
-                music.openFromFile("Courage.ogg");
+                //music.openFromFile("Courage.ogg");
                 mapScreen = 0;
             }
             else
-                music.openFromFile("AchillevsEttore.ogg");
+                //music.openFromFile("AchillevsEttore.ogg");
             music.play();
             break;
     }

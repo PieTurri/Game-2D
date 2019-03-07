@@ -6,9 +6,14 @@
 #define PROJECT_ENEMY_H
 
 #include "GameCharacter.h"
-#include <time.h>
+#include "TileMap.h"
+#include "EnemyStrategy.h"
+#include "Hero.h"
+#include <SFML/Graphics.hpp>
+#include <ctime>
 #include <iostream>
-
+#include <cstdio>
+#include <cstdlib>
 
 using namespace sf;
 using namespace std;
@@ -20,23 +25,29 @@ public:
 
     Enemy();
 
-    virtual ~Enemy();
+    void draw(RenderWindow &window, TileMap &map) override;
 
-    virtual void draw(RenderWindow &window, TileMap &map) = 0;
-    //virtual void move(Sprite &spritePlayer,Texture &texturePlayer, int x_load, int y_load) = 0;
-
-    void randomDirection(Sprite &Esprite, TileMap &map);
+    void changeStrategy(Hero *h, TileMap &map);
 
     void setPosition(TileMap &map);
 
-protected:
-    int Id;
-    int CpuStrategy;
-    Clock clockEnemy;
-    Time timeEnemy;
-    int direction;
-    bool didEnemyMove;
+    void moveEnemy(TileMap &map);
 
+    void controlTarget();
+
+protected:
+
+
+    EnemyStrategy* Es;
+
+    float r;
+
+    int pos;
+    int Posx;
+    int Posy;
+
+    bool EnemyEngaged = false;
+    bool EnemyContol;
 };
 
 
