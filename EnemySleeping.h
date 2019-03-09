@@ -8,8 +8,6 @@
 
 #include "TileMap.h"
 #include "EnemyStrategy.h"
-#include "EnemyAwake.h"
-
 
 class EnemySleeping : public EnemyStrategy{
 
@@ -19,9 +17,10 @@ public:
 
     ~EnemySleeping();
 
-    EnemyStrategy* getState() override;
+    EnemyStrategy* changeStrategy() override;
 
     void strategyDirection(TileMap &map, Sprite &Esprite) override;
+
 
 };
 

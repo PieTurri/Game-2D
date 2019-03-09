@@ -10,9 +10,7 @@ GameCharacter::GameCharacter(int hp, int speed) : Hp(hp), speed(speed) {}
 
 void GameCharacter::setHp(int Hp) {
     GameCharacter::Hp = Hp;
-    usingWeapon=false;
 }
-
 
 int GameCharacter::getHp() const {
     return Hp;

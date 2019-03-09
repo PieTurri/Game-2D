@@ -9,6 +9,7 @@
 #include <vector>
 #include <fstream>
 #include "Obstacle.h"
+#include "Tile.h"
 
 using namespace sf;
 using namespace std;
@@ -68,9 +69,7 @@ private:
 
     vector<Item> items;
 
-    vector <vector<int>> tiles;
-
-    vector <vector<bool>> isWalkable;
+    vector <vector<Tile>> tiles;
 
     RenderStates states;
 

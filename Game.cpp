@@ -4,6 +4,9 @@
 
 #include "Game.h"
 #include <cmath>
+#include "Knight.h"
+#include "Valkyrie.h"
+#include "Skeleton.h"
 
 using namespace std;
 using namespace sf;
@@ -26,8 +29,7 @@ Game::Game(int charInd, int levInd,RenderWindow& window) : characterIndex(charIn
     srand((unsigned)time(NULL));
 
     for(int i=0;i<10;i++){
-        enemy.push_back(new Enemy);
-       // cout <<"alert"<<endl;
+        enemy.push_back(new Skeleton(8,3));
         enemy[i]->setPosition(map);
     }
 
@@ -38,6 +40,8 @@ void Game::setScreen() {
 }
 
 void Game::getActivities(Event event, RenderWindow &window) {
+
+    //map.setTileWalkability(hero->getPosition(),true);
 
     switch (event.type) {
 
@@ -115,6 +119,7 @@ void Game::getActivities(Event event, RenderWindow &window) {
     }
 
     hero->setDirection();
+    //map.setTileWalkability(hero->getPosition(),false);
 
 }
 
@@ -132,15 +137,14 @@ void Game::draw(RenderWindow &window) {
         view.followCharPos(hero, window);
 
     map.draw(window);
+
     hero->draw(window, map);
 
     for(int i=0;i<enemy.size();i++){
 
+        enemy[i]->draw(window, map);
         enemy[i]->changeStrategy(hero,map);
-
         enemy[i]->moveEnemy(map);
-
-        enemy[i]->draw(window,map);
     }
 }
 
@@ -159,7 +163,7 @@ void Game::lookForCollision() {
 
     vector <Obstacle>& obstacle=map.getObstacle();
 
-    float radius=0;
+    float radius;
 
     Vector2f distance;
 
@@ -167,12 +171,24 @@ void Game::lookForCollision() {
 
         for (int i = 0; i < projectile.size(); i++) {
 
+            vector<Enemy*>::iterator it=enemy.begin();
+
             for(int j=0;j<enemy.size();j++) {
                 distance = projectile[i]->getPosition() - enemy[j]->getPosition();
                 radius = (float) sqrt(pow(distance.x, 2) + pow(distance.y, 2));
 
-                if (radius <= 16)
+                if (radius <= 16) {
                     enemy[j]->setHp(enemy[j]->getHp() - projectile[i]->getDamage());
+                    cout << enemy[j]->getHp() << endl;
+                }
+                if(enemy[j]->getHp()<=0) {
+                    map.setTileWalkability(enemy[j]->getPosition(),true);
+                    enemy.erase(it);
+                    j--;
+                }
+                else
+                    it++;
+
             }
 
             for(int j=0;j<obstacle.size();j++)
@@ -183,7 +199,6 @@ void Game::lookForCollision() {
                 if(radius<=16) {
                     obstacle[j].setDestroyed(true);
                     projectile[i]->setDestroyed();
-                    cout<<"ostacolo distrutto"<<endl;
                 }
             }
             map.setObstacle(obstacle);

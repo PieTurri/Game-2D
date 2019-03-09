@@ -7,8 +7,6 @@
 
 #include "GraphicState.h"
 #include "Hero.h"
-#include "Knight.h"
-#include "Valkyrie.h"
 #include "Enemy.h"
 #include <vector>
 
@@ -36,10 +34,10 @@ private:
     int characterIndex;
     int levelIndex;
 
+    TileMap map;
+
     Hero* hero;
     vector <Enemy*> enemy;
-
-    TileMap map;
 
 };
 

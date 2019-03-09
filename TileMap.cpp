@@ -46,7 +46,7 @@ bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize) {
 
             // get the current tile number
 
-            int tileNumber = tiles[i][j];
+            int tileNumber = tiles[i][j].getValue();
 
 
             // find its position in the tileset texture
@@ -123,11 +123,9 @@ void TileMap::setTileMap() {
     mapTextFile.open("mappa");
 
     int i=0;
-
     string line;
-
-    vector <int> lineTiles;
-    vector <bool> lineWalkable;
+    vector <Tile> lineTiles;
+    Tile tile;
 
     while(getline(mapTextFile,line)) {
 
@@ -135,17 +133,18 @@ void TileMap::setTileMap() {
 
         while(iss>>i) {
 
-            lineTiles.push_back(i);
+            tile.setValue(i);
+
             if (i == 42 || i == 478)
-                lineWalkable.push_back(false);
+                tile.setWalkability(false);
             else
-                lineWalkable.push_back(true);
+                tile.setWalkability(true);
+
+            lineTiles.push_back(tile);
         }
 
         tiles.push_back(lineTiles);
-        isWalkable.push_back(lineWalkable);
         lineTiles.clear();
-        lineWalkable.clear();
     }
 
     mapTextFile.close();
@@ -162,7 +161,7 @@ unsigned int TileMap::getMapWidth() {
 
 bool TileMap::getTileWalkability(Vector2f charPos) {
 
-    return isWalkable[(int)(floor((charPos.x) / 32))][((int)floor((charPos.y) / 32))];
+    return tiles[(int)(floor((charPos.x) / 32))][((int)floor((charPos.y) / 32))].getWalkability();
 }
 
 void TileMap::updateRoomsItems() {
@@ -237,7 +236,7 @@ void TileMap::setItemsProperty() {
 
         obstacles.push_back(obstacle);
 
-        while (!isWalkable[obstaclePosX][obstaclePosY]) {
+        while (!tiles[obstaclePosX][obstaclePosY].getWalkability()) {
 
             obstaclePosX = rand() % width;
             obstaclePosY = rand() % width;
@@ -246,14 +245,14 @@ void TileMap::setItemsProperty() {
         Vector2f v(obstaclePosX*32+16,obstaclePosY*32+16);
 
         obstacles[x].setPosition(v);
-        isWalkable[obstaclePosX][obstaclePosY]=false;
+        tiles[obstaclePosX][obstaclePosY].setWalkability(false);
     }
 
 }
 
 void TileMap::setTileWalkability(Vector2f pos, bool walkProperty) {
 
-    isWalkable[(int)(floor(pos.x) / 32)][((int)floor(pos.y) / 32)] = walkProperty;
+    tiles[(int)(floor(pos.x) / 32)][((int)floor(pos.y) / 32)].setWalkability(walkProperty);
 }
 
 void TileMap::setFightRooms() {

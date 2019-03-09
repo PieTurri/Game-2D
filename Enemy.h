@@ -25,7 +25,7 @@ public:
 
     Enemy();
 
-    void draw(RenderWindow &window, TileMap &map) override;
+    void draw(RenderWindow &window, TileMap &map);
 
     void changeStrategy(Hero *h, TileMap &map);
 
@@ -37,16 +37,9 @@ public:
 
 protected:
 
-
     EnemyStrategy* Es;
 
-    float r;
-
-    int pos;
-    int Posx;
-    int Posy;
-
-    bool EnemyEngaged = false;
+    bool EnemyEngaged;
     bool EnemyContol;
 };
 

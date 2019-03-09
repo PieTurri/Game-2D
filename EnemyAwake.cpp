@@ -10,7 +10,7 @@ void EnemyAwake::strategyDirection(TileMap &map, Sprite &sprite) {
 
 }
 
-EnemyStrategy * EnemyAwake::getState() {
+EnemyStrategy * EnemyAwake::changeStrategy() {
     return new EnemySleeping;
 }
 

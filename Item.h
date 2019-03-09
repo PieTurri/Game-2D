@@ -37,6 +37,7 @@ protected:
 
     Sprite sprite;
     Texture texture;
+
     int numFrame;
 
     string nameFile;

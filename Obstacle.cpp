@@ -9,7 +9,6 @@ using namespace std;
 Obstacle::Obstacle(string file, int numberOfFrame) : Item(file,numberOfFrame){
 
     destroyed=false;
-
 }
 
 Obstacle::~Obstacle() {}

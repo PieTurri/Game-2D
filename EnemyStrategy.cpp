@@ -9,6 +9,7 @@ EnemyStrategy::EnemyStrategy() {}
 
 EnemyStrategy::EnemyStrategy(Sprite &sprite) {
     srand((unsigned)time(NULL));
+    didEnemyMove=false;
 }
 
 EnemyStrategy::~EnemyStrategy() = default;
@@ -16,7 +17,6 @@ EnemyStrategy::~EnemyStrategy() = default;
 void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
 
     pos_load = sprite.getPosition();
-
 
     switch (direction) {
         case 0:

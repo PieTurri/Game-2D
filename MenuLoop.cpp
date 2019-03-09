@@ -11,7 +11,7 @@ using namespace sf;
 
 MenuLoop::MenuLoop() {
 
-    window.create(sf::VideoMode(1400,900), "Leo&Pie Game");
+    window.create(sf::VideoMode(700,450), "Leo&Pie Game");
     index=0;
     mapScreen=0;
 }
@@ -20,7 +20,7 @@ void MenuLoop::generateScreen() {
 
     Graphic graphic(new Menu(window));
 
-    songs.playMusic(music, index, mapScreen);
+    //songs.playMusic(music, index, mapScreen);
 
     graphic.setScreen();
 
@@ -35,7 +35,7 @@ void MenuLoop::generateScreen() {
             graphic.changeState(window);
         }
 
-        //cout << graphic.getState() << endl;
+        //cout << graphic.changeStrategy() << endl;
 
         window.clear();
 

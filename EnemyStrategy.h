@@ -7,8 +7,6 @@
 
 #include <iostream>
 #include "TileMap.h"
-
-#include <vector>
 #include <SFML/Graphics.hpp>
 
 using namespace std;
@@ -20,11 +18,12 @@ public:
 
     explicit EnemyStrategy(Sprite &sprite);
 
-    virtual EnemyStrategy * getState() = 0;
+    virtual EnemyStrategy * changeStrategy() = 0;
 
     virtual ~EnemyStrategy();
 
     virtual void strategyDirection(TileMap &map, Sprite &Esprite) = 0;
+
     void updateMovement(TileMap &map,Sprite &sprite);
 
 
@@ -34,7 +33,9 @@ protected:
     Vector2f pos_load;
 
     int direction;
+
     bool didEnemyMove;
+
     Time timeEnemy;
     Clock clockEnemy;
 };

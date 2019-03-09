@@ -16,14 +16,6 @@ public:
 
     Skeleton(int Hp, int speed);
 
-    //void draw(Sprite &sprite) override;
-
-   // void move(Sprite &spritePlayer,Texture &texturePlayer, int x_load, int y_load) override;
-
-
-
-private:
-
 };
 
 

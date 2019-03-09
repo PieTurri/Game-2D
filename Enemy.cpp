@@ -9,61 +9,57 @@
 using namespace std;
 using namespace sf;
 
-Enemy::Enemy(int Hp, int speed) : GameCharacter(Hp, speed) {}
-
-Enemy::Enemy() {
-    texture.loadFromFile("enemy2cropped.png");
-    sprite.setTexture(texture);
+Enemy::Enemy(int Hp, int speed) : GameCharacter(Hp, speed) {
     Es = new EnemySleeping;
+    EnemyEngaged= false;
 }
 
+Enemy::Enemy(): Enemy(2,6) {}
 
 void Enemy::changeStrategy(Hero *h, TileMap &map) {
 
-    float tmpx = h->getPosition().x;
-    float tmpy = h->getPosition().y;
+    Vector2f distance=h->getPosition()-getPosition();
 
-    tmpx = abs(tmpx-sprite.getPosition().x);
-    tmpy = abs(tmpy-sprite.getPosition().y);
+    float r=(float)sqrt(pow(distance.x,2)+pow(distance.y,2));
 
-    r=sqrt(tmpx*tmpx+tmpy*tmpy);
+    EnemyContol=EnemyEngaged;
 
-    if(r<96) {
-        EnemyEngaged = true;
-        EnemyStrategy *Cs = Es->getState();
+    if(r<96)
+        EnemyEngaged=true;
+    else
+        EnemyEngaged=false;
+
+    if(EnemyContol!=EnemyEngaged) {
+        EnemyStrategy *Cs = Es->changeStrategy();
         delete Es;
-        Es = Cs;
+        Es=Cs;
     }
 
-    controlTarget();
-
-    if(EnemyContol){
-        EnemyEngaged = false;
-        EnemyStrategy *Cs = Es->getState();
-        delete Es;
-        Es = Cs;
-    }
 }
 
 void Enemy::moveEnemy(TileMap &map) {
-    Es->strategyDirection(map, sprite);
+    Es->strategyDirection(map,sprite);
 }
 
 void Enemy::setPosition(TileMap &map) {
 
-    Posx=rand()%73;
-    Posy=rand()%73;
+    Vector2f pos(0, 0);
 
-    Vector2f pos(Posx*32,Posy*32
+    while(!map.getTileWalkability(pos)) {
 
+        float Posx = rand() % 73;
+        float Posy = rand() % 73;
 
-    );
+        pos=Vector2f(Posx*32,Posy*32);
 
-    if(map.getTileWalkability(pos))
-        sprite.setPosition(Posx, Posy);
+        sprite.setPosition(pos.x+16, pos.y+16);
+    }
+
+    cout<<"pos: "<<sprite.getPosition().x<<" , "<<sprite.getPosition().y<<endl;
 }
 
 void Enemy::draw(RenderWindow &window, TileMap &map) {
+
     window.draw(sprite);
 }
 

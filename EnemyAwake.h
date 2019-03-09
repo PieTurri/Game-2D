@@ -15,7 +15,7 @@ public:
 
     ~EnemyAwake();
 
-    EnemyStrategy * getState() override;
+    EnemyStrategy * changeStrategy() override;
 
     void strategyDirection(TileMap &map, Sprite &sprite) override;
 
