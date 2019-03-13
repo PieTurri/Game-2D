@@ -16,15 +16,17 @@ using namespace std;
 
 class TileMap{
 
+    //enum LevelName{ARCONTUS,MIRINTHAS,PUNKHAZARD,CASTRISAND,ETRAS};
+
 public:
+
+    //string getLevelName(int index);
+
+    //static TileMap Create(LevelName name);
 
     TileMap();
 
-    TileMap(unsigned int h, unsigned int w);
-
-    unsigned int getMapHeight();
-
-    unsigned int getMapWidth();
+    void findDimension();
 
     ~TileMap();
 
@@ -72,6 +74,8 @@ private:
     vector <vector<Tile>> tiles;
 
     RenderStates states;
+
+    //string textFileName;
 
     fstream mapTextFile;
     fstream itemTextFile;

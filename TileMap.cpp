@@ -5,23 +5,19 @@
 #include "TileMap.h"
 #include <iostream>
 #include <cmath>
-#include<sstream>
+#include <sstream>
 
 
 using namespace std;
 
-
-TileMap::TileMap() : TileMap(73,73) {
+TileMap::TileMap() {
 
     setTileMap();
+    findDimension();
     setItemsProperty();
 
     load("Tileset1.png",Vector2u(32,32));
 }
-
-
-TileMap::TileMap(unsigned int h, unsigned int w): height(h), width(w) {}
-
 
 TileMap::~TileMap() {}
 
@@ -36,13 +32,13 @@ bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize) {
 
     m_vertices.setPrimitiveType(sf::Quads);
 
-    m_vertices.resize(width * height * 4);
+    m_vertices.resize(height * width * 4);
 
     // populate the vertex array, with one quad per tile
 
-    for (unsigned int i = 0; i < width; ++i) {
+    for (unsigned int i = 0; i < height; i++) {
 
-        for (unsigned int j = 0; j < height; ++j) {
+        for (unsigned int j = 0; j < width; j++) {
 
             // get the current tile number
 
@@ -58,18 +54,18 @@ bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize) {
 
             // get a pointer to the current tile's quad
 
-            sf::Vertex *quad = &m_vertices[(i + j * width) * 4];
+            sf::Vertex *quad = &m_vertices[(j + i * width) * 4];
 
 
             // define its 4 corners
 
-            quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+            quad[0].position = sf::Vector2f(j * tileSize.x, i * tileSize.y);
 
-            quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+            quad[1].position = sf::Vector2f((j + 1) * tileSize.x, i * tileSize.y);
 
-            quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
+            quad[2].position = sf::Vector2f((j + 1) * tileSize.x, (i + 1) * tileSize.y);
 
-            quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+            quad[3].position = sf::Vector2f(j * tileSize.x, (i + 1) * tileSize.y);
 
 
             // define its 4 texture coordinates
@@ -120,7 +116,7 @@ void TileMap::draw(RenderWindow &window) {
 
 void TileMap::setTileMap() {
 
-    mapTextFile.open("mappa");
+    mapTextFile.open("MIRINTHAS");
 
     int i=0;
     string line;
@@ -150,18 +146,12 @@ void TileMap::setTileMap() {
     mapTextFile.close();
 }
 
-
-unsigned int TileMap::getMapHeight() {
-    return height;
-}
-
-unsigned int TileMap::getMapWidth() {
-    return width;
-}
-
 bool TileMap::getTileWalkability(Vector2f charPos) {
 
-    return tiles[(int)(floor((charPos.x) / 32))][((int)floor((charPos.y) / 32))].getWalkability();
+    int i=(int)(floor((charPos.y) / 32));
+    int j=((int)floor((charPos.x) / 32));
+
+    return tiles[i][j].getWalkability();
 }
 
 void TileMap::updateRoomsItems() {
@@ -252,7 +242,11 @@ void TileMap::setItemsProperty() {
 
 void TileMap::setTileWalkability(Vector2f pos, bool walkProperty) {
 
-    tiles[(int)(floor(pos.x) / 32)][((int)floor(pos.y) / 32)].setWalkability(walkProperty);
+    int i=(int)(floor(pos.y) / 32);
+    int j=(int)(floor(pos.x) / 32);
+
+
+    tiles[i][j].setWalkability(walkProperty);
 }
 
 void TileMap::setFightRooms() {
@@ -317,3 +311,35 @@ void TileMap::setObstacle(vector<Obstacle> &obstacle) {
     obstacles=obstacle;
 
 }
+
+/*TileMap::getLevelName(int index) {
+    switch(index){
+        case 0:
+            return "ARCONTUS";
+        case 1:
+            return "MIRINTHAS";
+        case 2:
+            return "PUNKHAZARD";
+        case 3:
+            return "CASTRISAND";
+        case 4:
+            return "ETRAS";
+    }
+}*/
+
+/*TileMap TileMap::Create(LevelName name) {
+    switch(name){
+        case ARCONTUS:
+            return TileMap("mappa");
+        case MIRINTHAS:
+            return TileMap("mappa2");
+    }
+}*/
+
+void TileMap::findDimension() {
+
+    height=tiles.size();
+    width=tiles[0].size();
+
+}
+
