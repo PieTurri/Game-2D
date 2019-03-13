@@ -65,6 +65,7 @@ private:
     unsigned int height;
     unsigned int width;
 
+
     bool fightRooms[9];
 
     vector <Obstacle> obstacles;

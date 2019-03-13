@@ -114,6 +114,7 @@ void TileMap::draw(RenderWindow &window) {
     }
 }
 
+
 void TileMap::setTileMap() {
 
     mapTextFile.open("MIRINTHAS");
