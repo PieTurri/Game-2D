@@ -4,9 +4,12 @@
 
 #include "EnemyAwake.h"
 
-EnemyAwake::EnemyAwake() {}
+EnemyAwake::EnemyAwake() {
 
-void EnemyAwake::strategyDirection(TileMap &map, Sprite &sprite) {
+    firingStrategy=true;
+}
+
+void EnemyAwake::setDirection(TileMap &map, Sprite &sprite) {
 
 }
 

@@ -10,6 +10,8 @@
 #include "Enemy.h"
 //#include "Companion.h"
 
+#include <iostrem>
+
 #include "Knight.h"
 #include "Valkyrie.h"
 #include "Ninja.h"
@@ -21,6 +23,8 @@
 #include <iostream>
 
 
+enum HeroType {KNIGHT, VALKYRIE, NINJA, WIZARD, PLANETAR};
+enum EnemyType{SKELETON};
 using namespace std;
 
 class Abstract_Factory{
@@ -29,49 +33,40 @@ public:
 
     virtual ~Abstract_Factory(){}
 
-    //enum CharacterType {Knight, Valkyrie, Ninja, Wizard, Planetar};
+    virtual Hero *createHero(int index) = 0;
 
-    virtual Hero * createHero() = 0;
+    //virtual Enemy *createEnemy(int index) = 0;
 
-    //virtual Enemy*createEnemy()=0;
     //virtual Companion*createCompanion()=0;
 
 protected:
 
-    //virtual Weapon*createWeapon()=0;ù
+    //virtual Weapon*createWeapon()=0;
     Hero * hero;
 
 };
 
-class Enemy_Abstract_Factory{
-//factory method
-public:
-    virtual Enemy * createEnemy() = 0;
-};
-
-
-class KnightFactory : public Abstract_Factory{
+class HeroFactory : public Abstract_Factory{
 
 public:
-    Hero* createHero() override {
-        auto knight = new Knight(3,8,false);
-        return knight;
-     }
-};
+    Hero *createHero(int index) override {
 
-class ValkyrieFactory : public Abstract_Factory{
-public:
-    Hero* createHero() override {
-        auto valkyrie = new Valkyrie(16,8,true);
-        return valkyrie;
+        switch(index){
+            case 0:
+                return new Knight(8,8,true):
+            case 1:
+                return new Valkyrie(8,16,false);
+            default:
+                cout<<"ERRORE CREAZIONE EROE"<<endl;
+
+        }
     }
 };
 
-class SkeletonFactory : public Enemy_Abstract_Factory {
+class EnemyFactory : public Enemy_Abstract_Factory {
 public:
     Enemy* createEnemy() override {
-        auto skeleton = new Skeleton(10,4);
-        return skeleton;
+
     }
 };
 

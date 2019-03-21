@@ -27,19 +27,23 @@ public:
 
     void setDamage(int Demage);
 
+    void setPosition(Vector2f pos);
+
     Vector2f getPosition();
 
-    void draw(RenderWindow &window, TileMap &map);
+    void draw(RenderWindow &window);
 
-    void rotate(Event event, RenderWindow &window);
+    void rotate(Vector2f posTarget);
 
     void move(float x,float y);
 
     void flip(String dir);
 
-    void fire();
+    float getRateOfFire();
 
-    vector<Projectile *> getProjectile();
+    //Projectile* fire();
+
+    Vector2f getAimedPoint();
 
 protected:
 
@@ -57,8 +61,6 @@ protected:
     Texture texture;
 
     bool isFlipped;
-
-    vector <Projectile*> projectile;
 
     Clock clock;
     Time times;

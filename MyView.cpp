@@ -4,43 +4,64 @@
 
 #include "MyView.h"
 #include <iostream>
+#include <tgmath.h>
 
 using namespace std;
 
-MyView::MyView() {
+MyView::MyView() {}
+
+void MyView::followHero() {
+
+    Vector2f range = subject->getPosition() - getCenter();
+
+    if(!subject->getDirDown()&&!subject->getDirRight()&&!subject->getDirLeft()&&!subject->getDirUp()) {
+
+        times = clock.getElapsedTime();
+
+        float l = (float) sqrt(pow(range.x, 2) + pow(range.y, 2));
+
+        if (times.asMilliseconds() > 0) {
+            if (abs(l) > 0.5) {
+
+                move(range.x / l, range.y / l);
+            }
+
+            clock.restart();
+        }
+    }
+    else{
+
+        if(abs(range.x)<=64&&abs(range.y)<=64)
+            speed=subject->getSpeed()/2;
+        else
+            speed=subject->getSpeed();
+
+        if(subject->getDirUp())
+            move(0,-speed);
+
+        if(subject->getDirDown())
+            move(0,speed);
+
+        if(subject->getDirLeft())
+            move(-speed,0);
+
+        if(subject->getDirRight())
+            move(speed,0);
+
+    }
 
 }
 
-void MyView::followCharPos(Hero *hero, RenderWindow &window) {
+void MyView::update(Subject *s) {
 
-    View view=window.getView();
+    if(subject==s)
+        followHero();
 
-    float dy=hero->getPosition().y-view.getCenter().y;
-    float dx=hero->getPosition().x-view.getCenter().x;
+}
 
-    times=clock.getElapsedTime();
+void MyView::setSubject(Hero *subject) {
 
-    if(times.asMilliseconds()>0) {
-        if (dx != 0 || dy != 0) {
-
-            float m = dy / dx;
-
-            if (dx > 0)
-                view.move(1, m);
-            else if (dx < 0)
-                view.move(-1, -m);
-            else
-                view.move(0, abs(dy) / dy);
-
-
-            //float l=(float)sqrt(pow(dx,2)+pow(dy,2));
-
-            //view.move(dx/20,dy/20);
-        }
-
-        clock.restart();
-    }
-
-    window.setView(view);
+    this->subject=subject;
+    subject->addObserver(this);
 
 }

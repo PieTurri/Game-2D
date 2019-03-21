@@ -19,7 +19,7 @@ public:
 
     explicit GameCharacter(int Hp, int speed);
 
-    virtual void draw(RenderWindow &window, TileMap &map) = 0;
+    void draw(RenderWindow &window);
 
     ~GameCharacter();
 
@@ -33,22 +33,34 @@ public:
 
     Vector2f getPosition();
 
+    void setPosition(Vector2f pos);
+
     void setWeaponUse(bool statement);
 
-    void useWeapon();
+    bool getWeaponUse();
+
+    //void useWeapon();
 
     Weapon* getWeapon();
+
+    FloatRect getDimension();
+
+    /*virtual Vector2f moveRight()=0;
+
+    virtual Vector2f moveLeft()=0;
+
+    virtual Vector2f moveUp()=0;
+
+    virtual Vector2f moveDown()=0;*/
 
     //void setWeapon(Weapon *Weapon);
 
 protected:
 
-    int Hp;
-    int Speed;
-
     Texture texture;
     Sprite sprite;
 
+    int Hp;
     int speed;
     bool usingWeapon;
 

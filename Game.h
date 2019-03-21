@@ -9,13 +9,16 @@
 #include "Hero.h"
 #include "Enemy.h"
 #include <vector>
+//#include "Collision.h"
 
 class Game: public GraphicState {
 public:
 
     //Game();
 
-    Game(int charInd, int levInd,RenderWindow& window);
+    Game(int characterIndex, int levInd, RenderWindow &window);
+
+    ~Game();
 
     void draw(RenderWindow &window) override;
 
@@ -29,15 +32,37 @@ public:
 
     void lookForCollision();
 
+    void manageProjectile();
+
+    void createProjectile();
+
+    void update(RenderWindow &window);
+
+    Vector2f getRandomPosition();
+
 private:
 
-    int characterIndex;
     int levelIndex;
+
+    bool pause;
 
     TileMap map;
 
+    Time heroTime;
+
+    Clock heroClock;
+
+    vector <Time> enemyTime;
+
+    vector <Clock> enemyClock;
+
+    vector <Projectile*> heroProjectile;
+
+    vector <Projectile*> enemyProjectile;
+
     Hero* hero;
     vector <Enemy*> enemy;
+    //Collision collision;
 
 };
 

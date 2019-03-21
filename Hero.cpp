@@ -2,20 +2,20 @@
 // Created by piero on 9/3/18.
 //
 
-#include "Hero.h"
+//#include "Hero.h"
 #include "Kalashnikov.h"
+#include "Knight.h"
+#include "Valkyrie.h"
+#include "Hero.h"
 
 Hero::Hero(int Hp, int speed, bool armor) : GameCharacter(Hp, speed) {
+
     Armor = armor;
 
     moveU = false;
     moveD = false;
     moveL = false;
     moveR = false;
-
-    sprite.setOrigin(16,24);
-
-    sprite.setPosition(128+16,128+24);
 
     weapon = new Kalashnikov;
 }
@@ -94,9 +94,84 @@ bool Hero::isStill() {
 
 void Hero::aim(RenderWindow &window, Event event) {
 
-    weapon->rotate(event, window);
+    View view=window.getView();
+
+    Vector2f size=(Vector2f)window.getSize();
+
+    float targetX=event.mouseMove.x-(size.x/2)+view.getCenter().x;
+
+    float targetY=event.mouseMove.y-(size.y/2)+view.getCenter().y;
+
+    Vector2f posTarget(targetX,targetY);
+
+    weapon->rotate(posTarget);
 
 }
 
+Hero *Hero::Create(int index) {
+    switch(index){
+        case 0:
+            return new Knight(8,8,false);
+        case 1:
+            return new Valkyrie(8,5,true);
+    }
+}
+
+bool Hero::getDirRight() {
+
+    return moveR;
+}
+
+bool Hero::getDirLeft() {
+    return moveL;
+}
+
+bool Hero::getDirDown() {
+    return moveD;
+}
+
+bool Hero::getDirUp() {
+    return moveU;
+}
+
+Vector2f Hero::moveRight() {
+
+    sprite.move(speed, 0);
+    weapon->move(speed, 0);
+
+    notify();
+
+    return getPosition();
+}
+
+Vector2f Hero::moveLeft() {
+
+    sprite.move(-speed, 0);
+    weapon->move(-speed, 0);
+
+    notify();
+
+    return getPosition();
+}
+
+Vector2f Hero::moveUp() {
+
+    sprite.move(0, -speed);
+    weapon->move(0, -speed);
+
+    notify();
+
+    return getPosition();
+}
+
+Vector2f Hero::moveDown() {
+
+    sprite.move(0, speed);
+    weapon->move(0, speed);
+
+    notify();
+
+    return getPosition();
+}
 
 

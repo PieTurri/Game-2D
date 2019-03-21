@@ -8,7 +8,6 @@ Item::Item(string file, int numberOfFrame) : nameFile(file), numFrame(numberOfFr
 
     index=1;
     animation=false;
-
     texture.loadFromFile(file+to_string(index)+".png");
     sprite.setTexture(texture);
     sprite.scale(0.30, 0.30);
@@ -63,5 +62,11 @@ void Item::setAnimation(bool state) {
 
 
 bool Item::getAnimation() {
+
     return animation;
+}
+
+FloatRect Item::getDimension() {
+
+    return sprite.getGlobalBounds();
 }

@@ -5,14 +5,14 @@
 #ifndef PROJECT_HERO_H
 #define PROJECT_HERO_H
 
-
 #include <iostream>
 #include "GameCharacter.h"
+#include "Subject.h"
 
 using namespace std;
 using namespace sf;
 
-class Hero : public GameCharacter {
+class Hero : public GameCharacter ,public Subject{
 
 public:
 
@@ -40,10 +40,6 @@ public:
 
     void setArmor(bool Armor);
 
-    virtual void movement(RenderWindow &window) =0;
-
-    virtual void draw(RenderWindow &window, TileMap &map) =0;
-
     virtual void setDirection()=0;
 
     void setDirUp(bool state);
@@ -54,11 +50,27 @@ public:
 
     void setDirRight(bool state);
 
+    bool getDirRight();
+
+    bool getDirLeft();
+
+    bool getDirDown();
+
+    bool getDirUp();
+
+    Vector2f moveRight();
+
+    Vector2f moveLeft();
+
+    Vector2f moveUp();
+
+    Vector2f moveDown();
+
     bool isStill();
 
     void aim(RenderWindow &window, Event event);
 
-
+    static Hero* Create(int index);
 
 protected:
 
@@ -67,8 +79,6 @@ protected:
     bool SpecialPower;
     bool FinalAttack;
     bool Armor;
-
-    int HeroType; //non è detto
 
     bool moveU;
     bool moveD;

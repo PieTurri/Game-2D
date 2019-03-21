@@ -9,14 +9,36 @@
 
 using namespace std;
 
-Projectile::Projectile() {
+Projectile::Projectile() {}
+
+Projectile::Projectile(Vector2f pos, Vector2f aimedPos) {
+
+    texture.loadFromFile("fireball2.png");
+    sprite.setTexture(texture);
+
+    sprite.setOrigin(16,16);
+
+    aimedPoint=aimedPos;
+
+    /*float increment=(float)sqrt(pow(16,2)+pow(16,2));
+    float l=(float)sqrt(pow(aimedPoint.x,2)+pow(aimedPoint.y,2));
+
+    sprite.setPosition(pos+Vector2f(increment*aimedPos.x/l,aimedPos.y*increment/l));*/
+
+    sprite.setPosition(pos);
+
+    float angle= static_cast<float>(atan(aimedPos.y / aimedPos.x) * 180 / M_PI);
+
+    if(aimedPos.x<0) {
+        angle += 180;
+    }
+
+    sprite.rotate(angle);
 
     breakUp=false;
     movementSpeed=10;
     damage=2;
 }
-
-//Projectile::Projectile(Vector2f pos, Vector2f aimedP) {}
 
 Projectile::~Projectile() {}
 
@@ -62,4 +84,9 @@ int Projectile::getDamage() {
 void Projectile::setDestroyed() {
 
     breakUp=true;
+}
+
+FloatRect Projectile::getDimension() {
+
+    return sprite.getGlobalBounds();
 }

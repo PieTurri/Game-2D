@@ -2,11 +2,11 @@
 // Created by piero on 10/3/18.
 //
 
-
 #include <iostream>
 #include "ChooseCharacter.h"
 #include "MapLevel.h"
 #include "Menu.h"
+#include "Hero.h"
 
 
 using namespace std;

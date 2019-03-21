@@ -35,8 +35,6 @@ void MenuLoop::generateScreen() {
             graphic.changeState(window);
         }
 
-        //cout << graphic.changeStrategy() << endl;
-
         window.clear();
 
         graphic.draw(window);

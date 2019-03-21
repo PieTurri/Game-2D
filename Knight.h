@@ -19,10 +19,6 @@ public:
 
     ~Knight();
 
-    void movement(RenderWindow &window);
-
-    void draw(RenderWindow &window, TileMap &map);
-
     void setDirection();
 
 private:

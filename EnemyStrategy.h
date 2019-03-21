@@ -14,6 +14,7 @@ using namespace std;
 class EnemyStrategy {
 
 public:
+
     EnemyStrategy();
 
     explicit EnemyStrategy(Sprite &sprite);
@@ -22,15 +23,17 @@ public:
 
     virtual ~EnemyStrategy();
 
-    virtual void strategyDirection(TileMap &map, Sprite &Esprite) = 0;
+    virtual void setDirection(TileMap &map, Sprite &Esprite) = 0;
 
     void updateMovement(TileMap &map,Sprite &sprite);
 
-
+    bool isFiringStrategy();
 
 protected:
 
     Vector2f pos_load;
+
+    bool firingStrategy;
 
     int direction;
 

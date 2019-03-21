@@ -7,6 +7,7 @@
 
 EnemySleeping::EnemySleeping() {
 
+    firingStrategy=false;
 }
 
 EnemySleeping::~EnemySleeping() {
@@ -17,7 +18,7 @@ EnemyStrategy *EnemySleeping::changeStrategy() {
     return new EnemyAwake;
 }
 
-void EnemySleeping::strategyDirection(TileMap &map, Sprite &Esprite) {
+void EnemySleeping::setDirection(TileMap &map, Sprite &Esprite) {
 
     timeEnemy=clockEnemy.getElapsedTime();
 

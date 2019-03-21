@@ -5,13 +5,16 @@
 #include "Enemy.h"
 #include "EnemySleeping.h"
 #include <cmath>
+#include "Kalashnikov.h"
 
 using namespace std;
 using namespace sf;
 
 Enemy::Enemy(int Hp, int speed) : GameCharacter(Hp, speed) {
+
     Es = new EnemySleeping;
     EnemyEngaged= false;
+    weapon=new Kalashnikov;
 }
 
 Enemy::Enemy(): Enemy(2,6) {}
@@ -22,9 +25,9 @@ void Enemy::changeStrategy(Hero *h, TileMap &map) {
 
     float r=(float)sqrt(pow(distance.x,2)+pow(distance.y,2));
 
-    EnemyContol=EnemyEngaged;
+    bool EnemyContol=EnemyEngaged;
 
-    if(r<96)
+    if(r<160)
         EnemyEngaged=true;
     else
         EnemyEngaged=false;
@@ -38,32 +41,21 @@ void Enemy::changeStrategy(Hero *h, TileMap &map) {
 }
 
 void Enemy::moveEnemy(TileMap &map) {
-    Es->strategyDirection(map,sprite);
+
+    Es->setDirection(map, sprite);
+    weapon->setPosition(sprite.getPosition());
 }
 
-void Enemy::setPosition(TileMap &map) {
 
-    Vector2f pos(0, 0);
+void Enemy::aim(Vector2f heroPos) {
 
-    while(!map.getTileWalkability(pos)) {
+    weapon->rotate(heroPos);
 
-        float Posx = rand() % 73;
-        float Posy = rand() % 73;
-
-        pos=Vector2f(Posx*32,Posy*32);
-
-        sprite.setPosition(pos.x+16, pos.y+16);
-    }
-
-    cout<<"pos: "<<sprite.getPosition().x<<" , "<<sprite.getPosition().y<<endl;
 }
 
-void Enemy::draw(RenderWindow &window, TileMap &map) {
+bool Enemy::hasFiringStrategy() {
 
-    window.draw(sprite);
+    return Es->isFiringStrategy();
 }
 
-void Enemy::controlTarget() {
 
-    EnemyContol = EnemyEngaged;
-}

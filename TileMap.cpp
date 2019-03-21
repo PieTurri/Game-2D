@@ -56,7 +56,6 @@ bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize) {
 
             sf::Vertex *quad = &m_vertices[(j + i * width) * 4];
 
-
             // define its 4 corners
 
             quad[0].position = sf::Vector2f(j * tileSize.x, i * tileSize.y);
@@ -66,7 +65,6 @@ bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize) {
             quad[2].position = sf::Vector2f((j + 1) * tileSize.x, (i + 1) * tileSize.y);
 
             quad[3].position = sf::Vector2f(j * tileSize.x, (i + 1) * tileSize.y);
-
 
             // define its 4 texture coordinates
 
@@ -114,10 +112,9 @@ void TileMap::draw(RenderWindow &window) {
     }
 }
 
-
 void TileMap::setTileMap() {
 
-    mapTextFile.open("MIRINTHAS");
+    mapTextFile.open("ARCONTUS");
 
     int i=0;
     string line;
@@ -227,7 +224,7 @@ void TileMap::setItemsProperty() {
 
         obstacles.push_back(obstacle);
 
-        while (!tiles[obstaclePosX][obstaclePosY].getWalkability()) {
+        while (!tiles[obstaclePosY][obstaclePosX].getWalkability()) {
 
             obstaclePosX = rand() % width;
             obstaclePosY = rand() % width;
@@ -236,7 +233,7 @@ void TileMap::setItemsProperty() {
         Vector2f v(obstaclePosX*32+16,obstaclePosY*32+16);
 
         obstacles[x].setPosition(v);
-        tiles[obstaclePosX][obstaclePosY].setWalkability(false);
+        tiles[obstaclePosY][obstaclePosX].setWalkability(false);
     }
 
 }
@@ -290,6 +287,7 @@ void TileMap::setFightRooms() {
 }
 
 bool TileMap::getFightRoomAccessibility(int pos) {
+
     return fightRooms[pos];
 }
 

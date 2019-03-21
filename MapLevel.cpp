@@ -11,8 +11,7 @@ using namespace std;
 
 //MapLevel::MapLevel(RenderWindow &window) : MapLevel(0, window) {}
 
-MapLevel::MapLevel(int charInd, RenderWindow &window) : characterIndex(charInd), GraphicState() {
-
+MapLevel::MapLevel(int charInd, RenderWindow &window) : characterIndex(charInd),GraphicState() {
 
     setScreen();
     setView(window);
@@ -55,7 +54,7 @@ void MapLevel::draw(RenderWindow &window) {
 
         timer=clock.getElapsedTime();
 
-        if(timer.asSeconds()>1){
+        if(timer.asSeconds()>0){
             setState(true);
         }
 
@@ -152,6 +151,13 @@ void MapLevel::getActivities(Event event, RenderWindow &window) {
                         selected = true;
 
                         break;
+                    case sf::Keyboard::Right:
+                        moveRight();
+                        break;
+
+                    case sf::Keyboard::Left:
+                        moveLeft();
+                        break;
 
                     case sf::Keyboard::Escape:
                         setState(true);
@@ -197,6 +203,52 @@ void MapLevel::setView(RenderWindow &window) {
     view.setSize(v);
     view.setCenter(v.x/2,v.y/2);
     window.setView(view);
+}
+
+void MapLevel::moveRight() {
+
+
+    if(levelIndex<4) {
+        levelIndex++;
+        switch (levelIndex) {
+            case 1:
+                spriteCharacterLevel.setPosition(500, 300);
+                break;
+            case 2:
+                spriteCharacterLevel.setPosition(700, 200);
+                break;
+            case 3:
+                spriteCharacterLevel.setPosition(720, 300);
+                break;
+            case 4:
+                spriteCharacterLevel.setPosition(1300, 800);
+                break;
+        }
+    }
+
+}
+
+void MapLevel::moveLeft() {
+
+    if(levelIndex>0) {
+        levelIndex--;
+        switch (levelIndex) {
+            case 0:
+                spriteCharacterLevel.setPosition(180, 595);
+                break;
+            case 1:
+                spriteCharacterLevel.setPosition(500, 300);
+                break;
+            case 2:
+                spriteCharacterLevel.setPosition(700, 200);
+                break;
+            case 3:
+                spriteCharacterLevel.setPosition(720, 300);
+                break;
+        }
+    }
+
+
 }
 
 

@@ -15,7 +15,7 @@ public:
 
     Projectile();
 
-    //Projectile(Vector2f pos, Vector2f aimedP);
+    Projectile(Vector2f pos, Vector2f aimedPos);
 
     ~Projectile();
 
@@ -34,6 +34,8 @@ public:
     bool isBrokeUp();
 
     void setDestroyed();
+
+    FloatRect getDimension();
 
 protected:
 

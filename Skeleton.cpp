@@ -4,9 +4,9 @@
 
 #include "Skeleton.h"
 #include "TileMap.h"
+
 Skeleton::Skeleton(int Hp, int speed) : Enemy(Hp, speed) {
 
     texture.loadFromFile("enemy2cropped.png");
     sprite.setTexture(texture);
-    sprite.setOrigin(16,16);
 }

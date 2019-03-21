@@ -14,10 +14,6 @@ public:
     Valkyrie(int Hp,int speed, bool armor);
     ~Valkyrie();
 
-    void draw(RenderWindow &window, TileMap &map);
-
-    void movement(RenderWindow &window);
-
     void setDirection();
 
 private:

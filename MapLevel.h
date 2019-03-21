@@ -22,17 +22,19 @@ public:
 
     ~MapLevel();
 
-    void setScreenLevel(/*Sprite &spritel, Text *textl, Font &font*/); //metodo che setta la schermata del livello
+    void setScreenLevel(); //metodo che setta la schermata del livello
 
     void animation();
 
     void draw(RenderWindow &window);
 
+    void moveRight();
+
+    void moveLeft();
+
     //void setMapLevel(RenderWindow &window,int levelindex);
 
     void setScreen();
-
-    //void drawM(sf::Sprite *spritem, sf::Texture *texturem);
 
     void getActivities(Event event,RenderWindow &window);
 

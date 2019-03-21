@@ -7,16 +7,27 @@
 
 #include <SFML/Graphics.hpp>
 #include "Hero.h"
+#include "Observer.h"
 
-class MyView: public View{
+class MyView: public View, public Observer{
 
 public:
 
     MyView();
 
-    void followCharPos(Hero *hero, RenderWindow &window);
+    void setSubject(Hero* subject);
+
+    void followHero();
+
+    void update(Subject *s);
 
 private:
+
+    Hero* subject;
+
+    Vector2f heroPos;
+
+    int speed;
 
     Clock clock;
     Time times;

@@ -5,26 +5,23 @@
 #include "EnemyStrategy.h"
 
 
-EnemyStrategy::EnemyStrategy() {}
+EnemyStrategy::EnemyStrategy() {
 
-EnemyStrategy::EnemyStrategy(Sprite &sprite) {
     srand((unsigned)time(NULL));
     didEnemyMove=false;
 }
+
+EnemyStrategy::EnemyStrategy(Sprite &sprite) {}
 
 EnemyStrategy::~EnemyStrategy() = default;
 
 void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
 
-    pos_load = sprite.getPosition();
-
     switch (direction) {
         case 0:
             if (map.getTileWalkability(sprite.getPosition() + Vector2f(32, 0))) {
 
-                map.setTileWalkability(pos_load, true);
                 sprite.move(32, 0);
-                map.setTileWalkability(pos_load+ Vector2f(32, 0), false);
 
                 didEnemyMove = true;
             } else
@@ -34,9 +31,8 @@ void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
         case 1:
             if (map.getTileWalkability(sprite.getPosition() - Vector2f(32, 0))) {
 
-                map.setTileWalkability(pos_load, true);
                 sprite.move(-32, 0);
-                map.setTileWalkability(pos_load- Vector2f(32, 0), false);
+
                 didEnemyMove = true;
             } else
                 didEnemyMove = false;
@@ -45,9 +41,7 @@ void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
         case 2:
             if (map.getTileWalkability(sprite.getPosition() - Vector2f(0, 32))) {
 
-                map.setTileWalkability(pos_load, true);
                 sprite.move(0, -32);
-                map.setTileWalkability(pos_load- Vector2f(0, 32), false);
 
                 didEnemyMove = true;
             } else
@@ -57,9 +51,7 @@ void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
         case 3:
             if (map.getTileWalkability(sprite.getPosition() + Vector2f(0, 32))) {
 
-                map.setTileWalkability(pos_load, true);
                 sprite.move(0, 32);
-                map.setTileWalkability(pos_load+ Vector2f(0, 32), false);
 
                 didEnemyMove = true;
             } else
@@ -69,6 +61,11 @@ void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
             break;
     }
 
+}
+
+bool EnemyStrategy::isFiringStrategy() {
+
+    return firingStrategy;
 }
 
 

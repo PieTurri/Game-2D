@@ -25,22 +25,19 @@ public:
 
     Enemy();
 
-    void draw(RenderWindow &window, TileMap &map);
-
     void changeStrategy(Hero *h, TileMap &map);
-
-    void setPosition(TileMap &map);
 
     void moveEnemy(TileMap &map);
 
-    void controlTarget();
+    void aim(Vector2f heroPos);
+
+    bool hasFiringStrategy();
 
 protected:
 
     EnemyStrategy* Es;
 
     bool EnemyEngaged;
-    bool EnemyContol;
 };
 
 

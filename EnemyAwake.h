@@ -17,7 +17,7 @@ public:
 
     EnemyStrategy * changeStrategy() override;
 
-    void strategyDirection(TileMap &map, Sprite &sprite) override;
+    void setDirection(TileMap &map, Sprite &sprite) override;
 
 };
 

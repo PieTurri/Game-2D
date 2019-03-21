@@ -6,7 +6,11 @@
 
 GameCharacter::GameCharacter() : GameCharacter (10,10) {}
 
-GameCharacter::GameCharacter(int hp, int speed) : Hp(hp), speed(speed) {}
+GameCharacter::GameCharacter(int hp, int speed) : Hp(hp), speed(speed) {
+
+    usingWeapon=false;
+    sprite.setOrigin(16,24);
+}
 
 void GameCharacter::setHp(int Hp) {
     GameCharacter::Hp = Hp;
@@ -20,6 +24,12 @@ GameCharacter::~GameCharacter(){};
 
 Vector2f GameCharacter::getPosition() {
     return sprite.getPosition();
+}
+
+void GameCharacter::setPosition(Vector2f pos) {
+
+    sprite.setPosition(pos+Vector2f(16,24));
+    weapon->setPosition(sprite.getPosition());
 }
 
 void GameCharacter::setSpeed(int s) {
@@ -36,16 +46,31 @@ void GameCharacter::setWeaponUse(bool statement) {
     usingWeapon=statement;
 }
 
-void GameCharacter::useWeapon() {
+/*void GameCharacter::useWeapon() {
 
     if(usingWeapon)
         weapon->fire();
 
-}
+}*/
 
 Weapon *GameCharacter::getWeapon() {
     return weapon;
 }
+
+bool GameCharacter::getWeaponUse() {
+    return usingWeapon;
+}
+
+void GameCharacter::draw(RenderWindow &window) {
+
+    window.draw(sprite);
+    weapon->draw(window);
+}
+
+FloatRect GameCharacter::getDimension() {
+    return sprite.getGlobalBounds();
+}
+
 /*
 void GameCharacter::setWeapon(Weapon* Weapon) {
     this-> weapon = Weapon;

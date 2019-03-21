@@ -35,16 +35,10 @@ void Weapon::setDamage(int Demage) {
 Weapon::~Weapon() {
 }
 
-void Weapon::rotate(Event event, RenderWindow &window) {
+void Weapon::rotate(Vector2f posTarget) {
 
-    View view=window.getView();
-
-    Vector2f size=(Vector2f)window.getSize();
-
-    Vector2f distance=view.getCenter()-getPosition();
-
-    float dy=event.mouseMove.y-(size.y/2)+distance.y;
-    float dx=event.mouseMove.x-(size.x/2)+distance.x;
+    float dy=posTarget.y-getPosition().y;
+    float dx=posTarget.x-getPosition().x;
 
     aimedPoint=Vector2f(dx,dy);
 
@@ -61,28 +55,9 @@ void Weapon::rotate(Event event, RenderWindow &window) {
 
 }
 
-void Weapon::draw(RenderWindow &window, TileMap &map) {
+void Weapon::draw(RenderWindow &window) {
 
     window.draw(sprite);
-
-    for (int i = 0; i < projectile.size(); i++)
-        projectile[i]->draw(window);
-
-    if(!projectile.empty()) {
-
-        vector<Projectile*>::iterator it;
-
-        it = projectile.begin();
-
-        for (int i = 0; i < projectile.size(); i++) {
-            projectile[i]->move(map);
-            if (projectile[i]->isBrokeUp()) {
-                projectile.erase(it);
-                i--;
-            } else
-                it++;
-        }
-    }
 }
 
 void Weapon::move(float x, float y) {
@@ -95,8 +70,6 @@ Vector2f Weapon::getPosition() {
 
     return sprite.getPosition();
 }
-
-
 
 void Weapon::flip(String dir) {
 
@@ -114,21 +87,27 @@ void Weapon::flip(String dir) {
 
 }
 
-void Weapon::fire() {
+float Weapon::getRateOfFire() {
+    return rateOfFire;
+}
 
-    times=clock.getElapsedTime();
+Vector2f Weapon::getAimedPoint() {
+    return aimedPoint;
+}
+
+/*Projectile *Weapon::fire() {
 
     if(times.asSeconds()>rateOfFire) {
 
-        projectile.push_back(new FireBall(getPosition(), aimedPoint));
         times = clock.restart();
+        return new FireBall(getPosition(), aimedPoint);
     }
+}*/
+
+void Weapon::setPosition(Vector2f pos) {
+
+    sprite.setPosition(pos);
 }
 
-vector<Projectile *> Weapon::getProjectile() {
-
-    return projectile;
-
-}
 
 
