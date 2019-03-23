@@ -32,7 +32,9 @@ public:
 private:
 
     bool stateChanged;
+
 protected:
+
     MyView view;
 };
 

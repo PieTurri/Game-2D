@@ -6,7 +6,6 @@ using namespace sf;
 
 int main() {
 
-
     MenuLoop menuLoop;
     menuLoop.generateScreen();
 

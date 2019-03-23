@@ -31,11 +31,11 @@ void Knight::setDirection() {//void useWeapon(Sprite &spriteFire, Texture &textu
     if (moveU&&!moveL&&!moveR&&!moveD) {
 
         if (TypeFoot) {
-            texture.loadFromFile("npc3_bk1.png");
+            texture.loadFromFile("npc3_fr1.png");
             TypeFoot = false;
         }
         else{
-            texture.loadFromFile("npc3_bk2.png");
+            texture.loadFromFile("npc3_fr2.png");
             TypeFoot = true;
         }
 

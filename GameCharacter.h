@@ -21,7 +21,7 @@ public:
 
     void draw(RenderWindow &window);
 
-    ~GameCharacter();
+    virtual ~GameCharacter();
 
     void setSpeed(int s);
 
@@ -29,7 +29,7 @@ public:
 
     void setHp(int Hp);
 
-    int getHp() const;
+    int getHp();
 
     Vector2f getPosition();
 
@@ -43,6 +43,7 @@ public:
 
     Weapon* getWeapon();
 
+    const Sprite &getSprite() const;
     FloatRect getDimension();
 
     /*virtual Vector2f moveRight()=0;

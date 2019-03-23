@@ -41,6 +41,7 @@ public:
 
     float getRateOfFire();
 
+    void setRateOfFire(float rateOfFire);
     //Projectile* fire();
 
     Vector2f getAimedPoint();

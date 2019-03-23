@@ -15,6 +15,7 @@ public:
 
     MyView();
 
+    void followCharPos(Hero *hero, RenderWindow &window, Vector2f &distance, vector <Sprite> heart);
     void setSubject(Hero* subject);
 
     void followHero();

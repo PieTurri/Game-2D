@@ -8,6 +8,7 @@
 
 #include "EnemyStrategy.h"
 #include "EnemySleeping.h"
+#include "Hero.h"
 
 class EnemyAwake: public EnemyStrategy {
 public:
@@ -18,6 +19,9 @@ public:
     EnemyStrategy * changeStrategy() override;
 
     void setDirection(TileMap &map, Sprite &sprite) override;
+
+
+    void upgradeMovementLocked(TileMap &map, Sprite &sprite, Hero *h);
 
 };
 

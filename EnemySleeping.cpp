@@ -7,6 +7,8 @@
 
 EnemySleeping::EnemySleeping() {
 
+    enemyVel = 0.5;
+
     firingStrategy=false;
 }
 
@@ -19,12 +21,11 @@ EnemyStrategy *EnemySleeping::changeStrategy() {
 }
 
 void EnemySleeping::setDirection(TileMap &map, Sprite &Esprite) {
-
     timeEnemy=clockEnemy.getElapsedTime();
 
     direction=rand()%4;
 
-    if(timeEnemy.asSeconds()>2) {
+    if(timeEnemy.asSeconds()>enemyVel) {
         updateMovement(map, Esprite);
         if(didEnemyMove)
             clockEnemy.restart();

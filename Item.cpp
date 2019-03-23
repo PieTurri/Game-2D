@@ -4,24 +4,24 @@
 
 #include "Item.h"
 
+using namespace std;
 Item::Item(string file, int numberOfFrame) : nameFile(file), numFrame(numberOfFrame){
 
     index=1;
     animation=false;
-    texture.loadFromFile(file+to_string(index)+".png");
+    //nameFile = file;
+    texture.loadFromFile(nameFile+to_string(index)+".png");
     sprite.setTexture(texture);
     sprite.scale(0.30, 0.30);
+
 
 }
 
 void Item::draw(RenderWindow &window) {
-
     window.draw(sprite);
-
 }
 
 void Item::setPosition(Vector2f pos) {
-
     sprite.setPosition(pos);
 }
 

@@ -114,7 +114,7 @@ void TileMap::draw(RenderWindow &window) {
 
 void TileMap::setTileMap() {
 
-    mapTextFile.open("ARCONTUS");
+    mapTextFile.open("mappa");
 
     int i=0;
     string line;
@@ -227,7 +227,7 @@ void TileMap::setItemsProperty() {
         while (!tiles[obstaclePosY][obstaclePosX].getWalkability()) {
 
             obstaclePosX = rand() % width;
-            obstaclePosY = rand() % width;
+            obstaclePosY = rand() % height;
         }
 
         Vector2f v(obstaclePosX*32+16,obstaclePosY*32+16);

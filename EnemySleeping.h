@@ -8,6 +8,7 @@
 
 #include "TileMap.h"
 #include "EnemyStrategy.h"
+#include "Hero.h"
 
 class EnemySleeping : public EnemyStrategy{
 

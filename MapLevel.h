@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include "GraphicState.h"
 #include <ctime>
+#include <vector>
 
 using namespace sf;
 
@@ -28,19 +29,21 @@ public:
 
     void draw(RenderWindow &window);
 
-    void moveRight();
-
-    void moveLeft();
-
     //void setMapLevel(RenderWindow &window,int levelindex);
 
-    void setScreen();
+    void setScreen() override;
 
     void getActivities(Event event,RenderWindow &window);
 
     GraphicState *getNextState(RenderWindow &window);
 
     void setView(RenderWindow &window);
+
+    void deleteClouds(int levelIndex);
+
+    void moveCharRight();
+
+    void moveCharLeft();
 
 private:
 
@@ -60,9 +63,19 @@ private:
 
     bool selected;
 
-    Sprite spritel,spriteCharacterLevel,spritem[16];
+    Sprite spritel,spriteCharacterLevel;
+    Sprite spritem;
+
+    vector <Sprite> cloud;
+
     Text textl[2];
     Font font;
+
+    bool levelLocked[5]={true,false,false,false, false};
+
+    int mapLevelPos[5][2]={{180, 580},{370,200},{1000, 615},{1125, 330},{1080, 125}};
+
+    int lineIndex = 0;
 
     int characterIndex;
     //bool shine=true;

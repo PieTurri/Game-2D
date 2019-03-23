@@ -16,7 +16,7 @@ void GameCharacter::setHp(int Hp) {
     GameCharacter::Hp = Hp;
 }
 
-int GameCharacter::getHp() const {
+int GameCharacter::getHp()  {
     return Hp;
 }
 
@@ -55,6 +55,10 @@ void GameCharacter::setWeaponUse(bool statement) {
 
 Weapon *GameCharacter::getWeapon() {
     return weapon;
+}
+
+const Sprite &GameCharacter::getSprite() const {
+    return sprite;
 }
 
 bool GameCharacter::getWeaponUse() {

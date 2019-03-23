@@ -15,6 +15,7 @@ Enemy::Enemy(int Hp, int speed) : GameCharacter(Hp, speed) {
     Es = new EnemySleeping;
     EnemyEngaged= false;
     weapon=new Kalashnikov;
+    weapon->setRateOfFire(0.5);
 }
 
 Enemy::Enemy(): Enemy(2,6) {}
@@ -27,7 +28,7 @@ void Enemy::changeStrategy(Hero *h, TileMap &map) {
 
     bool EnemyContol=EnemyEngaged;
 
-    if(r<160)
+    if(r<320)
         EnemyEngaged=true;
     else
         EnemyEngaged=false;

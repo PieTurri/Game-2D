@@ -18,6 +18,7 @@ Hero::Hero(int Hp, int speed, bool armor) : GameCharacter(Hp, speed) {
     moveR = false;
 
     weapon = new Kalashnikov;
+    weapon->setRateOfFire(0.1);
 }
 
 
@@ -111,7 +112,7 @@ void Hero::aim(RenderWindow &window, Event event) {
 Hero *Hero::Create(int index) {
     switch(index){
         case 0:
-            return new Knight(8,8,false);
+            return new Knight(256,5,false);
         case 1:
             return new Valkyrie(8,5,true);
     }
@@ -173,5 +174,6 @@ Vector2f Hero::moveDown() {
 
     return getPosition();
 }
+
 
 

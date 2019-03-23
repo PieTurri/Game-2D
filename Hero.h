@@ -18,7 +18,7 @@ public:
 
     Hero(int Hp, int speed, bool armor);
 
-    ~Hero();
+    virtual ~Hero();
 
     bool isLocked() const;
 
@@ -71,6 +71,8 @@ public:
     void aim(RenderWindow &window, Event event);
 
     static Hero* Create(int index);
+
+    void hit();
 
 protected:
 

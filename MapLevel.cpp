@@ -11,7 +11,7 @@ using namespace std;
 
 //MapLevel::MapLevel(RenderWindow &window) : MapLevel(0, window) {}
 
-MapLevel::MapLevel(int charInd, RenderWindow &window) : characterIndex(charInd),GraphicState() {
+MapLevel::MapLevel(int charInd, RenderWindow &window) : characterIndex(charInd), GraphicState() {
 
     setScreen();
     setView(window);
@@ -66,8 +66,12 @@ void MapLevel::draw(RenderWindow &window) {
 
         window.draw(spritel);
         window.draw(spriteCharacterLevel);
-        for(int i=0;i<16;i++)
-            window.draw(spritem[i]);
+
+        for(int j = 0;j<cloud.size();j++)
+            window.draw(cloud[j]);
+
+        //cout << "->cloud size : "<<cloud.size()<<endl;
+
         animation();
 
     }
@@ -90,47 +94,77 @@ void MapLevel::setScreen() {
     if(!texturem.loadFromFile("cloud.png"))
         cout<<"errore"<<endl;
 
-    for(int i=0 ; i < 16 ; i++) {
-        spritem[i].setTexture(texturem);
-    }
-
-
-    spritem[0].setPosition(sf::Vector2f(25, 200));
     textureCharacterLevel.loadFromFile("soulKnight.png");
     spriteCharacterLevel.setTexture(textureCharacterLevel);
     spriteCharacterLevel.setPosition(sf::Vector2f(180, 595));
 
+    ////Oridne mondi: 1.Arcontus; 2.Mirinthas; 3.Etras; 4.Castrisand; 5.Punk Hazard
 
-    spritem[1].setPosition(sf::Vector2f(150, 150));
+    spritem.setTexture(texturem);
 
-    spritem[2].setPosition(sf::Vector2f(250, 200));
+    cloud.push_back(spritem);
+    cloud[0].setTexture(texturem);
+    cloud[0].setPosition(sf::Vector2f(980, 220));
 
-    spritem[3].setPosition(sf::Vector2f(150, 275));
+    cloud.push_back(spritem);
+    cloud[1].setTexture(texturem);
+    cloud[1].setPosition(sf::Vector2f(1000, 120));
 
-    spritem[4].setPosition(sf::Vector2f(1100, 600));
+    cloud.push_back(spritem);
+    cloud[2].setTexture(texturem);
+    cloud[2].setPosition(sf::Vector2f(980, 180));
 
-    spritem[5].setPosition(sf::Vector2f(950, 600));
+    cloud.push_back(spritem);
+    cloud[3].setTexture(texturem);
+    cloud[3].setPosition(sf::Vector2f(900, 120));
 
-    spritem[6].setPosition(sf::Vector2f(1000, 550));
+    cloud.push_back(spritem);
+    cloud[4].setTexture(texturem);
+    cloud[4].setPosition(sf::Vector2f(1000, 380));
 
-    spritem[7].setPosition(sf::Vector2f(1000, 650));
+    cloud.push_back(spritem);
+    cloud[5].setTexture(texturem);
+    cloud[5].setPosition(sf::Vector2f(1100, 330));
 
-    spritem[8].setPosition(sf::Vector2f(950, 330));
+    cloud.push_back(spritem);
+    cloud[6].setTexture(texturem);
+    cloud[6].setPosition(sf::Vector2f(1000, 280));
 
-    spritem[9].setPosition(sf::Vector2f(1000, 280));
+    cloud.push_back(spritem);
+    cloud[7].setTexture(texturem);
+    cloud[7].setPosition(sf::Vector2f(950, 300));
 
-    spritem[10].setPosition(sf::Vector2f(1100, 330));
+    cloud.push_back(spritem);
+    cloud[8].setTexture(texturem);
+    cloud[8].setPosition(sf::Vector2f(1000, 650));
 
-    spritem[11].setPosition(sf::Vector2f(1000, 380));
+    cloud.push_back(spritem);
+    cloud[9].setTexture(texturem);
+    cloud[9].setPosition(sf::Vector2f(1000, 550));
 
-    spritem[12].setPosition(sf::Vector2f(900, 120));
+    cloud.push_back(spritem);
+    cloud[10].setTexture(texturem);
+    cloud[10].setPosition(sf::Vector2f(950, 600));
 
-    spritem[13].setPosition(sf::Vector2f(980, 180));
+    cloud.push_back(spritem);
+    cloud[11].setTexture(texturem);
+    cloud[11].setPosition(sf::Vector2f(1100, 600));
 
-    spritem[14].setPosition(sf::Vector2f(1000, 120));
+    cloud.push_back(spritem);
+    cloud[12].setTexture(texturem);
+    cloud[12].setPosition(sf::Vector2f(150, 275));
 
-    spritem[15].setPosition(sf::Vector2f(980, 220));
+    cloud.push_back(spritem);
+    cloud[13].setTexture(texturem);
+    cloud[13].setPosition(sf::Vector2f(250, 200));
 
+    cloud.push_back(spritem);
+    cloud[14].setTexture(texturem);
+    cloud[14].setPosition(sf::Vector2f(150, 150));
+
+    cloud.push_back(spritem);
+    cloud[15].setTexture(texturem);
+    cloud[15].setPosition(sf::Vector2f(25,200));
 }
 
 
@@ -150,17 +184,21 @@ void MapLevel::getActivities(Event event, RenderWindow &window) {
 
                         selected = true;
 
-                        break;
-                    case sf::Keyboard::Right:
-                        moveRight();
-                        break;
-
-                    case sf::Keyboard::Left:
-                        moveLeft();
+                        /*levelIndex++;
+                        deleteClouds(levelIndex);
+                        */
                         break;
 
                     case sf::Keyboard::Escape:
                         setState(true);
+                        break;
+
+                    case sf::Keyboard::Right:
+                        moveCharRight();
+                        break;
+
+                    case sf::Keyboard::Left:
+                        moveCharLeft();
                         break;
 
                     default:
@@ -205,52 +243,47 @@ void MapLevel::setView(RenderWindow &window) {
     window.setView(view);
 }
 
-void MapLevel::moveRight() {
+void MapLevel::deleteClouds(int levelIndex) {
 
-
-    if(levelIndex<4) {
-        levelIndex++;
-        switch (levelIndex) {
-            case 1:
-                spriteCharacterLevel.setPosition(500, 300);
-                break;
-            case 2:
-                spriteCharacterLevel.setPosition(700, 200);
-                break;
-            case 3:
-                spriteCharacterLevel.setPosition(720, 300);
-                break;
-            case 4:
-                spriteCharacterLevel.setPosition(1300, 800);
-                break;
-        }
+    switch(levelIndex){
+        case 1:
+            for(int j = 0;j<4;j++)
+                cloud.pop_back();
+            levelLocked[levelIndex+1]=true;
+            break;
+        case 2:
+            for(int j = 4;j<8;j++)
+                cloud.pop_back();
+            levelLocked[levelIndex+1]=true;
+            break;
+        case 3:
+            for(int j = 8;j<12;j++)
+                cloud.pop_back();
+            levelLocked[levelIndex+1]=true;
+            break;
+        case 4:
+            for(int j = 12;j<16;j++)
+                cloud.pop_back();
+            levelLocked[levelIndex+1]=true;
+            break;
+        default:
+            break;
     }
 
 }
 
-void MapLevel::moveLeft() {
-
-    if(levelIndex>0) {
-        levelIndex--;
-        switch (levelIndex) {
-            case 0:
-                spriteCharacterLevel.setPosition(180, 595);
-                break;
-            case 1:
-                spriteCharacterLevel.setPosition(500, 300);
-                break;
-            case 2:
-                spriteCharacterLevel.setPosition(700, 200);
-                break;
-            case 3:
-                spriteCharacterLevel.setPosition(720, 300);
-                break;
-        }
+void MapLevel::moveCharRight() {
+    lineIndex++;
+    if(levelLocked[levelIndex+1] && lineIndex<5){
+        spriteCharacterLevel.setPosition(mapLevelPos[lineIndex][0],mapLevelPos[lineIndex][1]);
     }
-
-
+    else if(lineIndex >= 5) lineIndex--;
 }
 
-
-
+void MapLevel::moveCharLeft() {
+    lineIndex--;
+    if(lineIndex>=0)
+        spriteCharacterLevel.setPosition(mapLevelPos[lineIndex][0],mapLevelPos[lineIndex][1]);
+    else lineIndex++;
+}
 

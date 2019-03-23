@@ -109,5 +109,9 @@ void Weapon::setPosition(Vector2f pos) {
     sprite.setPosition(pos);
 }
 
+void Weapon::setRateOfFire(float rateOfFire) {
+    this->rateOfFire = rateOfFire;
+}
+
 
 

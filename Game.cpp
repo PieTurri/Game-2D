@@ -1,9 +1,7 @@
 //
 // Created by leogori on 21/12/18.
 //
-
 #include "Game.h"
-#include <cmath>
 #include "Knight.h"
 #include "Valkyrie.h"
 #include "Skeleton.h"
@@ -22,7 +20,6 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) : levelIndex(le
     cout<<"INIZIATO"<<endl;
 
     hero=Hero::Create(characterIndex);
-
     Vector2f pos=getRandomPosition();
 
     while(!map.getTileWalkability(pos))
@@ -33,7 +30,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) : levelIndex(le
     Clock clock;
     Time times;
 
-    for(int i=0;i<2;i++){
+    for(int i=0;i<10;i++){
 
         enemyTime.push_back(times);
         enemyClock.push_back(clock);
@@ -50,11 +47,10 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) : levelIndex(le
 
     pause=false;
 
+    setHeart(window);
     setView(window);
 
     view.setSubject(hero);
-
-    cout<<"FINITO"<<endl;
 }
 
 Game::~Game() {
@@ -133,7 +129,6 @@ void Game::getActivities(Event event, RenderWindow &window) {
         default:
             break;
     }
-
 }
 
 GraphicState *Game::getNextState(RenderWindow &window) {
@@ -145,6 +140,9 @@ void Game::draw(RenderWindow &window) {
 
 
     map.draw(window);
+
+    for(int i=0; i<heartS.size();i++)
+        window.draw(heartS[i]);
 
     hero->draw(window);
 
@@ -215,8 +213,10 @@ void Game::lookForCollision() {
 
         for (int i = 0; i < enemyProjectile.size(); i++) {
 
+
             if (enemyProjectile[i]->getDimension().intersects(hero->getDimension())) {
-                //hero->setHp(hero->getHp() - enemyProjectile[i]->getDamage());
+                hero->setHp(hero->getHp() - enemyProjectile[i]->getDamage());
+
                 //cout << hero->getHp() << endl;
                 enemyProjectile[i]->setDestroyed();
             }
@@ -284,6 +284,7 @@ void Game::createProjectile() {
 
         heroClock.restart();
         heroProjectile.push_back(new FireBall(hero->getPosition(),heroWeapon->getAimedPoint()));
+        heroProjectile[heroProjectile.size()-1]->setSpeed(5);
     }
 
     for(int i=0;i<enemy.size();i++){
@@ -295,8 +296,8 @@ void Game::createProjectile() {
         if(enemy[i]->getWeaponUse()&&enemyTime[i].asSeconds()>enemyWeapon->getRateOfFire()){
             enemyClock[i].restart();
             enemyProjectile.push_back(new FireBall(enemy[i]->getPosition(),enemyWeapon->getAimedPoint()));
+            enemyProjectile[enemyProjectile.size()-1]->setSpeed(0.7);
         }
-
     }
 }
 
@@ -367,4 +368,36 @@ Vector2f Game::getRandomPosition() {
     return pos;
 }
 
+void Game::setHeart(RenderWindow &window) {
 
+    heartT.loadFromFile("heart.png");
+    Sprite sheart;
+    sheart.setTexture(heartT);
+
+    heartS.push_back(sheart);
+    heartS[0].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
+    heartS[0].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6+10,window.getSize().y/6));
+
+    heartS.push_back(sheart);
+    heartS[1].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
+    heartS[1].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6-20,window.getSize().y/6));
+
+    heartS.push_back(sheart);
+    heartS[2].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
+    heartS[2].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6-50,window.getSize().y/6));
+
+    heartS.push_back(sheart);
+    heartS[3].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
+    heartS[3].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6-80,window.getSize().y/6));
+
+    heartS.push_back(sheart);
+    heartS[4].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
+    heartS[4].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6-110,window.getSize().y/6));
+
+    //distance=Vector2f(hero->getPosition().x-window.getSize().x/2,hero->getPosition().y-window.getSize().y/2);
+    //distance = Vector2f(window.getSize().x/2-250,window.getSize().y/2-80);
+
+    distanceHeart=Vector2f(hero->getPosition().x-window.getSize().x/2,hero->getPosition().y-window.getSize().y/2);
+
+    //distanceHeart = Vector2f(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
+}

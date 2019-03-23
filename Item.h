@@ -17,7 +17,7 @@ public:
 
     Item(string file, int numberOfFrame);
 
-    void draw(RenderWindow &window);
+    virtual void draw(RenderWindow &window);
 
     void setPosition(Vector2f pos);
 
@@ -34,6 +34,8 @@ public:
     bool getAnimation();
 
     FloatRect getDimension();
+
+
 
 protected:
 

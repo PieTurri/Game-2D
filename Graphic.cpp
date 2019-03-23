@@ -50,8 +50,7 @@ void Graphic::movement(Event event,RenderWindow &window) {
 }
 
 bool Graphic::getState() {
-
-
+    
     return graphicState->getState();
 }
 

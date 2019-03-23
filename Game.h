@@ -32,6 +32,8 @@ public:
 
     void lookForCollision();
 
+    void setHeart(RenderWindow &window);
+
     void manageProjectile();
 
     void createProjectile();
@@ -46,7 +48,12 @@ private:
 
     bool pause;
 
+    Texture heartT;
+    vector <Sprite> heartS;
+
     TileMap map;
+
+    Vector2f distanceHeart;
 
     Time heroTime;
 

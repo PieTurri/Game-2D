@@ -4,9 +4,7 @@
 
 #include "EnemyStrategy.h"
 
-
 EnemyStrategy::EnemyStrategy() {
-
     srand((unsigned)time(NULL));
     didEnemyMove=false;
 }
@@ -60,7 +58,28 @@ void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
         default:
             break;
     }
+    //}
 
+}
+
+int EnemyStrategy::getCharRange() const {
+    return charMaxRange;
+}
+
+void EnemyStrategy::setHEdistance(float HEdistance) {
+    EnemyStrategy::HEdistance = HEdistance;
+}
+
+float EnemyStrategy::getHEdistance() const {
+    return HEdistance;
+}
+
+float EnemyStrategy::getEnemyVel() const {
+    return enemyVel;
+}
+
+void EnemyStrategy::setEnemyVel(float enemyVel) {
+    EnemyStrategy::enemyVel = enemyVel;
 }
 
 bool EnemyStrategy::isFiringStrategy() {
@@ -68,4 +87,17 @@ bool EnemyStrategy::isFiringStrategy() {
     return firingStrategy;
 }
 
+bool EnemyStrategy::isBetween(Vector2f enemy) {
+    double eRange =  sqrt(pow(enemy.x,2)+pow(enemy.y,2));
+    if(eRange < charMaxRange && eRange > charMinRange)
+        return true;
+    else return false;
+}
+
+bool EnemyStrategy::isBetween2(float enemy) {
+
+    if(enemy < charMaxRange && enemy > charMinRange)
+        return true;
+    else return false;
+}
 

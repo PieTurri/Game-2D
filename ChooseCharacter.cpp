@@ -47,20 +47,29 @@ void ChooseCharacter::setScreen() {
     tMessage.setFillColor(Color::Black);
     tMessage.setPosition(sf::Vector2f((width-120), height / (3+2) * 1));
 
-    tCharacter[0].loadFromFile("knight2.jpg"); //immagini da 200*300
-    spriteC[0].setPosition(sf::Vector2f(100, 250));
+    //immagini da 200*300
+    try {
+        if(!tCharacter[0].loadFromFile("knight2.jpg"))
+            throw "Impossibile aprire immagine cavaliere";
+        spriteC[0].setPosition(sf::Vector2f(100, 250));
 
-    tCharacter[1].loadFromFile("deadpool.png"); //immagini da 200*300
-    spriteC[1].setPosition(sf::Vector2f(350, 250));
+        if(!tCharacter[1].loadFromFile("deadpool.png"))
+            throw "Impossibile aprire file";
+        spriteC[1].setPosition(sf::Vector2f(350, 250));
 
-    tCharacter[2].loadFromFile("deadpool.png"); //immagini da 200*300
-    spriteC[2].setPosition(sf::Vector2f(600, 250));
+        if(!tCharacter[2].loadFromFile("deadpool.png"))
+            throw "Impossibile aprire file";
+        spriteC[2].setPosition(sf::Vector2f(600, 250));
 
-    tCharacter[3].loadFromFile("deadpool.png"); //immagini da 200*300
-    spriteC[3].setPosition(sf::Vector2f(850, 250));
+        if(!tCharacter[3].loadFromFile("deadpool.png"))
+            throw "Impossibile aprire file";
+        spriteC[3].setPosition(sf::Vector2f(850, 250));
 
-    tCharacter[4].loadFromFile("deadpool.png"); //immagini da 200*300
-    spriteC[4].setPosition(sf::Vector2f(1100, 250));
+        if(!tCharacter[4].loadFromFile("deadpoo.png"))
+            throw "Impossibile aprire musica";
+        spriteC[4].setPosition(sf::Vector2f(1100, 250));
+    }
+    catch (...){cout<<"Errore caricamento immagini scelta personaggii"<<endl;}
 
     for(int i=0 ; i < 5 ; i++)
         spriteC[i].setTexture(tCharacter[i]);
@@ -192,8 +201,6 @@ GraphicState *ChooseCharacter::getNextState(RenderWindow &window) {
         return new MapLevel(setindex, window);
     else
         return new Menu(window);
-
-
 }
 
 void ChooseCharacter::setView(RenderWindow &window) {

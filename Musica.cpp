@@ -8,29 +8,32 @@ using namespace std;
 
 void Musica::playMusic(sf::Music &music, int &index, int &mapScreen) {
 
-    switch(index){
+    try {
+        switch(index){
 
-        case 0:
-            //music.openFromFile("Excalibur.ogg");
-            music.play();
-            break;
+            case 0:
+                if(!music.openFromFile("Excalibur.ogg"))
+                    throw "Impossibile aprire musica";
+                music.play();
+                break;
 
-        case 1:
-            if(mapScreen == 1){
-                //music.openFromFile("Courage.ogg");
-                mapScreen = 0;
-            }
-            else
-                //music.openFromFile("AchillevsEttore.ogg");
-            music.play();
-            break;
+            case 1:
+                if(mapScreen == 1){
+                    if(!music.openFromFile("Courage.ogg"))
+                        throw "Impossibile aprire musica";
+                    mapScreen = 0;
+                }
+                else
+                    if(!music.openFromFile("AchillevsEttore.ogg"))
+                        throw "Impossibile aprire musica";
+                music.play();
+                break;
+            default:
+                break;
+        }
+
     }
-
-
-    /*std::string file = to_string(music) + ".ogg";
-    if(!soundtrack.loadFromFile(file))  //carico soundtrack
-        std::cout<<music<<" not found"<<std::endl;
-    sound.setBuffer(soundtrack);
-    //sound.play();*/
-
+    catch (...){
+        cout<<"ERRORE MUSICA"<<endl;
+    }
 }
