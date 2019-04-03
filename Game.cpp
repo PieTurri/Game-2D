@@ -354,6 +354,7 @@ void Game::update(RenderWindow &window) {
 
 }
 
+
 Vector2f Game::getRandomPosition() {
 
     unsigned seed= static_cast<unsigned int>(chrono::system_clock::now().time_since_epoch().count());

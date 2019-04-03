@@ -38,6 +38,7 @@ public:
 
     void createProjectile();
 
+
     void update(RenderWindow &window);
 
     Vector2f getRandomPosition();
