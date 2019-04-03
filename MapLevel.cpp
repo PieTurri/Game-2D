@@ -75,7 +75,6 @@ void MapLevel::draw(RenderWindow &window) {
         animation();
 
     }
-
 }
 
 void MapLevel::setScreen() {
@@ -165,6 +164,14 @@ void MapLevel::setScreen() {
     cloud.push_back(spritem);
     cloud[15].setTexture(texturem);
     cloud[15].setPosition(sf::Vector2f(25,200));
+
+/*
+    text.setString("Achievement");
+    text.setFont(font);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(sf::Vector2f((width / 2)+65, height / (3+2)-70));
+    text.setCharacterSize(25);*/
+
 }
 
 
@@ -199,6 +206,11 @@ void MapLevel::getActivities(Event event, RenderWindow &window) {
 
                     case sf::Keyboard::Left:
                         moveCharLeft();
+                        break;
+
+                    case sf::Keyboard::C:
+                        levelIndex++;
+                        deleteClouds(levelIndex);
                         break;
 
                     default:

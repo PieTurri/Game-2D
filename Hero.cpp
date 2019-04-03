@@ -112,9 +112,10 @@ void Hero::aim(RenderWindow &window, Event event) {
 Hero *Hero::Create(int index) {
     switch(index){
         case 0:
-            return new Knight(256,16,false);
+            return new Knight(256,8,false);
         case 1:
             return new Valkyrie(8,5,true);
+        default:break;
     }
 }
 

@@ -19,14 +19,14 @@ public:
 
     ~Rules();
 
-    void setScreen();
-    void draw(RenderWindow &window);
+    void setScreen() override;
+    void draw(RenderWindow &window) override;
 
-    void getActivities(Event event,RenderWindow &window);
+    void getActivities(Event event,RenderWindow &window) override;
 
-    GraphicState *getNextState(RenderWindow &window);
+    GraphicState *getNextState(RenderWindow &window) override;
 
-    virtual void setView(RenderWindow &window);
+    void setView(RenderWindow &window) override;
 
 private:
     const float width;

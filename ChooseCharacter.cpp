@@ -48,6 +48,7 @@ void ChooseCharacter::setScreen() {
     tMessage.setPosition(sf::Vector2f((width-120), height / (3+2) * 1));
 
     //immagini da 200*300
+
     try {
         if(!tCharacter[0].loadFromFile("knight2.jpg"))
             throw "Impossibile aprire immagine cavaliere";

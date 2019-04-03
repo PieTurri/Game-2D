@@ -6,6 +6,7 @@
 #include "Menu.h"
 #include "ChooseCharacter.h"
 #include "Rules.h"
+#include "Achievement.h"
 
 #define RED sf::Color(168,31,000)
 
@@ -29,7 +30,7 @@ void Menu::draw(RenderWindow &window)
 {
 
     window.draw(sprite);
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 5; i++)
     {
         window.draw(text[i]);
     }
@@ -47,7 +48,7 @@ void Menu::MoveUp()
 
 void Menu::MoveDown()
 {
-    if (selectedTextIndex < 2)
+    if (selectedTextIndex < 3)
     {
         text[selectedTextIndex].setFillColor(Color::Black);
         selectedTextIndex++;
@@ -72,7 +73,7 @@ void  Menu::setScreen(){
         cout << "errore" << endl;
 
     text[0].setFont(font[0]);
-    text[0].setFillColor(sf::Color(168,31,000));
+    text[0].setFillColor(sf::Color(RED));
     text[0].setString("Start Game");
     text[0].setPosition(sf::Vector2f((width / 2)+700,height / (3+2) * 1));
     text[0].setCharacterSize(40);
@@ -85,16 +86,21 @@ void  Menu::setScreen(){
 
     text[2].setFont(font[0]);
     text[2].setFillColor(sf::Color::Black);
-    text[2].setString("Exit");
+    text[2].setString("Achievement");
     text[2].setPosition(sf::Vector2f((width / 2)+730, height / (3+2) * 3));
     text[2].setCharacterSize(40);
 
+    text[3].setFont(font[0]);
+    text[3].setFillColor(sf::Color::Black);
+    text[3].setString("Exit");
+    text[3].setPosition(sf::Vector2f((width / 2)+730, height / (3+2) * 4));
+    text[3].setCharacterSize(40);
 
-    text[3].setFont(font[1]);
-    text[3].setFillColor(sf::Color(168,31,000));
-    text[3].setString("Nome Gioco");
-    text[3].setPosition(sf::Vector2f((width / 2)-240, height / (3+2)));
-    text[3].setCharacterSize(50);
+    text[4].setFont(font[1]);
+    text[4].setFillColor(sf::Color(RED));
+    text[4].setString("Nome Gioco");
+    text[4].setPosition(sf::Vector2f((width / 2)-240, height / (3+2)));
+    text[4].setCharacterSize(50);
 }
 
 void Menu::getActivities(Event event,RenderWindow &window) {
@@ -120,11 +126,12 @@ void Menu::getActivities(Event event,RenderWindow &window) {
                     break;
 
                 case sf::Keyboard::Return:
-                    if (selectedTextIndex == 2)
+                    if (selectedTextIndex == 3)
                         window.close();
                     else
                         setState(true);
                     break;
+
                 default:
                     break;
             }
@@ -143,8 +150,13 @@ GraphicState *Menu::getNextState(RenderWindow &window) {
     switch (selectedTextIndex) {
         case 0:
             return new ChooseCharacter(window);
+
         case 1:
             return new Rules(window);
+
+        case 2:
+            return new Achievement(window);
+
         default:
             break;
     }

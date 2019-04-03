@@ -7,6 +7,7 @@
 #include <random>
 #include <chrono>
 
+
 using namespace std;
 using namespace sf;
 
@@ -26,7 +27,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) {
     Clock clock;
     Time times;
 
-    for(int i=0;i<2;i++){
+    for(int i=0;i<50;i++){
 
         enemyTime.push_back(times);
         enemyClock.push_back(clock);
@@ -39,10 +40,9 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) {
 
         enemy[i]->setPosition(pos);
     }
-
     pause=false;
 
-    //setHeart(window);
+    heart.setHeart(window,hero,view);
     setView(window);
 
     view.setSubject(hero);
@@ -81,13 +81,15 @@ void Game::getActivities(Event event, RenderWindow &window) {
                     break;
                 case Keyboard::P:
                     pause= !pause;
+                    if(pause){
+                        p.setMenuPause(window);
+                    }
                     break;
 
                 default:
                     break;
             }
             break;
-
         case Event::KeyPressed:
             switch (event.key.code) {
                 case Keyboard::W:
@@ -125,6 +127,9 @@ void Game::getActivities(Event event, RenderWindow &window) {
         default:
             break;
     }
+    if(pause){
+        p.moveMenu(window, event);
+    }
 }
 
 GraphicState *Game::getNextState(RenderWindow &window) {
@@ -140,9 +145,8 @@ void Game::draw(RenderWindow &window) {
 
     map->draw(window);
 
-    for(int i=0; i<heartS.size();i++)
-        window.draw(heartS[i]);
-
+    heart.draw(window);
+    heart.setHeart(window,hero,view);
     hero->draw(window);
 
     for (int i = 0; i < heroProjectile.size(); i++)
@@ -151,11 +155,14 @@ void Game::draw(RenderWindow &window) {
     for (int i = 0; i < enemyProjectile.size(); i++)
         enemyProjectile[i]->draw(window);
 
-    for (int i = 0; i < enemy.size(); i++)
+    for (int i = 0; i < enemy.size(); i++){
         enemy[i]->draw(window);
-
+    }
     if(!pause)
         update(window);
+    else{
+        p.draw(window);
+    }
 }
 
 void Game::setView(RenderWindow &window) {
@@ -272,7 +279,7 @@ void Game::createProjectile() {
     heroTime=heroClock.getElapsedTime();
 
     if(hero->getWeaponUse()&&heroTime.asSeconds()>heroWeapon->getRateOfFire()&&
-            map->isFightingGround(map->getTile(hero->getPosition()))){
+       map->isFightingGround(map->getTile(hero->getPosition()))){
 
         heroClock.restart();
 
@@ -292,7 +299,7 @@ void Game::createProjectile() {
         enemyTime[i]=enemyClock[i].getElapsedTime();
 
         if(enemy[i]->getWeaponUse()&&enemyTime[i].asSeconds()>enemyWeapon->getRateOfFire()
-                &&map->isFightingGround(map->getTile(hero->getPosition()))){
+           &&map->isFightingGround(map->getTile(hero->getPosition()))){
             enemyClock[i].restart();
 
             Projectile *projectile=Projectile::create(enemyWeapon->getProjectile());
@@ -350,6 +357,9 @@ void Game::update(RenderWindow &window) {
         createProjectile();
         manageProjectile();
         lookForCollision();
+    } else{
+        p.draw(window);
+
     }
 
 }
@@ -370,37 +380,3 @@ Vector2f Game::getRandomPosition() {
 
     return pos;
 }
-
-/*void Game::setHeart(RenderWindow &window) {
-
-    heartT.loadFromFile("heart.png");
-    Sprite sheart;
-    sheart.setTexture(heartT);
-
-    heartS.push_back(sheart);
-    heartS[0].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
-    heartS[0].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6+10,window.getSize().y/6));
-
-    heartS.push_back(sheart);
-    heartS[1].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
-    heartS[1].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6-20,window.getSize().y/6));
-
-    heartS.push_back(sheart);
-    heartS[2].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
-    heartS[2].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6-50,window.getSize().y/6));
-
-    heartS.push_back(sheart);
-    heartS[3].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
-    heartS[3].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6-80,window.getSize().y/6));
-    cout<<pos.x<<" , "<<pos.y<<endl;
-    heartS.push_back(sheart);
-    heartS[4].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
-    heartS[4].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6-110,window.getSize().y/6));
-
-    //distance=Vector2f(hero->getPosition().x-window.getSize().x/2,hero->getPosition().y-window.getSize().y/2);
-    //distance = Vector2f(window.getSize().x/2-250,window.getSize().y/2-80);
-
-    distanceHeart=Vector2f(hero->getPosition().x-window.getSize().x/2,hero->getPosition().y-window.getSize().y/2);
-
-    //distanceHeart = Vector2f(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
-}*/

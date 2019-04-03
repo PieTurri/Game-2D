@@ -5,6 +5,7 @@
 #include "../Knight.h"
 
 ////FASI TEST: ARRANGE, ACT, ASSERT
+/*
 
 struct KnightTest : public testing::Test{
     Hero* hero;
@@ -16,12 +17,28 @@ protected:
 };
 
 TEST_F(KnightTest, Costructor_Test) {
+
     ASSERT_EQ(hero->getHp(),7);
     ASSERT_EQ(hero->getSpeed(),5);
     ASSERT_EQ(hero->isArmor(),false);
-    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()-Vector2f(32, 0)),true);
-    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()-Vector2f(0, 32)),true);
-    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()+Vector2f(0, 32)),true);
-    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()+Vector2f(32, 0)),true);
-}
 
+    hero->setPosition(Vector2f(64,64));
+
+    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()-Vector2f(32, 0)),false);
+    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()-Vector2f(0, 32)),false);
+
+    hero->setPosition(Vector2f(512,64));
+
+    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()+Vector2f(32, 0)),false);
+    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()-Vector2f(0, 32)),false);
+
+    hero->setPosition(Vector2f(512,512));
+
+    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()+Vector2f(32, 0)),false);
+    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()+Vector2f(0, 32)),false);
+
+    hero->setPosition(Vector2f(64,512));
+
+    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()-Vector2f(32, 0)),false);
+    ASSERT_EQ(map.getTileWalkability(hero->getSprite().getPosition()+Vector2f(0, 32)),false);
+}*/

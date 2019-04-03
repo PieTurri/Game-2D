@@ -61,10 +61,12 @@ private:
     Texture texturel;
     Texture textureCharacterLevel;
 
+    Text text;
+
     bool selected;
 
     Sprite spritel,spriteCharacterLevel;
-    Sprite spritem;
+    Sprite spritem,sprite;
 
     vector <Sprite> cloud;
 

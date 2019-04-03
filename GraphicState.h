@@ -7,7 +7,6 @@
 
 #include "MyView.h"
 
-
 using namespace sf;
 
 class GraphicState {

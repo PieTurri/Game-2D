@@ -44,7 +44,7 @@ private:
 
     Texture texture;
     Font font[2];
-    Text text[4];
+    Text text[5];
     Sprite sprite;
 
 

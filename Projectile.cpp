@@ -22,8 +22,13 @@ Projectile *Projectile::create(Projectile::type t) {
 
 Projectile::Projectile() {
 
-    texture.loadFromFile("fireball2.png");
-    sprite.setTexture(texture);
+    try {
+        if(!texture.loadFromFile("fireball2.png"))
+            throw "Impossibile aprire immagine proiettile";
+        sprite.setTexture(texture);
+    }
+    catch (...) {cout<<"Errore caricamento immagini proiettile\n"<<endl;}
+
 
     sprite.setOrigin(16,16);
 
@@ -36,7 +41,7 @@ Projectile::~Projectile() {}
 
 void Projectile::setSpeed(float speed) {
 
-    speed=speed;
+    this->speed=speed;
 }
 
 float Projectile::getSpeed() {

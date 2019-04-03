@@ -8,6 +8,8 @@
 #include "GraphicState.h"
 #include "Hero.h"
 #include "Enemy.h"
+#include "Pause.h"
+#include "Heart.h"
 #include <vector>
 #include "Abstract_Factory.h"
 
@@ -32,8 +34,6 @@ public:
 
     void lookForCollision();
 
-    //void setHeart(RenderWindow &window);
-
     void manageProjectile();
 
     void createProjectile();
@@ -47,14 +47,14 @@ private:
 
     bool pause;
 
-    Abstract_Factory *factory;
+    Abstract_Factory* factory;
 
     Texture heartT;
     vector <Sprite> heartS;
 
     TileMap* map;
 
-    Vector2f distanceHeart;
+    Heart heart;
 
     Time heroTime;
 
@@ -70,6 +70,9 @@ private:
 
     Hero* hero;
     vector <Enemy*> enemy;
+
+    Pause p;
+    //Collision collision;
 
 };
 
