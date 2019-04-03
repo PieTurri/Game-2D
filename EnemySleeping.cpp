@@ -20,7 +20,8 @@ EnemyStrategy *EnemySleeping::changeStrategy() {
     return new EnemyAwake;
 }
 
-void EnemySleeping::setDirection(TileMap &map, Sprite &Esprite) {
+void EnemySleeping::setDirection(TileMap *map, Sprite &Esprite) {
+
     timeEnemy=clockEnemy.getElapsedTime();
 
     direction=rand()%4;

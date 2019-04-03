@@ -18,7 +18,7 @@ public:
 
     EnemyStrategy * changeStrategy() override;
 
-    void setDirection(TileMap &map, Sprite &sprite) override;
+    void setDirection(TileMap *map, Sprite &sprite) override;
 
 
     void upgradeMovementLocked(TileMap &map, Sprite &sprite, Hero *h);

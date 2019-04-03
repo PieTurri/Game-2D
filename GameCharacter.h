@@ -39,8 +39,6 @@ public:
 
     bool getWeaponUse();
 
-    //void useWeapon();
-
     Weapon* getWeapon();
 
     const Sprite &getSprite() const;

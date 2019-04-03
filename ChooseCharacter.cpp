@@ -65,7 +65,7 @@ void ChooseCharacter::setScreen() {
             throw "Impossibile aprire file";
         spriteC[3].setPosition(sf::Vector2f(850, 250));
 
-        if(!tCharacter[4].loadFromFile("deadpoo.png"))
+        if(!tCharacter[4].loadFromFile("deadpool.png"))
             throw "Impossibile aprire musica";
         spriteC[4].setPosition(sf::Vector2f(1100, 250));
     }

@@ -8,14 +8,17 @@
 #include "SFML/Graphics.hpp"
 #include "TileMap.h"
 
+
 using namespace sf;
 
 class Projectile  {
 public:
 
-    Projectile();
+    enum type{fire,ice};
 
-    Projectile(Vector2f pos, Vector2f aimedPos);
+    static Projectile *create(Projectile::type t);
+
+    Projectile();
 
     ~Projectile();
 
@@ -25,9 +28,15 @@ public:
 
     int getDamage();
 
+    void setAimedPoint(Vector2f pos);
+
+    void setPosition(Vector2f pos);
+
+    void setOrientation();
+
     Vector2f getPosition();
 
-    void move(TileMap &map);
+    void move(TileMap *map);
 
     void draw(RenderWindow& window);
 
@@ -39,7 +48,7 @@ public:
 
 protected:
 
-    float movementSpeed;
+    float speed;
     int damage;
 
     bool breakUp;
@@ -48,6 +57,8 @@ protected:
     Texture texture;
 
     Vector2f aimedPoint;
+
+    float orientation;
 
     //bool direction;
 

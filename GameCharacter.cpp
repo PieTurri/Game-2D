@@ -46,13 +46,6 @@ void GameCharacter::setWeaponUse(bool statement) {
     usingWeapon=statement;
 }
 
-/*void GameCharacter::useWeapon() {
-
-    if(usingWeapon)
-        weapon->fire();
-
-}*/
-
 Weapon *GameCharacter::getWeapon() {
     return weapon;
 }

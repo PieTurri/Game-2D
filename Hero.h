@@ -58,21 +58,19 @@ public:
 
     bool getDirUp();
 
-    Vector2f moveRight();
+    void moveRight(TileMap *map);
 
-    Vector2f moveLeft();
+    void moveLeft(TileMap *map);
 
-    Vector2f moveUp();
+    void moveUp(TileMap *map);
 
-    Vector2f moveDown();
+    void moveDown(TileMap *map);
 
     bool isStill();
 
     void aim(RenderWindow &window, Event event);
 
     static Hero* Create(int index);
-
-    void hit();
 
 protected:
 

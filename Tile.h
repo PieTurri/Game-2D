@@ -16,14 +16,21 @@ public:
 
     int getValue();
 
-    void setWalkability(bool state);
+    void setHeroWalkability(bool state);
 
-    bool getWalkability();
+    bool getHeroWalkability();
+
+    bool getEnemyWalkability() const;
+
+    void setEnemyWalkability(bool state);
+
+    void reset();
 
 private:
 
     int value;
-    bool walkability;
+    bool heroWalkability;
+    bool enemyWalkability;
 };
 
 

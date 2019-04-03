@@ -14,3 +14,8 @@ Kalashnikov::Kalashnikov() {
     //rateOfFire=0.5;
 
 }
+
+Projectile::type Kalashnikov::getProjectile() {
+
+    return Projectile::type ::fire;
+}

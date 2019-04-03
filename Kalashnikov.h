@@ -14,6 +14,8 @@ public:
 
     Kalashnikov();
 
+    Projectile::type getProjectile() override;
+
 private:
 
 

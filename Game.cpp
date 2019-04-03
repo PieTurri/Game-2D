@@ -2,52 +2,47 @@
 // Created by leogori on 21/12/18.
 //
 #include "Game.h"
-#include "Knight.h"
-#include "Valkyrie.h"
-#include "Skeleton.h"
-#include "FireBall.h"
 #include "ChooseCharacter.h"
+#include "BossLevel.h"
 #include <random>
 #include <chrono>
 
 using namespace std;
 using namespace sf;
 
-//Game::Game() : Game(-1,-1) {}
-
-Game::Game(int characterIndex, int levInd, RenderWindow &window) : levelIndex(levInd), map() {
-
-    cout<<"INIZIATO"<<endl;
+Game::Game(int characterIndex, int levInd, RenderWindow &window) {
 
     hero=Hero::Create(characterIndex);
-    Vector2f pos=getRandomPosition();
 
-    while(!map.getTileWalkability(pos))
-        pos=getRandomPosition();
+    factory=Abstract_Factory::create(levInd);
 
-    hero->setPosition(pos);
+    map=factory->createMap();
+
+    Vector2f pos;
+    Tile tile;
+
+    hero->setPosition(map->getHeroStartingPosition());
 
     Clock clock;
     Time times;
 
-    for(int i=0;i<10;i++){
+    for(int i=0;i<2;i++){
 
         enemyTime.push_back(times);
         enemyClock.push_back(clock);
+        enemy.push_back(factory->createEnemy());
 
-        pos=getRandomPosition();
-
-        enemy.push_back(new Skeleton(8,3));
-
-        while(!map.getTileWalkability(pos))
+        do{
             pos=getRandomPosition();
+            tile=map->getTile(pos);
+        } while(!map->isFightingGround(tile));
 
         enemy[i]->setPosition(pos);
     }
 
     pause=false;
 
-    setHeart(window);
+    //setHeart(window);
     setView(window);
 
     view.setSubject(hero);
@@ -56,6 +51,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) : levelIndex(le
 Game::~Game() {
 
     delete hero;
+    delete map;
 }
 
 void Game::setScreen() {
@@ -133,13 +129,16 @@ void Game::getActivities(Event event, RenderWindow &window) {
 
 GraphicState *Game::getNextState(RenderWindow &window) {
 
-    return new ChooseCharacter(window);
+    if (!pause)
+        return new BossLevel(hero, window);
+    else
+        return new ChooseCharacter(window);
 }
 
 void Game::draw(RenderWindow &window) {
 
 
-    map.draw(window);
+    map->draw(window);
 
     for(int i=0; i<heartS.size();i++)
         window.draw(heartS[i]);
@@ -152,14 +151,11 @@ void Game::draw(RenderWindow &window) {
     for (int i = 0; i < enemyProjectile.size(); i++)
         enemyProjectile[i]->draw(window);
 
-    for (int i = 0; i < enemy.size(); i++) {
-
+    for (int i = 0; i < enemy.size(); i++)
         enemy[i]->draw(window);
-    }
 
-    if(!pause){
+    if(!pause)
         update(window);
-    }
 }
 
 void Game::setView(RenderWindow &window) {
@@ -171,7 +167,7 @@ void Game::setView(RenderWindow &window) {
 
 void Game::lookForCollision() {
 
-    vector<Obstacle> &obstacle = map.getObstacle();
+    vector<Obstacle> &obstacle = map->getObstacle();
 
     if (!heroProjectile.empty()) {
 
@@ -183,12 +179,10 @@ void Game::lookForCollision() {
 
                 if((heroProjectile[i]->getDimension()).intersects(enemy[j]->getDimension())){
                     enemy[j]->setHp(enemy[j]->getHp() - heroProjectile[i]->getDamage());
-                    cout << enemy[j]->getHp() << endl;
                     heroProjectile[i]->setDestroyed();
                 }
 
                 if (enemy[j]->getHp() <= 0) {
-                    map.setTileWalkability(enemy[j]->getPosition(), true);
                     enemy.erase(it);
                     j--;
                 } else
@@ -204,7 +198,7 @@ void Game::lookForCollision() {
                 }
             }
 
-            if (!map.getTileWalkability(heroProjectile[i]->getPosition()))
+            if (!map->getTile(heroProjectile[i]->getPosition()).getHeroWalkability())
                 heroProjectile[i]->setDestroyed();
         }
     }
@@ -213,11 +207,8 @@ void Game::lookForCollision() {
 
         for (int i = 0; i < enemyProjectile.size(); i++) {
 
-
             if (enemyProjectile[i]->getDimension().intersects(hero->getDimension())) {
-                hero->setHp(hero->getHp() - enemyProjectile[i]->getDamage());
-
-                //cout << hero->getHp() << endl;
+                //hero->setHp(hero->getHp() - enemyProjectile[i]->getDamage());
                 enemyProjectile[i]->setDestroyed();
             }
 
@@ -234,12 +225,12 @@ void Game::lookForCollision() {
                 }
             }
 
-            if (!map.getTileWalkability(enemyProjectile[i]->getPosition()))
+            if (!map->getTile(enemyProjectile[i]->getPosition()).getHeroWalkability())
                 enemyProjectile[i]->setDestroyed();
         }
     }
 
-    map.setObstacle(obstacle);
+    map->setObstacle(obstacle);
 }
 
 void Game::manageProjectile() {
@@ -280,11 +271,18 @@ void Game::createProjectile() {
 
     heroTime=heroClock.getElapsedTime();
 
-    if(hero->getWeaponUse()&&heroTime.asSeconds()>heroWeapon->getRateOfFire()){
+    if(hero->getWeaponUse()&&heroTime.asSeconds()>heroWeapon->getRateOfFire()&&
+            map->isFightingGround(map->getTile(hero->getPosition()))){
 
         heroClock.restart();
-        heroProjectile.push_back(new FireBall(hero->getPosition(),heroWeapon->getAimedPoint()));
-        heroProjectile[heroProjectile.size()-1]->setSpeed(5);
+
+        Projectile *projectile=Projectile::create(heroWeapon->getProjectile());
+        projectile->setPosition(heroWeapon->getPosition());
+        projectile->setAimedPoint(heroWeapon->getAimedPoint());
+        projectile->setOrientation();
+        projectile->setSpeed(5);
+
+        heroProjectile.push_back(projectile);
     }
 
     for(int i=0;i<enemy.size();i++){
@@ -293,10 +291,18 @@ void Game::createProjectile() {
 
         enemyTime[i]=enemyClock[i].getElapsedTime();
 
-        if(enemy[i]->getWeaponUse()&&enemyTime[i].asSeconds()>enemyWeapon->getRateOfFire()){
+        if(enemy[i]->getWeaponUse()&&enemyTime[i].asSeconds()>enemyWeapon->getRateOfFire()
+                &&map->isFightingGround(map->getTile(hero->getPosition()))){
             enemyClock[i].restart();
-            enemyProjectile.push_back(new FireBall(enemy[i]->getPosition(),enemyWeapon->getAimedPoint()));
-            enemyProjectile[enemyProjectile.size()-1]->setSpeed(0.7);
+
+            Projectile *projectile=Projectile::create(enemyWeapon->getProjectile());
+            projectile->setPosition(enemyWeapon->getPosition());
+            projectile->setAimedPoint(enemyWeapon->getAimedPoint());
+            projectile->setOrientation();
+            projectile->setSpeed(0.7);
+
+            enemyProjectile.push_back(projectile);
+
         }
     }
 }
@@ -311,23 +317,16 @@ void Game::update(RenderWindow &window) {
         hero->setDirection();
 
         if (hero->getDirRight())
-            if (!map.getTileWalkability(hero->moveRight()))
-                hero->moveLeft();
-
+            hero->moveRight(map);
 
         if (hero->getDirLeft())
-            if (!map.getTileWalkability(hero->moveLeft()))
-                hero->moveRight();
-
+            hero->moveLeft(map);
 
         if (hero->getDirUp())
-            if (!map.getTileWalkability(hero->moveUp()))
-                hero->moveDown();
-
+            hero->moveUp(map);
 
         if (hero->getDirDown())
-            if (!map.getTileWalkability(hero->moveDown()))
-                hero->moveUp();
+            hero->moveDown(map);
 
         for (int i = 0; i < enemy.size(); i++) {
 
@@ -335,11 +334,16 @@ void Game::update(RenderWindow &window) {
             enemy[i]->moveEnemy(map);
             enemy[i]->aim(hero->getPosition());
 
-            if (enemy[i]->hasFiringStrategy())
-                enemy[i]->setWeaponUse(true);
-            else
-                enemy[i]->setWeaponUse(false);
+            enemy[i]->setWeaponUse(enemy[i]->hasFiringStrategy());
         }
+
+        if(enemy.size()==0)
+            map->openBossDoor();
+
+        cout<<map->isBossDoor(map->getTile(hero->getPosition()))<<" , "<<enemy.size()<<endl;
+
+        if(enemy.size()==0&&map->isBossDoor(map->getTile(hero->getPosition())))
+            setState(true);
 
         window.setView(view);
 
@@ -352,7 +356,7 @@ void Game::update(RenderWindow &window) {
 
 Vector2f Game::getRandomPosition() {
 
-    unsigned seed=chrono::system_clock::now().time_since_epoch().count();
+    unsigned seed= static_cast<unsigned int>(chrono::system_clock::now().time_since_epoch().count());
 
     default_random_engine generator(seed);
 
@@ -363,12 +367,10 @@ Vector2f Game::getRandomPosition() {
 
     Vector2f pos(x*32,y*32);
 
-    cout<<pos.x<<" , "<<pos.y<<endl;
-
     return pos;
 }
 
-void Game::setHeart(RenderWindow &window) {
+/*void Game::setHeart(RenderWindow &window) {
 
     heartT.loadFromFile("heart.png");
     Sprite sheart;
@@ -389,7 +391,7 @@ void Game::setHeart(RenderWindow &window) {
     heartS.push_back(sheart);
     heartS[3].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
     heartS[3].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6-80,window.getSize().y/6));
-
+    cout<<pos.x<<" , "<<pos.y<<endl;
     heartS.push_back(sheart);
     heartS[4].setPosition(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
     heartS[4].setOrigin(hero->getPosition()+Vector2f(window.getSize().x/6-110,window.getSize().y/6));
@@ -400,4 +402,4 @@ void Game::setHeart(RenderWindow &window) {
     distanceHeart=Vector2f(hero->getPosition().x-window.getSize().x/2,hero->getPosition().y-window.getSize().y/2);
 
     //distanceHeart = Vector2f(view.getCenter().x-window.getSize().x/2+hero->getPosition().x,view.getCenter().y-window.getSize().y+hero->getPosition().y);
-}
+}*/

@@ -11,7 +11,7 @@
 class FireBall: public Projectile {
 
 public:
-    FireBall(Vector2f pos, Vector2f aimedPos);
+    FireBall();
 
     FireBall(int mvmSpd, int dmg);
 

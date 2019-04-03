@@ -26,8 +26,6 @@ private:
 
     Hero* subject;
 
-    Vector2f heroPos;
-
     int speed;
 
     Clock clock;

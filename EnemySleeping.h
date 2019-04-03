@@ -20,7 +20,7 @@ public:
 
     EnemyStrategy* changeStrategy() override;
 
-    void setDirection(TileMap &map, Sprite &Esprite) override;
+    void setDirection(TileMap *map, Sprite &Esprite) override;
 
 
 };

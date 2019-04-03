@@ -10,7 +10,8 @@ EnemyAwake::EnemyAwake() {
     enemyVel = 1;
 }
 
-void EnemyAwake::setDirection(TileMap &map, Sprite &sprite) {
+void EnemyAwake::setDirection(TileMap *map, Sprite &sprite) {
+
     direction = rand() % 4;
     timeEnemy = clockEnemy.getElapsedTime();
 
@@ -18,21 +19,11 @@ void EnemyAwake::setDirection(TileMap &map, Sprite &sprite) {
         updateMovement(map, sprite);
         if (didEnemyMove)
             clockEnemy.restart();
-    } /*else {
+    }
 
-
-        //direction = rand() % 4;
-
-        if (timeEnemy.asSeconds() > enemyVel) {
-            updateMovement(map, sprite);
-            if (didEnemyMove)
-                clockEnemy.restart();
-        }
-    }*/
 }
 
-
-EnemyStrategy* EnemyAwake::changeStrategy() {
+EnemyStrategy * EnemyAwake::changeStrategy() {
     return new EnemySleeping;
 }
 
@@ -84,11 +75,11 @@ void EnemyAwake::upgradeMovementLocked(TileMap &map, Sprite &sprite, Hero *h) {
                 break;
 
             case 3:
-                if (map.getTileWalkability(sprite.getPosition() + Vector2f(0, 32))) {
+                if (map.getTileHeroWalkability(sprite.getPosition() + Vector2f(0, 32))) {
 
                     map.setTileWalkability(pos_load, true);
                     sprite.move(0, 32);
-                    map.setTileWalkability(pos_load + Vector2f(0, 32), false);
+                    map.setTileHeroWalkability(pos_load + Vector2f(0, 32), false);
 
                     didEnemyMove = true;
                 } else

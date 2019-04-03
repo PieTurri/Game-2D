@@ -21,13 +21,15 @@ using namespace std;
 class Enemy : public GameCharacter {
 public:
 
+    static void create();
+
     Enemy(int Hp, int speed);
 
     Enemy();
 
-    void changeStrategy(Hero *h, TileMap &map);
+    void changeStrategy(Hero *h, TileMap *map);
 
-    void moveEnemy(TileMap &map);
+    void moveEnemy(TileMap *map);
 
     void aim(Vector2f heroPos);
 

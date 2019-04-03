@@ -11,18 +11,13 @@
 #include "Obstacle.h"
 #include "Tile.h"
 
+
 using namespace sf;
 using namespace std;
 
 class TileMap{
 
-    //enum LevelName{ARCONTUS,MIRINTHAS,PUNKHAZARD,CASTRISAND,ETRAS};
-
 public:
-
-    //string getLevelName(int index);
-
-    //static TileMap Create(LevelName name);
 
     TileMap();
 
@@ -36,25 +31,37 @@ public:
 
     void draw(RenderWindow &window);
 
-    bool getTileWalkability(Vector2f charPos);
-
     void updateRoomsItems();
-
-    void setTileWalkability(Vector2f pos, bool walkProperty);
 
     void setItemsProperty();
 
-    void setFightRooms();
-
-    bool getFightRoomAccessibility(int pos);
-
     Vector2f getTileCoordinates(int index);
+
+    Tile & getTile(Vector2f pos);
 
     vector<Obstacle> & getObstacle();
 
     void setObstacle(vector<Obstacle> &obstacle);
 
-private:
+    bool isFightingGround(Tile& tile);
+
+    Vector2f getHeroStartingPosition();
+
+    void openBossDoor();
+
+    bool isBossDoor(Tile& tile);
+
+    void setTextFileName(string fileName);
+
+    void setWall(int wall);
+
+    unsigned int getHeight();
+
+    unsigned int getWidth();
+
+protected:
+
+    static TileMap* instance;
 
     Sprite sprite;
 
@@ -65,9 +72,6 @@ private:
     unsigned int height;
     unsigned int width;
 
-
-    bool fightRooms[9];
-
     vector <Obstacle> obstacles;
 
     vector<Item> items;
@@ -76,12 +80,19 @@ private:
 
     RenderStates states;
 
-    //string textFileName;
+    string textFileName;
 
     fstream mapTextFile;
     fstream itemTextFile;
-};
 
+    int wall;
+    int corridorFloor;
+    int fightFloor;
+    int other;
+    int heroStartingPosition;
+
+
+};
 
 
 #endif //PROJECT_TILEMAP_H

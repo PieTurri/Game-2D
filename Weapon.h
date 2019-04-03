@@ -23,10 +23,6 @@ public:
 
     bool isCompatible() const;
 
-    int getDamage() const;
-
-    void setDamage(int Demage);
-
     void setPosition(Vector2f pos);
 
     Vector2f getPosition();
@@ -42,13 +38,13 @@ public:
     float getRateOfFire();
 
     void setRateOfFire(float rateOfFire);
-    //Projectile* fire();
+
+    virtual Projectile::type getProjectile()=0;
 
     Vector2f getAimedPoint();
 
 protected:
 
-    int damage;
     bool compatibility;
 
     float aimedAngle;

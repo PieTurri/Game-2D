@@ -13,11 +13,11 @@ EnemyStrategy::EnemyStrategy(Sprite &sprite) {}
 
 EnemyStrategy::~EnemyStrategy() = default;
 
-void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
+void EnemyStrategy::updateMovement(TileMap *map, Sprite &sprite) {
 
     switch (direction) {
         case 0:
-            if (map.getTileWalkability(sprite.getPosition() + Vector2f(32, 0))) {
+            if (map->getTile(sprite.getPosition() + Vector2f(32, 0)).getEnemyWalkability()) {
 
                 sprite.move(32, 0);
 
@@ -27,7 +27,7 @@ void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
             break;
 
         case 1:
-            if (map.getTileWalkability(sprite.getPosition() - Vector2f(32, 0))) {
+            if (map->getTile(sprite.getPosition() - Vector2f(32, 0)).getEnemyWalkability()) {
 
                 sprite.move(-32, 0);
 
@@ -37,7 +37,7 @@ void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
             break;
 
         case 2:
-            if (map.getTileWalkability(sprite.getPosition() - Vector2f(0, 32))) {
+            if (map->getTile(sprite.getPosition() - Vector2f(0, 32)).getEnemyWalkability()) {
 
                 sprite.move(0, -32);
 
@@ -47,7 +47,7 @@ void EnemyStrategy::updateMovement(TileMap &map,Sprite &sprite) {
             break;
 
         case 3:
-            if (map.getTileWalkability(sprite.getPosition() + Vector2f(0, 32))) {
+            if (map->getTile(sprite.getPosition() + Vector2f(0, 32)).getEnemyWalkability()) {
 
                 sprite.move(0, 32);
 

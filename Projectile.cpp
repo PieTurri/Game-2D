@@ -5,38 +5,30 @@
 #include "Projectile.h"
 #include <iostream>
 #include <cmath>
+#include "FireBall.h"
 
 
 using namespace std;
 
-Projectile::Projectile() {}
 
-Projectile::Projectile(Vector2f pos, Vector2f aimedPos) {
+Projectile *Projectile::create(Projectile::type t) {
+    switch(t){
+        case fire:
+            return new FireBall();
+        case ice:
+            return nullptr;
+    }
+}
+
+Projectile::Projectile() {
 
     texture.loadFromFile("fireball2.png");
     sprite.setTexture(texture);
 
     sprite.setOrigin(16,16);
 
-    aimedPoint=aimedPos;
-
-    /*float increment=(float)sqrt(pow(16,2)+pow(16,2));
-    float l=(float)sqrt(pow(aimedPoint.x,2)+pow(aimedPoint.y,2));
-
-    sprite.setPosition(pos+Vector2f(increment*aimedPos.x/l,aimedPos.y*increment/l));*/
-
-    sprite.setPosition(pos);
-
-    float angle= static_cast<float>(atan(aimedPos.y / aimedPos.x) * 180 / M_PI);
-
-    if(aimedPos.x<0) {
-        angle += 180;
-    }
-
-    sprite.rotate(angle);
-
     breakUp=false;
-    movementSpeed=10;
+    speed=10;
     damage=2;
 }
 
@@ -44,12 +36,12 @@ Projectile::~Projectile() {}
 
 void Projectile::setSpeed(float speed) {
 
-    movementSpeed=speed;
+    speed=speed;
 }
 
 float Projectile::getSpeed() {
 
-    return movementSpeed;
+    return speed;
 }
 
 Vector2f Projectile::getPosition() {
@@ -58,11 +50,11 @@ Vector2f Projectile::getPosition() {
 }
 
 
-void Projectile::move(TileMap &map) {
+void Projectile::move(TileMap *map) {
 
     float l=(float)sqrt(pow(aimedPoint.x,2)+pow(aimedPoint.y,2));
 
-    sprite.move(movementSpeed*aimedPoint.x/l,movementSpeed*aimedPoint.y/l);
+    sprite.move(speed*aimedPoint.x/l,speed*aimedPoint.y/l);
 
 }
 
@@ -89,4 +81,27 @@ void Projectile::setDestroyed() {
 FloatRect Projectile::getDimension() {
 
     return sprite.getGlobalBounds();
+}
+
+void Projectile::setPosition(Vector2f pos) {
+
+    sprite.setPosition(pos);
+}
+
+void Projectile::setAimedPoint(Vector2f pos) {
+
+    aimedPoint=pos;
+
+}
+
+void Projectile::setOrientation() {
+
+    orientation= static_cast<float>(atan(aimedPoint.y / aimedPoint.x) * 180 / M_PI);
+
+    if(aimedPoint.x<0) {
+        orientation += 180;
+    }
+
+    sprite.rotate(orientation);
+
 }

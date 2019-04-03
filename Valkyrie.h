@@ -12,13 +12,14 @@ class Valkyrie : public Hero{
 public:
 
     Valkyrie(int Hp,int speed, bool armor);
+
     ~Valkyrie();
 
     void setDirection();
 
 private:
-    bool TypeFoot = true;
 
+    bool TypeFoot = true;
 
 };
 

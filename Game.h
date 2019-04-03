@@ -9,12 +9,12 @@
 #include "Hero.h"
 #include "Enemy.h"
 #include <vector>
+#include "Abstract_Factory.h"
+
 //#include "Collision.h"
 
 class Game: public GraphicState {
 public:
-
-    //Game();
 
     Game(int characterIndex, int levInd, RenderWindow &window);
 
@@ -32,7 +32,7 @@ public:
 
     void lookForCollision();
 
-    void setHeart(RenderWindow &window);
+    //void setHeart(RenderWindow &window);
 
     void manageProjectile();
 
@@ -44,14 +44,14 @@ public:
 
 private:
 
-    int levelIndex;
-
     bool pause;
+
+    Abstract_Factory *factory;
 
     Texture heartT;
     vector <Sprite> heartS;
 
-    TileMap map;
+    TileMap* map;
 
     Vector2f distanceHeart;
 
@@ -69,7 +69,6 @@ private:
 
     Hero* hero;
     vector <Enemy*> enemy;
-    //Collision collision;
 
 };
 

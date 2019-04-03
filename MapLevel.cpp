@@ -178,11 +178,11 @@ void MapLevel::getActivities(Event event, RenderWindow &window) {
 
                     case sf::Keyboard::Return:
 
-                        setScreenLevel();
-
+                        /*setScreenLevel();
                         clock.restart();
-
+                        */
                         selected = true;
+                        setState(true);
 
                         /*levelIndex++;
                         deleteClouds(levelIndex);

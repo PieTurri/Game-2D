@@ -24,14 +24,6 @@ bool Weapon::isCompatible() const {
     return compatibility;
 }
 
-int Weapon::getDamage() const {
-    return damage;
-}
-
-void Weapon::setDamage(int Demage) {
-    Weapon::damage = Demage;
-}
-
 Weapon::~Weapon() {
 }
 
@@ -94,15 +86,6 @@ float Weapon::getRateOfFire() {
 Vector2f Weapon::getAimedPoint() {
     return aimedPoint;
 }
-
-/*Projectile *Weapon::fire() {
-
-    if(times.asSeconds()>rateOfFire) {
-
-        times = clock.restart();
-        return new FireBall(getPosition(), aimedPoint);
-    }
-}*/
 
 void Weapon::setPosition(Vector2f pos) {
 

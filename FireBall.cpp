@@ -8,7 +8,7 @@
 
 using namespace std;
 
-FireBall::FireBall(Vector2f pos, Vector2f aimedPos) : Projectile(pos,aimedPos){
+FireBall::FireBall() : Projectile() {
 }
 
 FireBall::FireBall(int mvmSpd, int dmg) {

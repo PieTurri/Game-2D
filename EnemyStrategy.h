@@ -25,9 +25,9 @@ public:
 
     virtual ~EnemyStrategy();
 
-    virtual void setDirection(TileMap &map, Sprite &Esprite) = 0;
+    virtual void setDirection(TileMap *map, Sprite &Esprite) = 0;
 
-    void updateMovement(TileMap &map,Sprite &sprite);
+    void updateMovement(TileMap *map, Sprite &sprite);
 
     bool isFiringStrategy();
 

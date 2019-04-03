@@ -4,7 +4,10 @@
 
 #include "Tile.h"
 
-Tile::Tile() {}
+Tile::Tile() {
+
+    reset();
+}
 
 void Tile::setValue(int val) {
 
@@ -16,12 +19,27 @@ int Tile::getValue() {
     return value;
 }
 
-void Tile::setWalkability(bool state) {
+void Tile::setHeroWalkability(bool state) {
 
-    walkability=state;
+    heroWalkability=state;
 }
 
-bool Tile::getWalkability() {
+bool Tile::getHeroWalkability() {
 
-    return walkability;
+    return heroWalkability;
+}
+
+bool Tile::getEnemyWalkability() const {
+    return enemyWalkability;
+}
+
+void Tile::setEnemyWalkability(bool state) {
+    enemyWalkability = state;
+}
+
+void Tile::reset() {
+
+    enemyWalkability=true;
+    heroWalkability=true;
+
 }

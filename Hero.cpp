@@ -112,7 +112,7 @@ void Hero::aim(RenderWindow &window, Event event) {
 Hero *Hero::Create(int index) {
     switch(index){
         case 0:
-            return new Knight(256,5,false);
+            return new Knight(256,16,false);
         case 1:
             return new Valkyrie(8,5,true);
     }
@@ -135,44 +135,51 @@ bool Hero::getDirUp() {
     return moveU;
 }
 
-Vector2f Hero::moveRight() {
+void Hero::moveRight(TileMap *map) {
 
-    sprite.move(speed, 0);
-    weapon->move(speed, 0);
+    Tile tile=map->getTile(getPosition() + Vector2f(speed + getDimension().width / 2, 0));
 
-    notify();
-
-    return getPosition();
+    if(tile.getHeroWalkability()) {
+        sprite.move(speed, 0);
+        weapon->move(speed, 0);
+        notify();
+    }
 }
 
-Vector2f Hero::moveLeft() {
+void Hero::moveLeft(TileMap *map) {
 
-    sprite.move(-speed, 0);
-    weapon->move(-speed, 0);
+    Tile tile=map->getTile(getPosition() + Vector2f(-speed - getDimension().width / 2, 0));
 
-    notify();
+    if(tile.getHeroWalkability()) {
 
-    return getPosition();
+        sprite.move(-speed, 0);
+        weapon->move(-speed, 0);
+        notify();
+    }
 }
 
-Vector2f Hero::moveUp() {
+void Hero::moveUp(TileMap *map) {
 
-    sprite.move(0, -speed);
-    weapon->move(0, -speed);
+    Tile tile=map->getTile(getPosition() + Vector2f(0, -speed - getDimension().height / 2));
 
-    notify();
+    if(tile.getHeroWalkability()) {
 
-    return getPosition();
+        sprite.move(0, -speed);
+        weapon->move(0, -speed);
+        notify();
+    }
 }
 
-Vector2f Hero::moveDown() {
+void Hero::moveDown(TileMap *map) {
 
-    sprite.move(0, speed);
-    weapon->move(0, speed);
+    Tile tile=map->getTile(getPosition() + Vector2f(0, speed + getDimension().height / 2));
 
-    notify();
+    if(tile.getHeroWalkability()) {
 
-    return getPosition();
+        sprite.move(0, speed);
+        weapon->move(0, speed);
+        notify();
+    }
 }
 
 
