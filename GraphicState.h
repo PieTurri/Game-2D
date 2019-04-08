@@ -6,10 +6,11 @@
 #define PROJECT_GRAPHICSTATE_H
 
 #include "MyView.h"
+#include "Subject.h"
 
 using namespace sf;
 
-class GraphicState {
+class GraphicState: public Subject {
 public:
 
     GraphicState();

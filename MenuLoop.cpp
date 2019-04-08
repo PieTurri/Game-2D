@@ -5,6 +5,8 @@
 #include "MenuLoop.h"
 #include "Graphic.h"
 #include "Menu.h"
+#include "Game.h"
+#include "Achievement.h"
 
 using namespace std;
 using namespace sf;
@@ -28,11 +30,15 @@ void MenuLoop::generateScreen() {
 
         while (window.pollEvent(event)) {
 
-            graphic.movement(event, window);
+            graphic.setInput(event, window);
         }
 
         if (graphic.getState()) {
             graphic.changeState(window);
+            if(dynamic_cast<Game*>(graphic.getGraphicState())!=NULL)
+                gameObserver.setSubject(graphic.getGraphicState());
+            /*if(dynamic_cast<Achievement*>(graphic.getGraphicState())!=NULL)
+                gameObserver.setSubject(graphic.getGraphicState());*/
         }
 
         window.clear();

@@ -16,7 +16,7 @@ public:
 
     virtual void addObserver(Observer* observer);
 
-    virtual void removeObserver(Observer* observer);
+    virtual void removeObserver();
 
 protected:
 

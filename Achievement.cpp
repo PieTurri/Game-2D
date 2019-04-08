@@ -5,22 +5,27 @@
 #include "Achievement.h"
 #include "Menu.h"
 
-Achievement::Achievement(RenderWindow& window) : Achievement(1400,900){
+Achievement::Achievement() {}
+
+Achievement::Achievement(RenderWindow& window){
+
     setScreen();
+    height=texture.getSize().y/2;
+    width=texture.getSize().x/2;
+
+    cout<<height<<" "<<width<<endl;
+
     setView(window);
 }
-
-Achievement::Achievement(float width, float height) : width(width), height(height) {}
-
 
 void Achievement::setScreen() {
 
     if(!texture.loadFromFile("achievement.jpg"))
-        cout<<"errore";
+        cout<<"errore: immagine 'achievement.jpg' non trovata.";
     sprite.setTexture(texture);
 
     if(!font.loadFromFile("DIOGENES.ttf"))
-        cout << "errore" << endl;
+        cout << "errore: stile carattere 'DIOGENES.ttf' non trovata." << endl;
 
     text.setString("Achievement");
     text.setFont(font);
@@ -33,7 +38,6 @@ void Achievement::draw(RenderWindow &window) {
 
     window.draw(sprite);
     window.draw(text);
-
 }
 
 void Achievement::getActivities(Event event, RenderWindow &window) {
@@ -67,9 +71,9 @@ GraphicState *Achievement::getNextState(RenderWindow &window) {
 }
 
 void Achievement::setView(RenderWindow &window) {
+
     Vector2f v(texture.getSize());
     view.setSize(v);
     view.setCenter(v.x/2,v.y/2);
     window.setView(view);
 }
-

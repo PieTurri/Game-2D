@@ -12,8 +12,7 @@
 #include "Heart.h"
 #include <vector>
 #include "Abstract_Factory.h"
-
-//#include "Collision.h"
+#include "Subject.h"
 
 class Game: public GraphicState {
 public:
@@ -38,10 +37,11 @@ public:
 
     void createProjectile();
 
-
     void update(RenderWindow &window);
 
     Vector2f getRandomPosition();
+
+    vector <Enemy*>& getEnemy();
 
 private:
 
@@ -49,12 +49,12 @@ private:
 
     Abstract_Factory* factory;
 
-    Texture heartT;
-    vector <Sprite> heartS;
+    //Texture heartT;
+    //vector <Sprite> heartS;
 
     TileMap* map;
 
-    Heart heart;
+    //Heart heart;
 
     Time heroTime;
 
@@ -72,7 +72,6 @@ private:
     vector <Enemy*> enemy;
 
     Pause p;
-    //Collision collision;
 
 };
 

@@ -59,4 +59,10 @@ bool Enemy::hasFiringStrategy() {
     return Es->isFiringStrategy();
 }
 
+void Enemy::draw(RenderWindow &window) {
+
+        window.draw(sprite);
+        weapon->draw(window);
+}
+
 

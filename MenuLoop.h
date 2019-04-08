@@ -15,6 +15,7 @@
 #include <SFML/Audio/Music.hpp>
 
 #include "Musica.h"
+#include "GameObserver.h"
 
 #include <thread>
 #include <chrono>
@@ -44,9 +45,7 @@ private:
 
     int mapScreen;
 
-    //aggiunti da leo:
-    //Abstract_Factory* factory;
-    //Enemy_Abstract_Factory* Efactory;
+    GameObserver gameObserver;
 
     int h,w;
 

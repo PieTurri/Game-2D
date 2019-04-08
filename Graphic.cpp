@@ -20,13 +20,15 @@ Graphic::~Graphic() {}
 
 void Graphic::changeState(RenderWindow &window) {
 
-    if(graphicState){
+    if(graphicState!=nullptr){
 
         GraphicState* gContext = graphicState->getNextState(window);
 
         delete graphicState;
 
         graphicState = gContext;
+    } else{
+
     }
 
 }
@@ -43,7 +45,7 @@ void Graphic::draw(RenderWindow &window) {
 
 }
 
-void Graphic::movement(Event event,RenderWindow &window) {
+void Graphic::setInput(Event event, RenderWindow &window) {
 
     graphicState->getActivities(event,window);
 
@@ -52,5 +54,15 @@ void Graphic::movement(Event event,RenderWindow &window) {
 bool Graphic::getState() {
     
     return graphicState->getState();
+}
+
+GraphicState *Graphic::getGraphicState() {
+
+    return graphicState;
+}
+
+void Graphic::setGraphicState(GraphicState *graphicState) {
+
+    this->graphicState=graphicState;
 }
 

@@ -18,6 +18,7 @@ Menu::Menu(RenderWindow &window) : Menu(700, 450, window) {}
 
 Menu::Menu(float w, float h, RenderWindow &window) : width(w), height(h) , GraphicState() {
 
+    cout<<"ACHIEVEMENT"<<endl;
     setScreen();
     setView(window);
 }

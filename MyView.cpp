@@ -5,6 +5,7 @@
 #include "MyView.h"
 #include <iostream>
 #include <tgmath.h>
+#include "Knight.h"
 
 using namespace std;
 

@@ -19,4 +19,3 @@ GraphicState::GraphicState() {
 
 }
 
-

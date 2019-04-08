@@ -23,9 +23,13 @@ public:
 
     void draw(RenderWindow &window);
 
-    void movement(Event event,RenderWindow &window);
+    void setInput(Event event, RenderWindow &window);
 
     bool getState();
+
+    GraphicState* getGraphicState();
+
+    void setGraphicState(GraphicState* graphicState);
 
 
 private:

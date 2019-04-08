@@ -58,12 +58,6 @@ bool GameCharacter::getWeaponUse() {
     return usingWeapon;
 }
 
-void GameCharacter::draw(RenderWindow &window) {
-
-    window.draw(sprite);
-    weapon->draw(window);
-}
-
 FloatRect GameCharacter::getDimension() {
     return sprite.getGlobalBounds();
 }

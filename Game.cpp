@@ -7,7 +7,6 @@
 #include <random>
 #include <chrono>
 
-
 using namespace std;
 using namespace sf;
 
@@ -27,7 +26,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) {
     Clock clock;
     Time times;
 
-    for(int i=0;i<50;i++){
+    for(int i=0;i<2;i++){
 
         enemyTime.push_back(times);
         enemyClock.push_back(clock);
@@ -42,7 +41,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) {
     }
     pause=false;
 
-    heart.setHeart(window,hero,view);
+    //heart.setHeart(window,hero,view);
     setView(window);
 
     view.setSubject(hero);
@@ -50,6 +49,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) {
 
 Game::~Game() {
 
+    hero->removeObserver();
     delete hero;
     delete map;
 }
@@ -145,8 +145,8 @@ void Game::draw(RenderWindow &window) {
 
     map->draw(window);
 
-    heart.draw(window);
-    heart.setHeart(window,hero,view);
+    //heart.draw(window);
+    //heart.setHeart(window,hero,view);
     hero->draw(window);
 
     for (int i = 0; i < heroProjectile.size(); i++)
@@ -158,6 +158,7 @@ void Game::draw(RenderWindow &window) {
     for (int i = 0; i < enemy.size(); i++){
         enemy[i]->draw(window);
     }
+
     if(!pause)
         update(window);
     else{
@@ -191,6 +192,7 @@ void Game::lookForCollision() {
 
                 if (enemy[j]->getHp() <= 0) {
                     enemy.erase(it);
+                    notify();
                     j--;
                 } else
                     it++;
@@ -318,8 +320,8 @@ void Game::update(RenderWindow &window) {
 
     if (!pause) {
 
-        if (hero->isStill())
-            view.followHero();
+        /*if (hero->isStill())
+            view.followHero();*/
 
         hero->setDirection();
 
@@ -347,8 +349,6 @@ void Game::update(RenderWindow &window) {
         if(enemy.size()==0)
             map->openBossDoor();
 
-        cout<<map->isBossDoor(map->getTile(hero->getPosition()))<<" , "<<enemy.size()<<endl;
-
         if(enemy.size()==0&&map->isBossDoor(map->getTile(hero->getPosition())))
             setState(true);
 
@@ -357,9 +357,6 @@ void Game::update(RenderWindow &window) {
         createProjectile();
         manageProjectile();
         lookForCollision();
-    } else{
-        p.draw(window);
-
     }
 
 }
@@ -379,4 +376,8 @@ Vector2f Game::getRandomPosition() {
     Vector2f pos(x*32,y*32);
 
     return pos;
+}
+
+vector<Enemy *> &Game::getEnemy() {
+    return enemy;
 }

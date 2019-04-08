@@ -109,7 +109,24 @@ void BossLevel::getActivities(Event event, RenderWindow &window) {
 void BossLevel::setView(RenderWindow &window) {
 
     view.setSize(Vector2f(map.getWidth()*32,map.getHeight()*32));
-    view.setCenter(window.getSize().x/2,window.getSize().y/2);
+    view.setCenter(map.getWidth()/2*32,map.getHeight()/2*32);
     window.setView(view);
 
 }
+
+/*void BossLevel::update() {
+
+    hero->setDirection();
+
+    if (hero->getDirRight())
+        hero->moveRight(map);
+
+    if (hero->getDirLeft())
+        hero->moveLeft(map);
+
+    if (hero->getDirUp())
+        hero->moveUp(map);
+
+    if (hero->getDirDown())
+        hero->moveDown(map);
+}*/

@@ -21,7 +21,7 @@ public:
 
     void draw(RenderWindow &window);
 
-    virtual ~GameCharacter();
+    virtual ~GameCharacter()=0;
 
     void setSpeed(int s);
 

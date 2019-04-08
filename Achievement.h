@@ -7,18 +7,20 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "GraphicState.h"
+#include "GameObserver.h"
 
 using namespace sf;
+using namespace std;
 
 class Achievement : public GraphicState{
 public:
 
+    Achievement();
+
     Achievement(RenderWindow& window);
 
-    Achievement( float width, float height);
-
     void setScreen() override;
+
     void draw(RenderWindow &window) override;
 
     void getActivities(Event event,RenderWindow &window);
@@ -27,12 +29,14 @@ public:
 
     void setView(RenderWindow &window) override;
 
-
+    int setGameObserver(GameObserver gameObs);
 
 protected:
 
-    const float width;
-    const float height;
+    unsigned int width;
+    unsigned int height;
+
+    GameObserver* gameObserver;
 
     Texture texture;
     Sprite sprite;

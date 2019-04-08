@@ -17,6 +17,8 @@ Hero::Hero(int Hp, int speed, bool armor) : GameCharacter(Hp, speed) {
     moveL = false;
     moveR = false;
 
+    lastDirection=false;
+
     weapon = new Kalashnikov;
     weapon->setRateOfFire(0.1);
 }
@@ -112,7 +114,7 @@ void Hero::aim(RenderWindow &window, Event event) {
 Hero *Hero::Create(int index) {
     switch(index){
         case 0:
-            return new Knight(256,8,false);
+            return new Knight(256,16,false);
         case 1:
             return new Valkyrie(8,5,true);
         default:break;
@@ -147,7 +149,7 @@ void Hero::moveRight(TileMap *map) {
     }
 }
 
-void Hero::moveLeft(TileMap *map) {
+void Hero::moveLeft(TileBossMap *map) {
 
     Tile tile=map->getTile(getPosition() + Vector2f(-speed - getDimension().width / 2, 0));
 
@@ -159,7 +161,7 @@ void Hero::moveLeft(TileMap *map) {
     }
 }
 
-void Hero::moveUp(TileMap *map) {
+void Hero::moveUp(TileBossMap *map) {
 
     Tile tile=map->getTile(getPosition() + Vector2f(0, -speed - getDimension().height / 2));
 
@@ -171,7 +173,7 @@ void Hero::moveUp(TileMap *map) {
     }
 }
 
-void Hero::moveDown(TileMap *map) {
+void Hero::moveDown(TileBossMap *map) {
 
     Tile tile=map->getTile(getPosition() + Vector2f(0, speed + getDimension().height / 2));
 
@@ -180,6 +182,21 @@ void Hero::moveDown(TileMap *map) {
         sprite.move(0, speed);
         weapon->move(0, speed);
         notify();
+    }
+}
+
+void Hero::draw(RenderWindow &window) {
+
+
+    if((moveU&&!moveD&&!moveL&&!moveR)||lastDirection){
+        weapon->draw(window);
+        window.draw(sprite);
+        lastDirection=true;
+    }
+    else{
+        window.draw(sprite);
+        weapon->draw(window);
+        lastDirection=false;
     }
 }
 

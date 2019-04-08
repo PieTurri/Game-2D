@@ -16,7 +16,7 @@ void Subject::addObserver(Observer *observer) {
 
 }
 
-void Subject::removeObserver(Observer *observer) {
+void Subject::removeObserver() {
 
     delete observer;
 

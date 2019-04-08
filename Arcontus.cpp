@@ -15,12 +15,11 @@ Arcontus::Arcontus() {
     other=478;
     heroStartingPosition=120;
 
-    setTileMap();
+    cout<<"ciao"<<endl;
 
-    findDimension();
+    setTileMap();
 
     setItemsProperty();
 
     load("Tileset1.png",Vector2u(32,32));
-
 }

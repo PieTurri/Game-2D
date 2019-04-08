@@ -3,142 +3,12 @@
 //
 
 #include "TileMap.h"
-#include <iostream>
-#include <cmath>
-#include <sstream>
 
 using namespace std;
 
 TileMap::TileMap() {}
 
 TileMap::~TileMap() {
-}
-
-bool TileMap::load(const std::string &tileset, sf::Vector2u tileSize) {
-
-    // load the map tileset texture
-
-    if (!tilemapTexture.loadFromFile(tileset))
-        return false;
-
-    // resize the vertex array to fit the tile size
-
-    m_vertices.setPrimitiveType(sf::Quads);
-
-    m_vertices.resize(height * width * 4);
-
-    // populate the vertex array, with one quad per tile
-
-    for (unsigned int i = 0; i < height; i++) {
-
-        for (unsigned int j = 0; j < width; j++) {
-
-            // get the current tile number
-
-            int tileNumber = tiles[i][j].getValue();
-
-
-            // find its position in the tileset texture
-
-            int tu = tileNumber % (tilemapTexture.getSize().x / tileSize.x);
-
-            int tv = tileNumber / (tilemapTexture.getSize().x / tileSize.x);
-
-
-            // get a pointer to the current tile's quad
-
-            sf::Vertex *quad = &m_vertices[(j + i * width) * 4];
-
-            // define its 4 corners
-
-            quad[0].position = sf::Vector2f(j * tileSize.x, i * tileSize.y);
-
-            quad[1].position = sf::Vector2f((j + 1) * tileSize.x, i * tileSize.y);
-
-            quad[2].position = sf::Vector2f((j + 1) * tileSize.x, (i + 1) * tileSize.y);
-
-            quad[3].position = sf::Vector2f(j * tileSize.x, (i + 1) * tileSize.y);
-
-            // define its 4 texture coordinates
-
-            quad[0].texCoords = sf::Vector2f(tu * tileSize.x, tv * tileSize.y);
-
-            quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize.x, tv * tileSize.y);
-
-            quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
-
-            quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
-
-        }
-    }
-
-    states.texture=&tilemapTexture;
-
-    return true;
-
-}
-
-void TileMap::draw(RenderWindow &window) {
-
-    updateRoomsItems();
-
-    window.draw(m_vertices,states);
-
-    for(int i=0;i<items.size();i++)
-        items[i].draw(window);
-
-    vector<Obstacle>::iterator it=obstacles.begin();
-
-    for(int i=0;i<obstacles.size();i++)
-        obstacles[i].draw(window);
-
-    for(int i=0;i<obstacles.size();i++){
-        if(!obstacles[i].getDestroyed()) {
-
-            it++;
-        }
-        else {
-
-            getTile(obstacles[i].getPosition()).reset();
-            obstacles.erase(it);
-            i--;
-        }
-    }
-}
-
-void TileMap::setTileMap() {
-
-    mapTextFile.open(textFileName);
-
-    int i=0;
-    string line;
-    vector <Tile> lineTiles;
-    Tile tile;
-
-    while(getline(mapTextFile,line)) {
-
-        istringstream iss(line);
-
-        while(iss>>i) {
-
-            tile.setValue(i);
-
-            if (i == wall||i==other) {
-                tile.setHeroWalkability(false);
-                tile.setEnemyWalkability(false);
-            }
-            if (i == corridorFloor)
-                tile.setEnemyWalkability(false);
-
-            lineTiles.push_back(tile);
-            tile.reset();
-        }
-
-        tiles.push_back(lineTiles);
-        lineTiles.clear();
-    }
-
-    mapTextFile.close();
 }
 
 void TileMap::updateRoomsItems() {
@@ -221,19 +91,10 @@ void TileMap::setItemsProperty() {
         Vector2f v(obstaclePosX*32+16,obstaclePosY*32+16);
 
         obstacles[x].setPosition(v);
-        tiles[obstaclePosY][obstaclePosX].setHeroWalkability(false);
-        tiles[obstaclePosY][obstaclePosX].setEnemyWalkability(false);
+        tiles[obstaclePosX][obstaclePosY].setHeroWalkability(false);
+        tiles[obstaclePosX][obstaclePosY].setEnemyWalkability(false);
     }
 
-}
-
-Vector2f TileMap::getTileCoordinates(int index) {
-
-    float x=index%width;
-
-    float y=(index-x)/width;
-
-    return Vector2f(x*32,y*32);
 }
 
 vector<Obstacle> & TileMap::getObstacle() {
@@ -246,30 +107,9 @@ void TileMap::setObstacle(vector<Obstacle> &obstacle) {
     obstacles=obstacle;
 }
 
-void TileMap::findDimension() {
-
-    height=tiles.size();
-    width=tiles[0].size();
-}
-
-Tile & TileMap::getTile(Vector2f pos) {
-
-    return tiles[pos.x/32][pos.y/32];
-}
-
 bool TileMap::isFightingGround(Tile &tile) {
 
     return tile.getValue()==fightFloor;
-}
-
-Vector2f TileMap::getHeroStartingPosition() {
-
-    for(int i=0;i<width;i++){
-        for(int j=0;j<height;j++){
-            if(tiles[i][j].getValue()==heroStartingPosition)
-                return Vector2f(j*32,i*32);
-        }
-    }
 }
 
 void TileMap::openBossDoor() {
@@ -291,22 +131,47 @@ bool TileMap::isBossDoor(Tile &tile) {
     return tile.getValue()==heroStartingPosition;
 }
 
-void TileMap::setTextFileName(string fileName) {
+void TileMap::draw(RenderWindow &window) {
 
-    textFileName=fileName;
+    TileBossMap::draw(window);
 
+    updateRoomsItems();
+
+    for(int i=0;i<items.size();i++)
+        items[i].draw(window);
+
+    vector<Obstacle>::iterator it=obstacles.begin();
+
+    for(int i=0;i<obstacles.size();i++)
+        obstacles[i].draw(window);
+
+    for(int i=0;i<obstacles.size();i++){
+        if(!obstacles[i].getDestroyed()) {
+
+            it++;
+        }
+        else {
+
+            getTile(obstacles[i].getPosition()).reset();
+            obstacles.erase(it);
+            i--;
+        }
+    }
 }
 
-unsigned int TileMap::getHeight() {
-    return height;
-}
+void TileMap::setTileMap() {
 
-unsigned int TileMap::getWidth() {
-    return width;
-}
+    TileBossMap::setTileMap();
 
-void TileMap::setWall(int wall) {
+    for(int i=0;i<width;i++){
+        for(int j=0;j<height;j++){
 
-    this->wall=wall;
-
+            if (tiles[i][j].getValue()==other) {
+                tiles[i][j].setHeroWalkability(false);
+                tiles[i][j].setEnemyWalkability(false);
+            }
+            if (tiles[i][j].getValue() == corridorFloor)
+                tiles[i][j].setEnemyWalkability(false);
+        }
+    }
 }

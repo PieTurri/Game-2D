@@ -13,7 +13,7 @@ Knight::Knight(int Hp, int speed, bool armor) : Hero(Hp, speed, armor) {
 
 Knight::~Knight() = default;
 
-void Knight::setDirection() {//void useWeapon(Sprite &spriteFire, Texture &textureFire);
+void Knight::setDirection() {
     try {
 
         if (moveD&&!moveL&&!moveR&&!moveU) {
@@ -34,12 +34,12 @@ void Knight::setDirection() {//void useWeapon(Sprite &spriteFire, Texture &textu
         if (moveU&&!moveL&&!moveR&&!moveD) {
 
             if (TypeFoot) {
-                if(!texture.loadFromFile("npc3_fr1.png"))
+                if(!texture.loadFromFile("npc3_bk1.png"))
                     throw "Impossibile aprire immagine 1 ";
                 TypeFoot = false;
             }
             else{
-                texture.loadFromFile("npc3_fr2.png");
+                texture.loadFromFile("npc3_bk2.png");
                 TypeFoot = true;
             }
 
@@ -76,6 +76,7 @@ void Knight::setDirection() {//void useWeapon(Sprite &spriteFire, Texture &textu
     }
     catch  (...){"Impossibile aprire immagini cavaliere";}
 }
+
 
 
 

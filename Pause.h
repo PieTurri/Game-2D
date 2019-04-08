@@ -16,14 +16,21 @@ class Pause {
 public:
 
     Pause();
+
     ~Pause();
 
     void setMenuPause(RenderWindow &window);
+
     void draw(RenderWindow &window);
+
     void moveMenu(RenderWindow &window, Event event);
+
     void MoveUp();
+
     void MoveDown();
+
 protected:
+
     Text text[3];
     Font font;
     Event event;

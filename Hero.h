@@ -40,6 +40,8 @@ public:
 
     void setArmor(bool Armor);
 
+    void draw(RenderWindow& window);
+
     virtual void setDirection()=0;
 
     void setDirUp(bool state);
@@ -60,11 +62,11 @@ public:
 
     void moveRight(TileMap *map);
 
-    void moveLeft(TileMap *map);
+    void moveLeft(TileBossMap *map);
 
-    void moveUp(TileMap *map);
+    void moveUp(TileBossMap *map);
 
-    void moveDown(TileMap *map);
+    void moveDown(TileBossMap *map);
 
     bool isStill();
 
@@ -79,6 +81,7 @@ protected:
     bool SpecialPower;
     bool FinalAttack;
     bool Armor;
+    bool lastDirection;
 
     bool moveU;
     bool moveD;

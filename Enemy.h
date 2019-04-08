@@ -27,6 +27,8 @@ public:
 
     Enemy();
 
+    void draw(RenderWindow &window);
+
     void changeStrategy(Hero *h, TileMap *map);
 
     void moveEnemy(TileMap *map);
