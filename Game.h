@@ -54,7 +54,7 @@ private:
 
     TileMap* map;
 
-    //Heart heart;
+    Heart heart;
 
     Time heroTime;
 

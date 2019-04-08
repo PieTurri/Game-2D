@@ -7,7 +7,7 @@ include_directories(./lib/googletest/include ./lib/googletest)
 
 
 
-set(SOURCE_FILES runAllTest.cpp KnightTest.cpp ProjectileTest.cpp CharacterProjectileTest.cpp ObstacleTest.cpp)
+set(SOURCE_FILES runAllTest.cpp KnightTest.cpp ObstacleTest.cpp CharacterProjectileTest.cpp EnemyTest.cpp)
 add_executable(runAllTests ${SOURCE_FILES})
 ##target_link_libraries(runAllTests ${GTEST_BOTH_LIBRARIES} core)
 #[[if(GTest_FOUND)

@@ -32,9 +32,9 @@ private:
     const float width;
     const float height;
 
-    Texture texture;
-    Sprite sprite;
-    Text textRules[3];
+    Texture texture,textureWASD[5];
+    Sprite sprite,spriteWASD[5];
+    Text textRules[5];
     Font font;
 };
 

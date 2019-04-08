@@ -6,8 +6,6 @@
 #include "ChooseCharacter.h"
 #include "MapLevel.h"
 #include "Menu.h"
-#include "Hero.h"
-
 
 using namespace std;
 using namespace sf;
@@ -32,9 +30,9 @@ void ChooseCharacter::setScreen() {
 
     valkyrieLocked = false;
     knightLocked = false;
-    ninjaLocked = true;
-    wizardLocked = true;
-    planetarLocked = true;
+    ninjaLocked = false;
+    wizardLocked = false;
+    planetarLocked = false;
     Selected = false;
 
     sprite.setTexture(tBackground);
@@ -83,55 +81,15 @@ void ChooseCharacter::draw(RenderWindow &window) {
     for(int i=0 ; i < 5 ; i++)
         window.draw(spriteC[i]);
     window.draw(tMessage);
-    //window.draw(textC);
 }
-
-
-bool ChooseCharacter::isLocked(int setindex) {
-
-    switch(setindex){
-        case 0:
-            return knightLocked;
-
-        case 1:
-            return valkyrieLocked;
-
-        case 2:
-            return ninjaLocked;
-
-        case 3:
-            return wizardLocked;
-
-        case 4:
-            return planetarLocked;
-        default:
-            break;
-    }
-}
-
-bool ChooseCharacter::setLocked(int setindex) {
-    switch(setindex){
-        case 0:
-            knightLocked = true;
-            return knightLocked;
-        case 1:
-            valkyrieLocked = true;
-            return valkyrieLocked;
-        default:
-            break;
-
-    }
-}
-
 void ChooseCharacter::MoveRight(sf::Sprite *spriteC) {
 
     if ( setindex >= 0 && setindex < 4)
     {
-        if(!isLocked(setindex+1)){
-            spriteC[setindex].setColor(sf::Color::Black);
-            setindex++;
-            spriteC[setindex].setColor(sf::Color(168,31,000));
-        }
+        spriteC[setindex].setColor(sf::Color::Yellow);
+        setindex++;
+        spriteC[setindex].setColor(sf::Color(168,31,000));
+        animate(setindex);
     }
 
 }
@@ -139,21 +97,12 @@ void ChooseCharacter::MoveLeft(sf::Sprite *spriteC) {
 
     if (setindex > 0 && setindex <=4)
     {
-        spriteC[setindex].setColor(sf::Color::Black);
+        spriteC[setindex].setColor(sf::Color::Yellow);
         setindex--;
         spriteC[setindex].setColor(sf::Color(168,31,000));
-
+        animate(setindex);
     }
-
 }
-bool ChooseCharacter::setFree() {
-    return false;
-}
-
-/*const int *ChooseCharacter::getIndex() const {
-    return index;
-}*/
-
 bool ChooseCharacter::isSelected() {
     return Selected;
 }
@@ -210,6 +159,28 @@ void ChooseCharacter::setView(RenderWindow &window) {
     view.setSize(v);
     view.setCenter(v.x/2,v.y/2);
     window.setView(view);
+}
+
+void ChooseCharacter::animate(int i) {
+
+    switch(i){
+        case 0:
+            cout<<"0"<<endl;
+            break;
+        case 1:
+            cout<<"1"<<endl;
+            break;
+        case 2:
+            cout<<"2"<<endl;
+            break;
+        case 3:
+            cout<<"3"<<endl;
+            break;
+        case 4:
+            cout<<"4"<<endl;
+            break;
+        default:break;
+    }
 }
 
 

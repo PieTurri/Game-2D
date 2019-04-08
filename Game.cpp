@@ -26,7 +26,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) {
     Clock clock;
     Time times;
 
-    for(int i=0;i<2;i++){
+    for(int i=0;i<40;i++){
 
         enemyTime.push_back(times);
         enemyClock.push_back(clock);
@@ -41,7 +41,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) {
     }
     pause=false;
 
-    //heart.setHeart(window,hero,view);
+    heart.setHeart(window,hero,view);
     setView(window);
 
     view.setSubject(hero);
@@ -145,8 +145,8 @@ void Game::draw(RenderWindow &window) {
 
     map->draw(window);
 
-    //heart.draw(window);
-    //heart.setHeart(window,hero,view);
+    heart.draw(window);
+    heart.setHeart(window,hero,view);
     hero->draw(window);
 
     for (int i = 0; i < heroProjectile.size(); i++)
@@ -158,7 +158,6 @@ void Game::draw(RenderWindow &window) {
     for (int i = 0; i < enemy.size(); i++){
         enemy[i]->draw(window);
     }
-
     if(!pause)
         update(window);
     else{
@@ -320,8 +319,8 @@ void Game::update(RenderWindow &window) {
 
     if (!pause) {
 
-        /*if (hero->isStill())
-            view.followHero();*/
+        if (hero->isStill())
+            view.followHero();
 
         hero->setDirection();
 

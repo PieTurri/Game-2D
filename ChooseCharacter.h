@@ -23,10 +23,10 @@ public:
     void MoveRight(sf::Sprite *spriteC);
 
     void setScreen();
-    bool isLocked(int setindex);
+    //bool isLocked(int setindex);
 
-    bool setLocked(int index);
-    bool setFree();
+    //bool setLocked(int index);
+    //bool setFree();
 
     bool isSelected();
 
@@ -37,6 +37,8 @@ public:
     void setView(RenderWindow &window);
 
     //const int *getIndex() const;
+
+    void animate(int i);
 
 
     int GetPressedItem() { return setindex; }
@@ -64,6 +66,7 @@ private:
     bool ninjaLocked;
     bool wizardLocked;
     bool planetarLocked;
+    bool setanimation[5];
 
     bool Selected;
 
