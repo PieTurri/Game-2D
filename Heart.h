@@ -17,12 +17,25 @@ public:
     Heart();
     ~Heart();
 
-    void setHeart(RenderWindow &window, Hero *hero, View view);
+    void setHeart(RenderWindow &window);
+
+    void setHeroLife(int life);
+
+    int getHeroLife();
+
     void draw(RenderWindow &window);
+
+    void update(int life);
+
+    void removeHeart();
 
 protected:
     Texture heartT;
     vector <Sprite> heartS;
+
+    int heroLife;
+    int number;
+
     Vector2f size;
     Vector2f distanceHeart;
 

@@ -97,24 +97,16 @@ bool Hero::isStill() {
 
 void Hero::aim(RenderWindow &window, Event event) {
 
-    View view=window.getView();
+    Vector2i posTarget(event.mouseMove.x,event.mouseMove.y);
 
-    Vector2f size=(Vector2f)window.getSize();
-
-    float targetX=event.mouseMove.x-(size.x/2)+view.getCenter().x;
-
-    float targetY=event.mouseMove.y-(size.y/2)+view.getCenter().y;
-
-    Vector2f posTarget(targetX,targetY);
-
-    weapon->rotate(posTarget);
+    weapon->rotate(window.mapPixelToCoords(posTarget));
 
 }
 
 Hero *Hero::Create(int index) {
     switch(index){
         case 0:
-            return new Knight(256,16,false);
+            return new Knight(15,16,false);
         case 1:
             return new Valkyrie(8,5,true);
         default:break;
@@ -138,7 +130,7 @@ bool Hero::getDirUp() {
     return moveU;
 }
 
-void Hero::moveRight(TileMap *map) {
+void Hero::moveRight(TileBossMap *map) {
 
     Tile tile=map->getTile(getPosition() + Vector2f(speed + getDimension().width / 2, 0));
 
@@ -188,10 +180,19 @@ void Hero::moveDown(TileBossMap *map) {
 void Hero::draw(RenderWindow &window) {
 
 
-    if((moveU&&!moveD&&!moveL&&!moveR)||lastDirection){
+    if((moveU&&!moveD&&!moveL&&!moveR)){
         weapon->draw(window);
         window.draw(sprite);
         lastDirection=true;
+    }
+    else if(isStill()){
+        if(lastDirection) {
+            weapon->draw(window);
+            window.draw(sprite);
+        } else {
+            window.draw(sprite);
+            weapon->draw(window);
+        }
     }
     else{
         window.draw(sprite);

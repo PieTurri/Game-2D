@@ -15,8 +15,6 @@ Arcontus::Arcontus() {
     other=478;
     heroStartingPosition=120;
 
-    cout<<"ciao"<<endl;
-
     setTileMap();
 
     setItemsProperty();

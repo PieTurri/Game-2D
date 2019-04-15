@@ -15,7 +15,7 @@ using namespace std;
 class Achievement : public GraphicState{
 public:
 
-    Achievement();
+    //Achievement();
 
     Achievement(RenderWindow& window);
 
@@ -29,18 +29,18 @@ public:
 
     void setView(RenderWindow &window) override;
 
-    int setGameObserver(GameObserver gameObs);
+    void setGameObserver(GameObserver gameObs);
 
 protected:
 
     unsigned int width;
     unsigned int height;
 
-    GameObserver* gameObserver;
+    GameObserver obs;
 
     Texture texture;
     Sprite sprite;
-    Text text;
+    Text text[3];
     Font font;
 
 };

@@ -43,14 +43,11 @@ public:
 
     vector <Enemy*>& getEnemy();
 
+    Time getCompletedGameTime();
+
 private:
 
-    bool pause;
-
     Abstract_Factory* factory;
-
-    //Texture heartT;
-    //vector <Sprite> heartS;
 
     TileMap* map;
 
@@ -69,9 +66,12 @@ private:
     vector <Projectile*> enemyProjectile;
 
     Hero* hero;
-    vector <Enemy*> enemy;
 
-    Pause p;
+    Time time;
+
+    Clock clock;
+
+    vector <Enemy*> enemy;
 
 };
 

@@ -13,9 +13,11 @@ MyView::MyView() {}
 
 void MyView::followHero() {
 
-    Vector2f range = subject->getPosition() - getCenter();
+    Hero* sub= dynamic_cast<Hero*>(subject);
 
-    if(!subject->getDirDown()&&!subject->getDirRight()&&!subject->getDirLeft()&&!subject->getDirUp()) {
+    Vector2f range = sub->getPosition() - getCenter();
+
+    if(!sub->getDirDown()&&!sub->getDirRight()&&!sub->getDirLeft()&&!sub->getDirUp()) {
 
         times = clock.getElapsedTime();
 
@@ -33,20 +35,20 @@ void MyView::followHero() {
     else{
 
         if(abs(range.x)<=64&&abs(range.y)<=64)
-            speed=subject->getSpeed()/2;
+            speed=sub->getSpeed()/2;
         else
-            speed=subject->getSpeed();
+            speed=sub->getSpeed();
 
-        if(subject->getDirUp())
+        if(sub->getDirUp())
             move(0,-speed);
 
-        if(subject->getDirDown())
+        if(sub->getDirDown())
             move(0,speed);
 
-        if(subject->getDirLeft())
+        if(sub->getDirLeft())
             move(-speed,0);
 
-        if(subject->getDirRight())
+        if(sub->getDirRight())
             move(speed,0);
 
     }
@@ -60,9 +62,8 @@ void MyView::update(Subject *s) {
 
 }
 
-void MyView::setSubject(Hero *subject) {
+void MyView::setSubject(Subject *subject) {
 
     this->subject=subject;
     subject->addObserver(this);
-
 }

@@ -91,8 +91,8 @@ void TileMap::setItemsProperty() {
         Vector2f v(obstaclePosX*32+16,obstaclePosY*32+16);
 
         obstacles[x].setPosition(v);
-        tiles[obstaclePosX][obstaclePosY].setHeroWalkability(false);
-        tiles[obstaclePosX][obstaclePosY].setEnemyWalkability(false);
+        tiles[obstaclePosY][obstaclePosX].setHeroWalkability(false);
+        tiles[obstaclePosY][obstaclePosX].setEnemyWalkability(false);
     }
 
 }

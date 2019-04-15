@@ -9,6 +9,7 @@
 #include "GraphicState.h"
 #include "TileBossMap.h"
 #include "Hero.h"
+#include "Abstract_Factory.h"
 
 class BossLevel: public GraphicState {
 
@@ -26,11 +27,13 @@ public:
 
     void setView(RenderWindow &window);
 
-    //void update();
+    void update();
 
 private:
 
-    TileBossMap map;
+    TileBossMap* map;
+
+    Abstract_Factory* factory;
 
     Hero* hero;
 

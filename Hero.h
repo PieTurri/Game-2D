@@ -60,7 +60,7 @@ public:
 
     bool getDirUp();
 
-    void moveRight(TileMap *map);
+    void moveRight(TileBossMap *map);
 
     void moveLeft(TileBossMap *map);
 

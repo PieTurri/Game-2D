@@ -14,6 +14,7 @@ Rules::Rules(RenderWindow &window) : Rules(700, 450, window) {}
 
 Rules::Rules(float w, float h, RenderWindow &window) : width(w), height(h), GraphicState() {
 
+    pausable=false;
     setScreen();
     setView(window);
 }

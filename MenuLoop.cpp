@@ -24,8 +24,6 @@ void MenuLoop::generateScreen() {
 
     //songs.playMusic(music, index, mapScreen);
 
-    graphic.setScreen();
-
     while (window.isOpen()) {
 
         while (window.pollEvent(event)) {
@@ -37,8 +35,10 @@ void MenuLoop::generateScreen() {
             graphic.changeState(window);
             if(dynamic_cast<Game*>(graphic.getGraphicState())!=NULL)
                 gameObserver.setSubject(graphic.getGraphicState());
-            /*if(dynamic_cast<Achievement*>(graphic.getGraphicState())!=NULL)
-                gameObserver.setSubject(graphic.getGraphicState());*/
+            if(dynamic_cast<Achievement*>(graphic.getGraphicState())!=NULL) {
+                dynamic_cast<Achievement*>(graphic.getGraphicState())->setGameObserver(gameObserver);
+
+            }
         }
 
         window.clear();
@@ -49,4 +49,4 @@ void MenuLoop::generateScreen() {
     }
 }
 
-MenuLoop::~MenuLoop() = default;
+MenuLoop::~MenuLoop()=default;

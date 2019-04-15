@@ -15,7 +15,7 @@ Enemy::Enemy(int Hp, int speed) : GameCharacter(Hp, speed) {
     Es = new EnemySleeping;
     EnemyEngaged= false;
     weapon=new Kalashnikov;
-    weapon->setRateOfFire(0.5);
+    weapon->setRateOfFire(2);
 }
 
 Enemy::Enemy(): Enemy(2,6) {}

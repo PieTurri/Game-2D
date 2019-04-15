@@ -18,7 +18,7 @@ Menu::Menu(RenderWindow &window) : Menu(700, 450, window) {}
 
 Menu::Menu(float w, float h, RenderWindow &window) : width(w), height(h) , GraphicState() {
 
-    cout<<"ACHIEVEMENT"<<endl;
+    pausable=false;
     setScreen();
     setView(window);
 }
@@ -127,10 +127,7 @@ void Menu::getActivities(Event event,RenderWindow &window) {
                     break;
 
                 case sf::Keyboard::Return:
-                    if (selectedTextIndex == 3)
-                        window.close();
-                    else
-                        setState(true);
+                    setState(true);
                     break;
 
                 default:
@@ -157,11 +154,12 @@ GraphicState *Menu::getNextState(RenderWindow &window) {
 
         case 2:
             return new Achievement(window);
+        case 3:
+            window.close();
 
         default:
             break;
     }
-    cout<<"ciao";
 
 }
 

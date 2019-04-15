@@ -10,15 +10,11 @@ using namespace std;
 
 BossLevel::BossLevel(Hero *hero, RenderWindow &window) {
 
-    map.setWall(1);
+    factory=Abstract_Factory::create(0);
 
-    map.setTextFileName("mappaBoss");
+    map=factory->createBossMap();
 
-    map.setTileMap();
-
-    map.findDimension();
-
-    map.load("Tileset1.png",Vector2u(32,32));
+    pausable=true;
 
     this->hero=hero;
 
@@ -30,7 +26,11 @@ BossLevel::BossLevel(Hero *hero, RenderWindow &window) {
 
 void BossLevel::draw(RenderWindow &window) {
 
-    map.draw(window);
+    update();
+
+    setView(window);
+
+    map->draw(window);
     hero->draw(window);
 
 }
@@ -108,13 +108,13 @@ void BossLevel::getActivities(Event event, RenderWindow &window) {
 
 void BossLevel::setView(RenderWindow &window) {
 
-    view.setSize(Vector2f(map.getWidth()*32,map.getHeight()*32));
-    view.setCenter(map.getWidth()/2*32,map.getHeight()/2*32);
+    view.setSize(Vector2f(map->getWidth()*32,map->getHeight()*32));
+    view.setCenter(map->getWidth()/2*32,map->getHeight()/2*32);
     window.setView(view);
 
 }
 
-/*void BossLevel::update() {
+void BossLevel::update() {
 
     hero->setDirection();
 
@@ -129,4 +129,4 @@ void BossLevel::setView(RenderWindow &window) {
 
     if (hero->getDirDown())
         hero->moveDown(map);
-}*/
+}

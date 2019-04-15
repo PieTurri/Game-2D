@@ -7,6 +7,8 @@
 
 
 #include "GraphicState.h"
+#include <vector>
+#include "Pause.h"
 
 class Graphic {
 public:
@@ -19,8 +21,6 @@ public:
 
     void changeState(RenderWindow &window);
 
-    void setScreen();
-
     void draw(RenderWindow &window);
 
     void setInput(Event event, RenderWindow &window);
@@ -29,12 +29,9 @@ public:
 
     GraphicState* getGraphicState();
 
-    void setGraphicState(GraphicState* graphicState);
-
-
 private:
 
-    GraphicState* graphicState;
+    vector<GraphicState*> graphicState;
 };
 
 

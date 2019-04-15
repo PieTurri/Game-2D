@@ -3,6 +3,9 @@
 //
 
 #include "LevelOneFactory.h"
+#include "Skeleton.h"
+#include "Arcontus.h"
+#include "BossMap1.h"
 
 Enemy *LevelOneFactory::createEnemy() {
 
@@ -12,4 +15,9 @@ Enemy *LevelOneFactory::createEnemy() {
 TileMap *LevelOneFactory::createMap() {
 
     return new Arcontus;
+}
+
+TileBossMap *LevelOneFactory::createBossMap() {
+
+    return new BossMap1;
 }

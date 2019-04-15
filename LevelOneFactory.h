@@ -17,6 +17,8 @@ public:
 
     TileMap* createMap();
 
+    TileBossMap* createBossMap();
+
 };
 
 

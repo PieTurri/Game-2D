@@ -16,17 +16,20 @@ public:
 
     void update(Subject *s);
 
-    void setSubject(GraphicState *subject);
+    void setSubject(Subject *subject);
 
     int getEnemyDefeated();
 
     int getNumberOfEnemy();
 
+    Vector2i getTime();
+
 private:
 
-    Game* subject;
+    Vector2i time;
 
     int numberOfEnemy;
+
     int enemyDefeated;
 
 

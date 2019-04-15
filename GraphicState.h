@@ -21,21 +21,30 @@ public:
 
     virtual void draw(RenderWindow &window)=0;
 
-    virtual void setScreen()=0;
-
     virtual GraphicState *getNextState(RenderWindow &window) =0;
 
     virtual void getActivities(Event event,RenderWindow &window)=0;
 
     virtual void setView(RenderWindow &window) =0;
 
+    bool isPausable() const;
+
+    const MyView &getView() const;
+
+    void setPausable(bool pausable);
+
+    //virtual void update()=0;
+
 private:
 
+    virtual void setScreen()=0;
     bool stateChanged;
 
 protected:
 
     MyView view;
+    bool pausable;
+
 };
 
 

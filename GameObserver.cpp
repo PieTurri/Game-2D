@@ -7,24 +7,37 @@
 GameObserver::GameObserver() {
 
     enemyDefeated=0;
+    numberOfEnemy=0;
+    time=Vector2i(0,0);
 }
 
 void GameObserver::update(Subject *s) {
 
     if(subject==s) {
-        if (subject->getEnemy().size() != numberOfEnemy)
+
+        Game* sub=dynamic_cast<Game*>(subject);
+        if (sub->getEnemy().size() != numberOfEnemy) {
             enemyDefeated++;
+            numberOfEnemy=sub->getEnemy().size();
+        }
+
+        int timeInMinutes= static_cast<int>(sub->getCompletedGameTime().asSeconds())/60;
+
+        int timeInSeconds= static_cast<int>(sub->getCompletedGameTime().asSeconds())-timeInMinutes*60;
+
+        time=Vector2i(timeInMinutes,timeInSeconds);
     }
-
-    cout<<"numero di nemici sconfitti: "<<enemyDefeated<<endl;
-
 }
 
-void GameObserver::setSubject(GraphicState *subject) {
+void GameObserver::setSubject(Subject *subject) {
 
-    this->subject=dynamic_cast<Game*>(subject);
+    this->subject=subject;
+
     this->subject->addObserver(this);
-    numberOfEnemy=this->subject->getEnemy().size();
+
+    Game* sub=dynamic_cast<Game*>(subject);
+
+    numberOfEnemy=sub->getEnemy().size();
 }
 
 int GameObserver::getEnemyDefeated() {
@@ -34,5 +47,9 @@ int GameObserver::getEnemyDefeated() {
 
 int GameObserver::getNumberOfEnemy() {
 
-    return numberOfEnemy;
+    return numberOfEnemy+enemyDefeated;
+}
+
+Vector2i GameObserver::getTime() {
+    return time;
 }

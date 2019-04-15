@@ -10,6 +10,10 @@
 
 class Mirinthas : public TileMap{
 
+public:
+
+    Mirinthas();
+
 };
 
 

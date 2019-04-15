@@ -131,14 +131,14 @@ Vector2f TileBossMap::getTileCoordinates(int index) {
 
 Tile & TileBossMap::getTile(Vector2f pos) {
 
-    return tiles[pos.x/32][pos.y/32];
+    return tiles[pos.y/32][pos.x/32];
 }
 
 
 Vector2f TileBossMap::getHeroStartingPosition() {
 
-    for(int i=0;i<width;i++){
-        for(int j=0;j<height;j++){
+    for(int i=0;i<height;i++){
+        for(int j=0;j<width;j++){
             if(tiles[i][j].getValue()==heroStartingPosition)
                 return Vector2f(j*32,i*32);
         }

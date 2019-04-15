@@ -14,6 +14,7 @@ ChooseCharacter::ChooseCharacter(RenderWindow &window) : ChooseCharacter(700, 45
 
 ChooseCharacter::ChooseCharacter(float w, float h, RenderWindow &window) : width(w), height(h), GraphicState() {
 
+    pausable=false;
     setScreen();
     setView(window);
 }

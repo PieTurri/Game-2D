@@ -7,6 +7,7 @@
 
 #include "Observer.h"
 
+class Observer;
 
 class Subject {
 

@@ -15,15 +15,13 @@ public:
 
     MyView();
 
-    void setSubject(Hero* subject);
-
     void followHero();
 
     void update(Subject *s);
 
-private:
+    void setSubject(Subject *subject);
 
-    Hero* subject;
+private:
 
     int speed;
 

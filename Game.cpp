@@ -2,7 +2,7 @@
 // Created by leogori on 21/12/18.
 //
 #include "Game.h"
-#include "ChooseCharacter.h"
+#include "Menu.h"
 #include "BossLevel.h"
 #include <random>
 #include <chrono>
@@ -10,7 +10,9 @@
 using namespace std;
 using namespace sf;
 
-Game::Game(int characterIndex, int levInd, RenderWindow &window) {
+Game::Game(int characterIndex, int levInd, RenderWindow &window) : heart() {
+
+    pausable=true;
 
     hero=Hero::Create(characterIndex);
 
@@ -26,7 +28,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) {
     Clock clock;
     Time times;
 
-    for(int i=0;i<40;i++){
+    for(int i=0;i<2;i++){
 
         enemyTime.push_back(times);
         enemyClock.push_back(clock);
@@ -39,9 +41,9 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) {
 
         enemy[i]->setPosition(pos);
     }
-    pause=false;
 
-    heart.setHeart(window,hero,view);
+    heart.setHeroLife(hero->getHp());
+    heart.setHeart(window);
     setView(window);
 
     view.setSubject(hero);
@@ -76,14 +78,7 @@ void Game::getActivities(Event event, RenderWindow &window) {
                     hero->setDirRight(false);
                     break;
                 case Keyboard::Escape:
-                    if(pause)
                         setState(true);
-                    break;
-                case Keyboard::P:
-                    pause= !pause;
-                    if(pause){
-                        p.setMenuPause(window);
-                    }
                     break;
 
                 default:
@@ -110,8 +105,7 @@ void Game::getActivities(Event event, RenderWindow &window) {
             break;
 
         case Event::MouseMoved:
-            if(!pause)
-                hero->aim(window, event);
+            hero->aim(window, event);
             break;
 
         case Event::MouseButtonPressed:
@@ -127,26 +121,24 @@ void Game::getActivities(Event event, RenderWindow &window) {
         default:
             break;
     }
-    if(pause){
-        p.moveMenu(window, event);
-    }
 }
 
 GraphicState *Game::getNextState(RenderWindow &window) {
 
-    if (!pause)
+    if(hero->getHp()>0)
         return new BossLevel(hero, window);
     else
-        return new ChooseCharacter(window);
+        return new Menu(window);
 }
 
 void Game::draw(RenderWindow &window) {
 
+    update(window);
 
     map->draw(window);
 
     heart.draw(window);
-    heart.setHeart(window,hero,view);
+
     hero->draw(window);
 
     for (int i = 0; i < heroProjectile.size(); i++)
@@ -157,11 +149,6 @@ void Game::draw(RenderWindow &window) {
 
     for (int i = 0; i < enemy.size(); i++){
         enemy[i]->draw(window);
-    }
-    if(!pause)
-        update(window);
-    else{
-        p.draw(window);
     }
 }
 
@@ -216,14 +203,13 @@ void Game::lookForCollision() {
         for (int i = 0; i < enemyProjectile.size(); i++) {
 
             if (enemyProjectile[i]->getDimension().intersects(hero->getDimension())) {
-                //hero->setHp(hero->getHp() - enemyProjectile[i]->getDamage());
+                hero->setHp(hero->getHp() - enemyProjectile[i]->getDamage());
                 enemyProjectile[i]->setDestroyed();
+                heart.update(hero->getHp());
             }
 
-            if (hero->getHp() <= 0) {
-
+            if (hero->getHp() <= 0)
                 setState(true);
-            }
 
             for (int j = 0; j < obstacle.size(); j++) {
 
@@ -307,7 +293,7 @@ void Game::createProjectile() {
             projectile->setPosition(enemyWeapon->getPosition());
             projectile->setAimedPoint(enemyWeapon->getAimedPoint());
             projectile->setOrientation();
-            projectile->setSpeed(0.7);
+            projectile->setSpeed(2);
 
             enemyProjectile.push_back(projectile);
 
@@ -317,46 +303,47 @@ void Game::createProjectile() {
 
 void Game::update(RenderWindow &window) {
 
-    if (!pause) {
+    heart.setHeart(window);
 
-        if (hero->isStill())
-            view.followHero();
+    time=clock.getElapsedTime();
+    notify();
 
-        hero->setDirection();
+    if (hero->isStill())
+        hero->notify();
 
-        if (hero->getDirRight())
-            hero->moveRight(map);
+    hero->setDirection();
 
-        if (hero->getDirLeft())
-            hero->moveLeft(map);
+    if (hero->getDirRight())
+        hero->moveRight(map);
 
-        if (hero->getDirUp())
-            hero->moveUp(map);
+    if (hero->getDirLeft())
+        hero->moveLeft(map);
 
-        if (hero->getDirDown())
-            hero->moveDown(map);
+    if (hero->getDirUp())
+        hero->moveUp(map);
 
-        for (int i = 0; i < enemy.size(); i++) {
+    if (hero->getDirDown())
+        hero->moveDown(map);
 
-            enemy[i]->changeStrategy(hero, map);
-            enemy[i]->moveEnemy(map);
-            enemy[i]->aim(hero->getPosition());
+    for (int i = 0; i < enemy.size(); i++) {
 
-            enemy[i]->setWeaponUse(enemy[i]->hasFiringStrategy());
-        }
-
-        if(enemy.size()==0)
-            map->openBossDoor();
-
-        if(enemy.size()==0&&map->isBossDoor(map->getTile(hero->getPosition())))
-            setState(true);
-
-        window.setView(view);
-
-        createProjectile();
-        manageProjectile();
-        lookForCollision();
+        enemy[i]->changeStrategy(hero, map);
+        enemy[i]->moveEnemy(map);
+        enemy[i]->aim(hero->getPosition());
+        enemy[i]->setWeaponUse(enemy[i]->hasFiringStrategy());
     }
+
+    if (enemy.empty())
+        map->openBossDoor();
+
+    if (enemy.empty() && map->isBossDoor(map->getTile(hero->getPosition())))
+        setState(true);
+
+    window.setView(view);
+
+    createProjectile();
+    manageProjectile();
+    lookForCollision();
 
 }
 
@@ -366,7 +353,6 @@ Vector2f Game::getRandomPosition() {
     unsigned seed= static_cast<unsigned int>(chrono::system_clock::now().time_since_epoch().count());
 
     default_random_engine generator(seed);
-
     uniform_int_distribution<int> distribution(0,72);
 
     float x=distribution(generator);
@@ -379,4 +365,9 @@ Vector2f Game::getRandomPosition() {
 
 vector<Enemy *> &Game::getEnemy() {
     return enemy;
+}
+
+Time Game::getCompletedGameTime() {
+
+    return time;
 }

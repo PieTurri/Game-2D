@@ -13,6 +13,7 @@ using namespace std;
 
 MapLevel::MapLevel(int charInd, RenderWindow &window) : characterIndex(charInd), GraphicState() {
 
+    pausable=false;
     setScreen();
     setView(window);
 }

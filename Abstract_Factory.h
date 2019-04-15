@@ -6,8 +6,8 @@
 #define PROJECT_ABSTRACT_FACTORY_H
 
 #include <iostream>
-#include "Skeleton.h"
-#include "Arcontus.h"
+#include "TileMap.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -22,6 +22,7 @@ public:
 
     virtual Enemy *createEnemy() =0;
 
+    virtual TileBossMap* createBossMap()=0;
 };
 
 

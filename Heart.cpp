@@ -5,42 +5,53 @@
 #include "Heart.h"
 #include "Hero.h"
 
-Heart::Heart() {}
+Heart::Heart() {
 
-Heart::~Heart() {
-
-}
-
-void Heart::setHeart(RenderWindow &window, Hero *hero, View view) {
+    number=5;
 
     heartT.loadFromFile("heart.png");
     Sprite sheart;
     sheart.setTexture(heartT);
+    for (int i = 0; i < number; i++) {
+        heartS.push_back(sheart);
+    }
+}
 
-    size = Vector2f(view.getCenter().x-295,view.getCenter().y-210);
-    heartS.push_back(sheart);
-    heartS[0].setPosition(size);
+Heart::~Heart() {}
 
-    size = Vector2f(view.getCenter().x-265,view.getCenter().y-210);
-    heartS.push_back(sheart);
-    heartS[1].setPosition(size);
+void Heart::setHeart(RenderWindow &window) {
 
-    size = Vector2f(view.getCenter().x-235,view.getCenter().y-210);
-    heartS.push_back(sheart);
-    heartS[2].setPosition(size);
-
-    size = Vector2f(view.getCenter().x-205,view.getCenter().y-210);
-    heartS.push_back(sheart);
-    heartS[3].setPosition(size);
-
-    size = Vector2f(view.getCenter().x-175,view.getCenter().y-210);
-    heartS.push_back(sheart);
-    heartS[4].setPosition(size);
+    for(int i=0;i<heartS.size();i++) {
+        heartS[i].setPosition(window.mapPixelToCoords(Vector2i(10+i*heartT.getSize().x,10)));
+    }
 }
 
 void Heart::draw(RenderWindow &window) {
-    for(int j = 0;j < 5;j++){
+
+    for(int j = 0;j < heartS.size();j++){
         window.draw(heartS[j]);
     }
+}
+
+void Heart::removeHeart() {
+
+    heartS.pop_back();
+}
+
+void Heart::setHeroLife(int life) {
+
+    heroLife=life;
+}
+
+int Heart::getHeroLife() {
+    return heroLife;
+}
+
+void Heart::update(int life) {
+
+    int numHeart=life/(heroLife/number);
+
+    while(heartS.size()>numHeart+1)
+        removeHeart();
 
 }

@@ -15,6 +15,8 @@ public:
 
     TileMap* createMap() override;
 
+    TileBossMap* createBossMap() override;
+
 };
 
 

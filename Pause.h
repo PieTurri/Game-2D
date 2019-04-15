@@ -9,21 +9,28 @@
 #include <SFML/Graphics.hpp>
 #include "Hero.h"
 #include "MyView.h"
+#include "GraphicState.h"
 
 using namespace sf;
 
-class Pause {
+class Pause: public GraphicState {
 public:
 
-    Pause();
+    Pause(RenderWindow &window);
 
     ~Pause();
 
-    void setMenuPause(RenderWindow &window);
+    void setPosition(RenderWindow &window);
 
     void draw(RenderWindow &window);
 
-    void moveMenu(RenderWindow &window, Event event);
+    void getActivities(Event event, RenderWindow &window);
+
+    GraphicState* getNextState(RenderWindow& window);
+
+    void setScreen();
+
+    void setView(RenderWindow& window);
 
     void MoveUp();
 
