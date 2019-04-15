@@ -6,26 +6,23 @@
 
 using namespace std;
 
+Musica::Musica() {}
+
 void Musica::playMusic(sf::Music &music, int &index, int &mapScreen) {
 
     try {
         switch(index){
 
             case 0:
-                if(!music.openFromFile("Excalibur.ogg"))
+                if(!music.openFromFile("Music/Living_Room.ogg"))
                     throw "Impossibile aprire musica";
                 music.play();
                 break;
 
             case 1:
-                if(mapScreen == 1){
-                    if(!music.openFromFile("Courage.ogg"))
-                        throw "Impossibile aprire musica";
-                    mapScreen = 0;
-                }
-                else
-                    if(!music.openFromFile("AchillevsEttore.ogg"))
-                        throw "Impossibile aprire musica";
+                //music.stop();
+                if(!music.openFromFile("Music/Forest.ogg"))
+                    throw "Impossibile aprire musica";
                 music.play();
                 break;
             default:
@@ -37,3 +34,19 @@ void Musica::playMusic(sf::Music &music, int &index, int &mapScreen) {
         cout<<"ERRORE MUSICA"<<endl;
     }
 }
+
+Musica::~Musica() {
+
+}
+
+void Musica::setIndex(int index) {
+    Musica::index = index;
+}
+
+void Musica::changeMusic(sf::Music &music) {
+    music.openFromFile("Music/Living_Room.ogg");
+    music.play();
+}
+
+
+

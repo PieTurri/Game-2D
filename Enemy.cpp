@@ -65,4 +65,9 @@ void Enemy::draw(RenderWindow &window) {
         weapon->draw(window);
 }
 
+void Enemy::drawBoss(RenderWindow &window, Sprite sprite) {
+    window.draw(sprite);
+}
+
+
 

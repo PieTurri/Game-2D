@@ -10,6 +10,7 @@
 #include "TileBossMap.h"
 #include "Hero.h"
 #include "Abstract_Factory.h"
+#include "Enemy.h"
 
 class BossLevel: public GraphicState {
 
@@ -29,6 +30,8 @@ public:
 
     void update();
 
+    Vector2f getRandomPosition();
+
 private:
 
     TileBossMap* map;
@@ -36,6 +39,13 @@ private:
     Abstract_Factory* factory;
 
     Hero* hero;
+
+    vector <Enemy*> enemy;
+
+    Sprite sprite;
+    Texture texture;
+
+    Vector2f pos;
 
 };
 

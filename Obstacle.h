@@ -20,9 +20,11 @@ public:
 
     ~Obstacle();
 
-    void setDestroyed(bool state);
+/*    void setDestroyed(bool state);
 
-    bool getDestroyed();
+    bool getDestroyed();*/
+
+    void draw(RenderWindow& window) override;
 
 private:
 

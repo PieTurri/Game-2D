@@ -1,7 +1,6 @@
 //
 // Created by piero on 10/3/18.
 //
-
 #include <iostream>
 #include "ChooseCharacter.h"
 #include "MapLevel.h"
@@ -10,13 +9,23 @@
 using namespace std;
 using namespace sf;
 
-ChooseCharacter::ChooseCharacter(RenderWindow &window) : ChooseCharacter(700, 450, window) {}
+ChooseCharacter::ChooseCharacter(RenderWindow &window, bool Mchange) : ChooseCharacter(700, 450, window) {
+    //change = Mchange;
+    cout<<"ECCOMI STRONZO"<<endl;
+    if(Mchange){
+        music.openFromFile("Music/Living_Room.ogg");
+        music.play();
+    }
+}
 
 ChooseCharacter::ChooseCharacter(float w, float h, RenderWindow &window) : width(w), height(h), GraphicState() {
 
     pausable=false;
     setScreen();
     setView(window);
+    int a=0;
+    int b=0;
+    //songs.playMusic(music, a, b);
 }
 
 ChooseCharacter::~ChooseCharacter() {}
@@ -28,12 +37,6 @@ void ChooseCharacter::setScreen() {
         cout << "errore" << endl;
 
     setindex = 0;
-
-    valkyrieLocked = false;
-    knightLocked = false;
-    ninjaLocked = false;
-    wizardLocked = false;
-    planetarLocked = false;
     Selected = false;
 
     sprite.setTexture(tBackground);
@@ -49,7 +52,7 @@ void ChooseCharacter::setScreen() {
     //immagini da 200*300
 
     try {
-        if(!tCharacter[0].loadFromFile("knight2.jpg"))
+        if(!tCharacter[0].loadFromFile("kn.png"))
             throw "Impossibile aprire immagine cavaliere";
         spriteC[0].setPosition(sf::Vector2f(100, 250));
 
@@ -87,10 +90,11 @@ void ChooseCharacter::MoveRight(sf::Sprite *spriteC) {
 
     if ( setindex >= 0 && setindex < 4)
     {
-        spriteC[setindex].setColor(sf::Color::Yellow);
+        animate(setindex, false);
+        //spriteC[setindex].setColor(sf::Color::Yellow);
         setindex++;
-        spriteC[setindex].setColor(sf::Color(168,31,000));
-        animate(setindex);
+        //spriteC[setindex].setColor(sf::Color(168,31,000));
+        animate(setindex, true);
     }
 
 }
@@ -98,10 +102,11 @@ void ChooseCharacter::MoveLeft(sf::Sprite *spriteC) {
 
     if (setindex > 0 && setindex <=4)
     {
-        spriteC[setindex].setColor(sf::Color::Yellow);
+        animate(setindex, false);
+        //spriteC[setindex].setColor(sf::Color::Yellow);
         setindex--;
-        spriteC[setindex].setColor(sf::Color(168,31,000));
-        animate(setindex);
+        //spriteC[setindex].setColor(sf::Color(168,31,000));
+        animate(setindex, true);
     }
 }
 bool ChooseCharacter::isSelected() {
@@ -148,8 +153,10 @@ void ChooseCharacter::getActivities(Event event, RenderWindow &window) {
 
 GraphicState *ChooseCharacter::getNextState(RenderWindow &window) {
 
-    if (Selected)
+    if (Selected){
+        music.stop();
         return new MapLevel(setindex, window);
+    }
     else
         return new Menu(window);
 }
@@ -162,29 +169,68 @@ void ChooseCharacter::setView(RenderWindow &window) {
     window.setView(view);
 }
 
-void ChooseCharacter::animate(int i) {
+void ChooseCharacter::animate(int i, bool change) {
 
-    switch(i){
-        case 0:
-            cout<<"0"<<endl;
+    switch(change){
+        case true:
+            switch(i){
+                case 0:
+                    cout<<"0"<<endl;
+                    tCharacter[i].loadFromFile("kn.png");
+                    spriteC[i].setTexture(tCharacter[i]);
+                    break;
+                case 1:
+                    cout<<"1"<<endl;
+                    tCharacter[i].loadFromFile("pinguin.jpg");
+                    spriteC[i].setTexture(tCharacter[i]);
+                    break;
+                case 2:
+                    cout<<"2"<<endl;
+                    tCharacter[i].loadFromFile("pinguin.jpg");
+                    spriteC[i].setTexture(tCharacter[i]);
+                    break;
+                case 3:
+                    cout<<"3"<<endl;
+                    tCharacter[i].loadFromFile("pinguin.jpg");
+                    spriteC[i].setTexture(tCharacter[i]);
+                    break;
+                case 4:
+                    cout<<"4"<<endl;
+                    tCharacter[i].loadFromFile("pinguin.jpg");
+                    spriteC[i].setTexture(tCharacter[i]);
+                    break;
+                default:break;
+            }
             break;
-        case 1:
-            cout<<"1"<<endl;
-            break;
-        case 2:
-            cout<<"2"<<endl;
-            break;
-        case 3:
-            cout<<"3"<<endl;
-            break;
-        case 4:
-            cout<<"4"<<endl;
-            break;
-        default:break;
+        case false:
+            switch(i) {
+                case 0:
+                    cout << "0" << endl;
+                    tCharacter[i].loadFromFile("knight2.jpg");
+                    spriteC[i].setTexture(tCharacter[i]);
+                    break;
+                case 1:
+                    cout << "1" << endl;
+                    tCharacter[i].loadFromFile("deadpool.png");
+                    spriteC[i].setTexture(tCharacter[i]);
+                    break;
+                case 2:
+                    cout << "2" << endl;
+                    tCharacter[i].loadFromFile("deadpool.png");
+                    spriteC[i].setTexture(tCharacter[i]);
+                    break;
+                case 3:
+                    cout << "3" << endl;
+                    tCharacter[i].loadFromFile("deadpool.png");
+                    spriteC[i].setTexture(tCharacter[i]);
+                    break;
+                case 4:
+                    cout << "4" << endl;
+                    tCharacter[i].loadFromFile("deadpool.png");
+                    spriteC[i].setTexture(tCharacter[i]);
+                    break;
+                default:
+                    break;
+            }
     }
 }
-
-
-
-
-

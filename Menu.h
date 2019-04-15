@@ -3,6 +3,7 @@
 //
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio/Music.hpp>
 #include "GraphicState.h"
 
 
@@ -47,6 +48,7 @@ private:
     Text text[5];
     Sprite sprite;
 
+    Music music;
 
 };
 

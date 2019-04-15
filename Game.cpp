@@ -28,7 +28,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) : heart() {
     Clock clock;
     Time times;
 
-    for(int i=0;i<2;i++){
+    for(int i=0;i<25;i++){
 
         enemyTime.push_back(times);
         enemyClock.push_back(clock);
@@ -45,8 +45,12 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) : heart() {
     heart.setHeroLife(hero->getHp());
     heart.setHeart(window);
     setView(window);
-
     view.setSubject(hero);
+    int a=1;
+    int b=0;
+
+    songs->playMusic(music, a, b);
+
 }
 
 Game::~Game() {
@@ -188,7 +192,7 @@ void Game::lookForCollision() {
             for (int j = 0; j < obstacle.size(); j++) {
 
                 if (heroProjectile[i]->getDimension().intersects(obstacle[j].getDimension())){
-                    obstacle[j].setDestroyed(true);
+                    //obstacle[j].setDestroyed(true);
                     heroProjectile[i]->setDestroyed();
                 }
             }
@@ -214,7 +218,7 @@ void Game::lookForCollision() {
             for (int j = 0; j < obstacle.size(); j++) {
 
                 if (enemyProjectile[i]->getDimension().intersects(obstacle[j].getDimension())) {
-                    obstacle[j].setDestroyed(true);
+                    //obstacle[j].setDestroyed(true);
                     enemyProjectile[i]->setDestroyed();
                 }
             }

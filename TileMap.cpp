@@ -140,7 +140,7 @@ void TileMap::draw(RenderWindow &window) {
     for(int i=0;i<items.size();i++)
         items[i].draw(window);
 
-    vector<Obstacle>::iterator it=obstacles.begin();
+    /*vector<Obstacle>::iterator it=obstacles.begin();
 
     for(int i=0;i<obstacles.size();i++)
         obstacles[i].draw(window);
@@ -156,7 +156,7 @@ void TileMap::draw(RenderWindow &window) {
             obstacles.erase(it);
             i--;
         }
-    }
+    }*/
 }
 
 void TileMap::setTileMap() {

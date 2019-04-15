@@ -4,6 +4,7 @@
 #include "Pause.h"
 #include "ChooseCharacter.h"
 #include "Menu.h"
+#include "GraphicState.h"
 
 Pause::Pause(RenderWindow &window) {
     setScreen();
@@ -89,7 +90,7 @@ GraphicState *Pause::getNextState(RenderWindow &window) {
 
     switch(selectedTextIndex){
         case 0:
-            return new ChooseCharacter(window);
+            return new ChooseCharacter(window,false);
         case 1:
             return new Menu(window);
         case 2:

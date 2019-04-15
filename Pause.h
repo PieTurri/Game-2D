@@ -16,7 +16,7 @@ using namespace sf;
 class Pause: public GraphicState {
 public:
 
-    Pause(RenderWindow &window);
+    explicit Pause(RenderWindow &window);
 
     ~Pause();
 

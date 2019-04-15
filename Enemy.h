@@ -37,6 +37,8 @@ public:
 
     bool hasFiringStrategy();
 
+    void drawBoss(RenderWindow& window,Sprite sprite);
+
 protected:
 
     EnemyStrategy* Es;

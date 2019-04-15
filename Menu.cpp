@@ -147,7 +147,7 @@ GraphicState *Menu::getNextState(RenderWindow &window) {
 
     switch (selectedTextIndex) {
         case 0:
-            return new ChooseCharacter(window);
+            return new ChooseCharacter(window,false);
 
         case 1:
             return new Rules(window);

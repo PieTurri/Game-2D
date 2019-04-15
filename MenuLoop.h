@@ -2,12 +2,6 @@
 // Created by piero on 9/28/18.
 //
 
-//#include "Rules.h"
-
-
-
-
-
 #ifndef PROJECT_MENULOOP_H
 #define PROJECT_MENULOOP_H
 
@@ -20,6 +14,8 @@
 #include <thread>
 #include <chrono>
 
+//#include "ChooseCharacter.h"
+
 using namespace sf;
 
 class MenuLoop {
@@ -30,12 +26,10 @@ public:
 
     void generateScreen();
 
-    Musica songs;
-    //Skeleton skeleton;
 
 private:
 
-    int index;
+    int index = 0;
 
     sf::Event event;
 
@@ -43,11 +37,15 @@ private:
 
     sf::Music music;
 
+    Musica songs;
+
     int mapScreen;
 
     GameObserver gameObserver;
 
     int h,w;
+
+    //ChooseCharacter cc;
 
 
 };

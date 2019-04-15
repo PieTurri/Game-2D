@@ -16,7 +16,8 @@ struct KnightTest : public testing::Test{
     Enemy* enemy;
     vector<Projectile*> heroProjectile;
     vector<Projectile*> enemyProjectile;
-
+    //////////////////
+    vector<Obstacle*> ob;
     int obstaclePosX;
     int obstaclePosY;
 
@@ -45,6 +46,10 @@ protected:
 };
 
 TEST_F(KnightTest, Costructor_Test) {
+
+    cout<<"INIZIO"<<endl;
+
+    /////////////////HERO//////////////////////////////
 
     ASSERT_EQ(hero->getHp(),7);
     ASSERT_EQ(hero->getSpeed(),5);
@@ -86,9 +91,28 @@ TEST_F(KnightTest, Costructor_Test) {
     enemy->setPosition(Vector2f(32,32));
     ASSERT_EQ(map->getTile(enemy->getPosition()).getHeroWalkability(),false);
 
-   /* obstaclePosX = 32;
+
+    /////////////////OBSTACLE//////////////////////////////
+
+    obstaclePosX = 32;
     obstaclePosY = 32;
 
+    ob.push_back(new Obstacle("barile/frame-",7));
+    ob[0]->setPosition(Vector2f(32,32));
+
+    ASSERT_EQ(hero->getHp(),7);
+    ASSERT_EQ(hero->getSpeed(),5);
+    ASSERT_EQ(hero->isArmor(),false);
+
+    hero->setPosition(Vector2f(64,512));
+
+    map->getTile(Vector2f(32,32)).setHeroWalkability(false);
+
+    ASSERT_EQ(map->getTile(Vector2f(32,32)).getHeroWalkability(),false);
+
     obpos = Vector2f(obstaclePosX,obstaclePosY);
-*/
+
+    ASSERT_EQ(map->getTile(Vector2f(32,32)).getHeroWalkability(),false);
+
+    cout<<"HO FINITO"<<endl;
 }

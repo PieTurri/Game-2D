@@ -9,6 +9,7 @@
 #include "GraphicState.h"
 #include <ctime>
 #include <vector>
+#include <SFML/Audio/Music.hpp>
 
 using namespace sf;
 
@@ -81,6 +82,7 @@ private:
 
     int characterIndex;
     //bool shine=true;
+    Music m;
 };
 
 

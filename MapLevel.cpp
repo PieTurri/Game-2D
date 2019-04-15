@@ -16,6 +16,8 @@ MapLevel::MapLevel(int charInd, RenderWindow &window) : characterIndex(charInd),
     pausable=false;
     setScreen();
     setView(window);
+    m.openFromFile("Music/Dungeon.ogg");
+    m.play();
 }
 
 MapLevel::~MapLevel() {}
@@ -68,8 +70,8 @@ void MapLevel::draw(RenderWindow &window) {
         window.draw(spritel);
         window.draw(spriteCharacterLevel);
 
-        for(int j = 0;j<cloud.size();j++)
-            window.draw(cloud[j]);
+       /* for(int j = 0;j<cloud.size();j++)
+            window.draw(cloud[j]);*/
 
         //cout << "->cloud size : "<<cloud.size()<<endl;
 
@@ -91,8 +93,8 @@ void MapLevel::setScreen() {
 
     spritel.setTexture(texturel);
 
-    if(!texturem.loadFromFile("cloud.png"))
-        cout<<"errore"<<endl;
+    /*if(!texturem.loadFromFile("cloud.png"))
+        cout<<"errore"<<endl;*/
 
     textureCharacterLevel.loadFromFile("soulKnight.png");
     spriteCharacterLevel.setTexture(textureCharacterLevel);
@@ -100,7 +102,7 @@ void MapLevel::setScreen() {
 
     ////Oridne mondi: 1.Arcontus; 2.Mirinthas; 3.Etras; 4.Castrisand; 5.Punk Hazard
 
-    spritem.setTexture(texturem);
+/*    spritem.setTexture(texturem);
 
     cloud.push_back(spritem);
     cloud[0].setTexture(texturem);
@@ -164,7 +166,7 @@ void MapLevel::setScreen() {
 
     cloud.push_back(spritem);
     cloud[15].setTexture(texturem);
-    cloud[15].setPosition(sf::Vector2f(25,200));
+    cloud[15].setPosition(sf::Vector2f(25,200));*/
 
 /*
     text.setString("Achievement");
@@ -231,16 +233,16 @@ void MapLevel::getActivities(Event event, RenderWindow &window) {
 }
 
 GraphicState *MapLevel::getNextState(RenderWindow &window) {
-    if(selected)
-        return new Game(characterIndex,levelIndex,window);
-    else
-        return new ChooseCharacter(window);
+    if(selected){
+        m.stop();
+        return new Game(characterIndex, levelIndex, window);
+    }else
+        return new ChooseCharacter(window, false);
 }
 
 void MapLevel::animation() {
 
     timer=clock.getElapsedTime();
-
     if(timer.asSeconds()>0.5) {
         sign *= (-1);
         spriteCharacterLevel.move(0,sign*20);
@@ -287,7 +289,7 @@ void MapLevel::deleteClouds(int levelIndex) {
 
 void MapLevel::moveCharRight() {
     lineIndex++;
-    if(levelLocked[levelIndex+1] && lineIndex<5){
+    if(lineIndex<5){
         spriteCharacterLevel.setPosition(mapLevelPos[lineIndex][0],mapLevelPos[lineIndex][1]);
     }
     else if(lineIndex >= 5) lineIndex--;

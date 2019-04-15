@@ -6,13 +6,15 @@
 #define PROJECT_CHOOSCHARACTER_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio/Music.hpp>
 #include "GraphicState.h"
+#include "Musica.h"
 
 using namespace sf;
 
-class ChooseCharacter:public GraphicState {
+class ChooseCharacter:public GraphicState{
 public:
-    ChooseCharacter(RenderWindow &window);
+    ChooseCharacter(RenderWindow &window, bool Mchange);
 
     ChooseCharacter(float w, float h, RenderWindow &window);
     ~ChooseCharacter();
@@ -38,7 +40,7 @@ public:
 
     //const int *getIndex() const;
 
-    void animate(int i);
+    void animate(int i, bool change);
 
 
     int GetPressedItem() { return setindex; }
@@ -61,14 +63,13 @@ private:
     Text tMessage;
     Texture tBackground;
 
-    bool valkyrieLocked;
-    bool knightLocked;
-    bool ninjaLocked;
-    bool wizardLocked;
-    bool planetarLocked;
-    bool setanimation[5];
+    bool change = false;
 
     bool Selected;
+
+    sf::Music music;
+
+    Musica songs;
 
 };
 

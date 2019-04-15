@@ -43,6 +43,8 @@ protected:
 
     vector <Obstacle> obstacles;
 
+    //Obstacle obstacle;
+
     vector<Item> items;
 
     fstream itemTextFile;

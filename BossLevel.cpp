@@ -2,8 +2,9 @@
 // Created by leogori on 02/04/19.
 //
 
+#include <chrono>
+#include <random>
 #include "BossLevel.h"
-#include <iostream>
 #include "Menu.h"
 
 using namespace std;
@@ -20,7 +21,20 @@ BossLevel::BossLevel(Hero *hero, RenderWindow &window) {
 
     hero->setPosition(Vector2f(128,128));
 
+    enemy.push_back(new Enemy);
+
+    cout<<"NEMICO DISEGNATO"<<endl;
+
     setView(window);
+
+    texture.loadFromFile("sclaus.jpg");
+    sprite.setTexture(texture);
+
+    pos=getRandomPosition();
+
+    //sprite.setPosition(pos);
+
+    sprite.setPosition(400,500);
 
 }
 
@@ -32,12 +46,13 @@ void BossLevel::draw(RenderWindow &window) {
 
     map->draw(window);
     hero->draw(window);
+    enemy[0]->drawBoss(window,sprite);
+    //enemy[0]->moveEnemy(map);
 
 }
 
 void BossLevel::setScreen() {
 
-    cout<<"non servo a niente"<<endl;
 }
 
 GraphicState *BossLevel::getNextState(RenderWindow &window) {
@@ -129,4 +144,21 @@ void BossLevel::update() {
 
     if (hero->getDirDown())
         hero->moveDown(map);
+}
+
+
+Vector2f BossLevel::getRandomPosition() {
+
+    unsigned seed= static_cast<unsigned int>(chrono::system_clock::now().time_since_epoch().count());
+
+    default_random_engine generator(seed);
+
+    uniform_int_distribution<int> distribution(0,72);
+
+    float x=distribution(generator);
+    float y=distribution(generator);
+
+    Vector2f pos(x*64,y*67);
+
+    return pos;
 }

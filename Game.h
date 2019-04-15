@@ -12,8 +12,8 @@
 #include "Heart.h"
 #include <vector>
 #include "Abstract_Factory.h"
+#include "Musica.h"
 #include "Subject.h"
-
 class Game: public GraphicState {
 public:
 
@@ -72,6 +72,10 @@ private:
     Clock clock;
 
     vector <Enemy*> enemy;
+
+    Music music;
+
+    Musica* songs;
 
 };
 
