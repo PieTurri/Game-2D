@@ -36,7 +36,7 @@ public:
 
     Vector2f getPosition();
 
-    void move(TileMap *map);
+    void move(TileBossMap *map);
 
     void draw(RenderWindow& window);
 

@@ -175,3 +175,18 @@ void TileMap::setTileMap() {
         }
     }
 }
+
+void TileMap::setCorridorFloor(int value) {
+
+    corridorFloor=value;
+}
+
+void TileMap::setFightFloor(int value) {
+
+    fightFloor=value;
+}
+
+void TileMap::setVacuum(int value) {
+
+    other=value;
+}

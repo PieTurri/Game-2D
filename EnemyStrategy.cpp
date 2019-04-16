@@ -13,7 +13,7 @@ EnemyStrategy::EnemyStrategy(Sprite &sprite) {}
 
 EnemyStrategy::~EnemyStrategy() = default;
 
-void EnemyStrategy::updateMovement(TileMap *map, Sprite &sprite) {
+void EnemyStrategy::updateMovement(TileBossMap *map, Sprite &sprite) {
 
     switch (direction) {
         case 0:

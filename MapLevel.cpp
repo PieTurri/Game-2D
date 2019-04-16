@@ -148,7 +148,7 @@ void MapLevel::setScreen() {
     cloud[10].setTexture(texturem);
     cloud[10].setPosition(sf::Vector2f(950, 600));
 
-    cloud.push_back(spritem);
+    cloud.push_back(spritem);ine
     cloud[11].setTexture(texturem);
     cloud[11].setPosition(sf::Vector2f(1100, 600));
 
@@ -233,6 +233,7 @@ void MapLevel::getActivities(Event event, RenderWindow &window) {
 }
 
 GraphicState *MapLevel::getNextState(RenderWindow &window) {
+
     if(selected){
         m.stop();
         return new Game(characterIndex, levelIndex, window);
@@ -288,17 +289,18 @@ void MapLevel::deleteClouds(int levelIndex) {
 }
 
 void MapLevel::moveCharRight() {
-    lineIndex++;
-    if(lineIndex<5){
-        spriteCharacterLevel.setPosition(mapLevelPos[lineIndex][0],mapLevelPos[lineIndex][1]);
+
+    if(levelIndex<4){
+        levelIndex++;
+        spriteCharacterLevel.setPosition(mapLevelPos[levelIndex][0],mapLevelPos[levelIndex][1]);
     }
-    else if(lineIndex >= 5) lineIndex--;
 }
 
 void MapLevel::moveCharLeft() {
-    lineIndex--;
-    if(lineIndex>=0)
-        spriteCharacterLevel.setPosition(mapLevelPos[lineIndex][0],mapLevelPos[lineIndex][1]);
-    else lineIndex++;
+
+    if(levelIndex>=0) {
+        levelIndex--;
+        spriteCharacterLevel.setPosition(mapLevelPos[levelIndex][0], mapLevelPos[levelIndex][1]);
+    }
 }
 

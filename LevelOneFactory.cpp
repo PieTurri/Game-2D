@@ -3,21 +3,60 @@
 //
 
 #include "LevelOneFactory.h"
-#include "Skeleton.h"
-#include "Arcontus.h"
-#include "BossMap1.h"
 
 Enemy *LevelOneFactory::createEnemy() {
 
-    return new Skeleton(8,6);
+    Enemy* enemy=new Enemy(4,10);
+    enemy->setImage("enemy2cropped.png");
+
+    return enemy;
 }
 
 TileMap *LevelOneFactory::createMap() {
 
-    return new Arcontus;
+    TileMap* map=new TileMap;
+
+    map->setTextFileName("ARCONTUS");
+
+    map->setWall(42);
+    map->setCorridorFloor(110);
+    map->setFightFloor(111);
+    map->setVacuum(478);
+    map->setHeroStartingPosition(120);
+
+    map->setTileMap();
+
+    map->setItemsProperty();
+
+    map->load("Tileset1.png",Vector2u(32,32));
+
+    return map;
 }
 
 TileBossMap *LevelOneFactory::createBossMap() {
 
-    return new BossMap1;
+    TileBossMap* map= new TileBossMap;
+
+    map->setWall(1);
+
+    map->setTextFileName("mappaBoss1");
+
+    map->setTileMap();
+
+    map->findDimension();
+
+    map->load("Tileset1.png",Vector2u(32,32));
+
+    return map;
+}
+
+Enemy *LevelOneFactory::createBoss() {
+
+    Enemy* enemy=new Enemy(4,10);
+
+    enemy->setImage("enemy2cropped.png");
+
+    enemy->scale(2,2);
+
+    return enemy;
 }

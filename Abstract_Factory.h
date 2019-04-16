@@ -23,6 +23,8 @@ public:
     virtual Enemy *createEnemy() =0;
 
     virtual TileBossMap* createBossMap()=0;
+
+    virtual Enemy* createBoss()=0;
 };
 
 

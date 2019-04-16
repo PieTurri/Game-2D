@@ -28,7 +28,7 @@ Game::Game(int characterIndex, int levInd, RenderWindow &window) : heart() {
     Clock clock;
     Time times;
 
-    for(int i=0;i<25;i++){
+    for(int i=0;i<0;i++){
 
         enemyTime.push_back(times);
         enemyClock.push_back(clock);
@@ -130,7 +130,7 @@ void Game::getActivities(Event event, RenderWindow &window) {
 GraphicState *Game::getNextState(RenderWindow &window) {
 
     if(hero->getHp()>0)
-        return new BossLevel(hero, window);
+        return new BossLevel(hero, window, factory);
     else
         return new Menu(window);
 }

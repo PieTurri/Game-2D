@@ -55,7 +55,7 @@ Vector2f Projectile::getPosition() {
 }
 
 
-void Projectile::move(TileMap *map) {
+void Projectile::move(TileBossMap *map) {
 
     float l=(float)sqrt(pow(aimedPoint.x,2)+pow(aimedPoint.y,2));
 

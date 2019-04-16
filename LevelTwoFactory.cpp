@@ -2,22 +2,62 @@
 // Created by leogori on 01/04/19.
 //
 #include "LevelTwoFactory.h"
-#include "Skeleton.h"
-#include "Mirinthas.h"
-#include "BossMap1.h"
 
 Enemy *LevelTwoFactory::createEnemy() {
 
-    return new Skeleton(4,10);
+    Enemy* enemy=new Enemy(4,10);
+    enemy->setImage("enemy2cropped.png");
+
+    return enemy;
 }
 
 TileMap *LevelTwoFactory::createMap() {
 
-    return new Mirinthas;
+    TileMap* map=new TileMap;
+
+    map->setTextFileName("MIRINTHAS");
+
+    map->setWall(42);
+    map->setCorridorFloor(110);
+    map->setFightFloor(111);
+    map->setVacuum(478);
+    map->setHeroStartingPosition(120);
+
+    map->setTileMap();
+
+    map->setItemsProperty();
+
+    map->load("Tileset1.png",Vector2u(32,32));
+
+    return map;
 }
 
 TileBossMap *LevelTwoFactory::createBossMap() {
 
-    return new BossMap1;
+    TileBossMap* map= new TileBossMap;
+
+    map->setWall(1);
+
+    map->setTextFileName("mappaBoss2");
+
+    map->setTileMap();
+
+    map->findDimension();
+
+    map->load("Tileset1.png",Vector2u(32,32));
+
+    return map;
+}
+
+Enemy *LevelTwoFactory::createBoss() {
+
+    Enemy* enemy=new Enemy(4,10);
+
+    enemy->setImage("enemy2cropped.png");
+
+    enemy->scale(2,2);
+
+    return enemy;
+
 }
 

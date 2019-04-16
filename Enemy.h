@@ -6,7 +6,7 @@
 #define PROJECT_ENEMY_H
 
 #include "GameCharacter.h"
-#include "TileMap.h"
+#include "TileBossMap.h"
 #include "EnemyStrategy.h"
 #include "Hero.h"
 #include <SFML/Graphics.hpp>
@@ -21,23 +21,19 @@ using namespace std;
 class Enemy : public GameCharacter {
 public:
 
-    static void create();
-
     Enemy(int Hp, int speed);
 
     Enemy();
 
     void draw(RenderWindow &window);
 
-    void changeStrategy(Hero *h, TileMap *map);
+    void changeStrategy(Hero *h, TileBossMap *map);
 
-    void moveEnemy(TileMap *map);
+    void moveEnemy(TileBossMap *map);
 
     void aim(Vector2f heroPos);
 
     bool hasFiringStrategy();
-
-    void drawBoss(RenderWindow& window,Sprite sprite);
 
 protected:
 

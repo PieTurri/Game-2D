@@ -10,8 +10,7 @@ using namespace std;
 using namespace sf;
 
 ChooseCharacter::ChooseCharacter(RenderWindow &window, bool Mchange) : ChooseCharacter(700, 450, window) {
-    //change = Mchange;
-    cout<<"ECCOMI STRONZO"<<endl;
+
     if(Mchange){
         music.openFromFile("Music/Living_Room.ogg");
         music.play();
@@ -52,7 +51,7 @@ void ChooseCharacter::setScreen() {
     //immagini da 200*300
 
     try {
-        if(!tCharacter[0].loadFromFile("kn.png"))
+        if(!tCharacter[0].loadFromFile("deadpool.png"))
             throw "Impossibile aprire immagine cavaliere";
         spriteC[0].setPosition(sf::Vector2f(100, 250));
 
@@ -183,7 +182,8 @@ void ChooseCharacter::animate(int i, bool change) {
                     cout<<"1"<<endl;
                     tCharacter[i].loadFromFile("pinguin.jpg");
                     spriteC[i].setTexture(tCharacter[i]);
-                    break;
+                    break;//change = Mchange;
+    cout<<"ECCOMI STRONZO"<<endl;
                 case 2:
                     cout<<"2"<<endl;
                     tCharacter[i].loadFromFile("pinguin.jpg");

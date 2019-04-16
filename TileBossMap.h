@@ -34,6 +34,8 @@ public:
 
     void setTextFileName(string fileName);
 
+    void setHeroStartingPosition(int value);
+
     void setWall(int wall);
 
     unsigned int getHeight();

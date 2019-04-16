@@ -42,7 +42,12 @@ public:
     Weapon* getWeapon();
 
     const Sprite &getSprite() const;
+
     FloatRect getDimension();
+
+    void setImage(string imageName);
+
+    void scale(float x, float y);
 
     /*virtual Vector2f moveRight()=0;
 
@@ -52,7 +57,7 @@ public:
 
     virtual Vector2f moveDown()=0;*/
 
-    //void setWeapon(Weapon *Weapon);
+    void setWeapon(Weapon *weapon);
 
 protected:
 

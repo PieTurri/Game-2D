@@ -62,8 +62,18 @@ FloatRect GameCharacter::getDimension() {
     return sprite.getGlobalBounds();
 }
 
-/*
-void GameCharacter::setWeapon(Weapon* Weapon) {
-    this-> weapon = Weapon;
+void GameCharacter::setWeapon(Weapon* weapon) {
+    this-> weapon = weapon;
 }
-*/
+
+void GameCharacter::setImage(string imageName) {
+
+    texture.loadFromFile(imageName);
+    sprite.setTexture(texture);
+
+}
+
+void GameCharacter::scale(float x, float y) {
+
+    sprite.scale(x,y);
+}

@@ -20,7 +20,7 @@ Enemy::Enemy(int Hp, int speed) : GameCharacter(Hp, speed) {
 
 Enemy::Enemy(): Enemy(2,6) {}
 
-void Enemy::changeStrategy(Hero *h, TileMap *map) {
+void Enemy::changeStrategy(Hero *h, TileBossMap *map) {
 
     Vector2f distance=h->getPosition()-getPosition();
 
@@ -41,7 +41,7 @@ void Enemy::changeStrategy(Hero *h, TileMap *map) {
 
 }
 
-void Enemy::moveEnemy(TileMap *map) {
+void Enemy::moveEnemy(TileBossMap *map) {
 
     Es->setDirection(map, sprite);
     weapon->setPosition(sprite.getPosition());
@@ -63,10 +63,6 @@ void Enemy::draw(RenderWindow &window) {
 
         window.draw(sprite);
         weapon->draw(window);
-}
-
-void Enemy::drawBoss(RenderWindow &window, Sprite sprite) {
-    window.draw(sprite);
 }
 
 

@@ -37,6 +37,12 @@ public:
 
     void setTileMap() override;
 
+    void setCorridorFloor(int value);
+
+    void setFightFloor(int value);
+
+    void setVacuum(int value);
+
 protected:
 
     //static TileMap* instance;

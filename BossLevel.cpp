@@ -9,9 +9,7 @@
 
 using namespace std;
 
-BossLevel::BossLevel(Hero *hero, RenderWindow &window) {
-
-    factory=Abstract_Factory::create(0);
+BossLevel::BossLevel(Hero *hero, RenderWindow &window, Abstract_Factory *factory) {
 
     map=factory->createBossMap();
 
@@ -21,41 +19,54 @@ BossLevel::BossLevel(Hero *hero, RenderWindow &window) {
 
     hero->setPosition(Vector2f(128,128));
 
-    enemy.push_back(new Enemy);
+    heart.setHeroLife(hero->getHp());
 
-    cout<<"NEMICO DISEGNATO"<<endl;
+    heart.setHeart(window);
+
+    enemy=factory->createBoss();
 
     setView(window);
 
-    texture.loadFromFile("sclaus.jpg");
-    sprite.setTexture(texture);
+    Vector2f pos;
 
-    pos=getRandomPosition();
+    do{
+        pos=getRandomPosition();
+    } while(!map->getTile(pos).getEnemyWalkability());
 
-    //sprite.setPosition(pos);
+    enemy->setPosition(pos);
 
-    sprite.setPosition(400,500);
+}
 
+BossLevel::~BossLevel() {
+
+    delete hero;
+    delete enemy;
+    delete map;
 }
 
 void BossLevel::draw(RenderWindow &window) {
 
-    update();
+    update(window);
 
     setView(window);
 
     map->draw(window);
+
+    heart.draw(window);
+    enemy->draw(window);
     hero->draw(window);
-    enemy[0]->drawBoss(window,sprite);
-    //enemy[0]->moveEnemy(map);
 
+    for (int i = 0; i < heroProjectile.size(); i++)
+        heroProjectile[i]->draw(window);
+
+    for (int i = 0; i < enemyProjectile.size(); i++)
+        enemyProjectile[i]->draw(window);
 }
 
-void BossLevel::setScreen() {
-
-}
+void BossLevel::setScreen() {}
 
 GraphicState *BossLevel::getNextState(RenderWindow &window) {
+
     return new Menu(window);
 }
 
@@ -104,6 +115,7 @@ void BossLevel::getActivities(Event event, RenderWindow &window) {
 
         case Event::MouseMoved:
             hero->aim(window, event);
+            break;
 
         case Event::MouseButtonPressed:
             hero->setWeaponUse(true);
@@ -129,7 +141,9 @@ void BossLevel::setView(RenderWindow &window) {
 
 }
 
-void BossLevel::update() {
+void BossLevel::update(RenderWindow &window) {
+
+    heart.setHeart(window);
 
     hero->setDirection();
 
@@ -144,6 +158,19 @@ void BossLevel::update() {
 
     if (hero->getDirDown())
         hero->moveDown(map);
+
+    enemy->changeStrategy(hero, map);
+    enemy->moveEnemy(map);
+    enemy->aim(hero->getPosition());
+    enemy->setWeaponUse(enemy->hasFiringStrategy());
+
+    createProjectile();
+    manageProjectile();
+    lookForCollision();
+
+    if (hero->getHp() <= 0||enemy->getHp()<=0){
+        setState(true);
+    }
 }
 
 
@@ -153,12 +180,123 @@ Vector2f BossLevel::getRandomPosition() {
 
     default_random_engine generator(seed);
 
-    uniform_int_distribution<int> distribution(0,72);
+    uniform_int_distribution<int> heightDistribution(0,map->getWidth());
+    uniform_int_distribution<int> widthDistribution(0,map->getHeight());
 
-    float x=distribution(generator);
-    float y=distribution(generator);
+    cout<<"dimensioni mappa: "<<map->getHeight()<<" , ";
+    cout<<map->getWidth()<<endl;
 
-    Vector2f pos(x*64,y*67);
+    float x=widthDistribution(generator);
+    float y=heightDistribution(generator);
+
+    cout<<"posizione casuale nemico: "<<x<<" , "<<y<<endl;
+
+    Vector2f pos(y*32,x*32);
 
     return pos;
+}
+
+void BossLevel::lookForCollision() {
+
+    if (!heroProjectile.empty()) {
+
+        for (int i = 0; i < heroProjectile.size(); i++) {
+
+
+            if((heroProjectile[i]->getDimension()).intersects(enemy->getDimension())){
+                enemy->setHp(enemy->getHp() - heroProjectile[i]->getDamage());
+                heroProjectile[i]->setDestroyed();
+            }
+
+            if (!map->getTile(heroProjectile[i]->getPosition()).getHeroWalkability())
+                heroProjectile[i]->setDestroyed();
+        }
+    }
+
+    if (!enemyProjectile.empty()) {
+
+        for (int i = 0; i < enemyProjectile.size(); i++) {
+
+            if (enemyProjectile[i]->getDimension().intersects(hero->getDimension())) {
+                hero->setHp(hero->getHp() - enemyProjectile[i]->getDamage());
+                enemyProjectile[i]->setDestroyed();
+                heart.update(hero->getHp());
+            }
+
+            if (!map->getTile(enemyProjectile[i]->getPosition()).getHeroWalkability())
+                enemyProjectile[i]->setDestroyed();
+        }
+    }
+}
+
+void BossLevel::manageProjectile() {
+
+    if(!heroProjectile.empty()) {
+
+        vector<Projectile *>::iterator heroIt = heroProjectile.begin();
+
+        for (int i = 0; i < heroProjectile.size(); i++) {
+            heroProjectile[i]->move(map);
+            if (heroProjectile[i]->isBrokeUp()) {
+                heroProjectile.erase(heroIt);
+                i--;
+            } else
+                heroIt++;
+
+        }
+    }
+
+    if(!enemyProjectile.empty()) {
+
+        vector<Projectile *>::iterator enemyIt = enemyProjectile.begin();
+
+        for (int i = 0; i < enemyProjectile.size(); i++) {
+            enemyProjectile[i]->move(map);
+            if (enemyProjectile[i]->isBrokeUp()) {
+                enemyProjectile.erase(enemyIt);
+                i--;
+            } else
+                enemyIt++;
+        }
+    }
+}
+
+void BossLevel::createProjectile() {
+
+    Weapon* heroWeapon=hero->getWeapon();
+
+    heroTime=heroClock.getElapsedTime();
+
+    if(hero->getWeaponUse()&&heroTime.asSeconds()>heroWeapon->getRateOfFire()/*&&
+       map->isFightingGround(map->getTile(hero->getPosition()))*/){
+
+        heroClock.restart();
+
+        Projectile *projectile=Projectile::create(heroWeapon->getProjectile());
+        projectile->setPosition(heroWeapon->getPosition());
+        projectile->setAimedPoint(heroWeapon->getAimedPoint());
+        projectile->setOrientation();
+        projectile->setSpeed(5);
+
+        heroProjectile.push_back(projectile);
+    }
+
+
+    Weapon* enemyWeapon=enemy->getWeapon();
+
+    enemyTime=enemyClock.getElapsedTime();
+
+    if(enemy->getWeaponUse()&&enemyTime.asSeconds()>enemyWeapon->getRateOfFire()
+       /*&&map->isFightingGround(map->getTile(hero->getPosition()))*/){
+        enemyClock.restart();
+
+        Projectile *projectile=Projectile::create(enemyWeapon->getProjectile());
+        projectile->setPosition(enemyWeapon->getPosition());
+        projectile->setAimedPoint(enemyWeapon->getAimedPoint());
+        projectile->setOrientation();
+        projectile->setSpeed(2);
+
+        enemyProjectile.push_back(projectile);
+
+    }
 }

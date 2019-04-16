@@ -78,8 +78,6 @@ private:
 
     int mapLevelPos[5][2]={{180, 580},{370,200},{1000, 615},{1125, 330},{1080, 125}};
 
-    int lineIndex = 0;
-
     int characterIndex;
     //bool shine=true;
     Music m;

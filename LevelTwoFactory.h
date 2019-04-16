@@ -6,16 +6,17 @@
 #define PROJECT_LEVELTWOFACTORY_H
 
 #include "Abstract_Factory.h"
-#include "Mirinthas.h"
 
 class LevelTwoFactory : public Abstract_Factory{
 public:
 
-    Enemy* createEnemy() override;
+    Enemy* createEnemy();
 
-    TileMap* createMap() override;
+    TileMap* createMap();
 
-    TileBossMap* createBossMap() override;
+    TileBossMap* createBossMap();
+
+    Enemy* createBoss();
 
 };
 

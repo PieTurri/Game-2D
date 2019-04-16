@@ -11,12 +11,15 @@
 #include "Hero.h"
 #include "Abstract_Factory.h"
 #include "Enemy.h"
+#include "Heart.h"
 
 class BossLevel: public GraphicState {
 
 public:
 
-    BossLevel(Hero *hero, RenderWindow &window);
+    BossLevel(Hero *hero, RenderWindow &window, Abstract_Factory *factory);
+
+    ~BossLevel();
 
     void draw(RenderWindow &window);
 
@@ -28,9 +31,15 @@ public:
 
     void setView(RenderWindow &window);
 
-    void update();
+    void update(RenderWindow &window);
 
     Vector2f getRandomPosition();
+
+    void lookForCollision();
+
+    void manageProjectile();
+
+    void createProjectile();
 
 private:
 
@@ -40,12 +49,21 @@ private:
 
     Hero* hero;
 
-    vector <Enemy*> enemy;
+    Enemy* enemy;
 
-    Sprite sprite;
-    Texture texture;
+    Time heroTime;
 
-    Vector2f pos;
+    Clock heroClock;
+
+    Time enemyTime;
+
+    Heart heart;
+
+    Clock enemyClock;
+
+    vector <Projectile*> heroProjectile;
+
+    vector <Projectile*> enemyProjectile;
 
 };
 

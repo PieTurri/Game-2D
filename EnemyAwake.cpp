@@ -10,7 +10,7 @@ EnemyAwake::EnemyAwake() {
     enemyVel = 1;
 }
 
-void EnemyAwake::setDirection(TileMap *map, Sprite &sprite) {
+void EnemyAwake::setDirection(TileBossMap *map, Sprite &sprite) {
 
     direction = rand() % 4;
     timeEnemy = clockEnemy.getElapsedTime();

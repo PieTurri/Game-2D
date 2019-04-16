@@ -165,3 +165,8 @@ void TileBossMap::setWall(int wall) {
 
     this->wall=wall;
 }
+
+void TileBossMap::setHeroStartingPosition(int value) {
+
+    heroStartingPosition=value;
+}
